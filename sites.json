@@ -16,7 +16,6 @@
     {"id": 14, "name": "我爱线报", "url": "http://www.52xianbao.cn/", "js": true, "timeout": 40000},
     {"id": 15, "name": "IT之家免费游戏", "url": "https://www.ithome.com/zt/xijiayi", "js": true},
     {"id": 16, "name": "免费软件", "url": "https://free.apprcn.com/", "js": true},
-    {"id": 17, "name": "赚客吧", "url": "http://www.zuanke8.com/", "js": true},
     {"id": 18, "name": "爱Q活动网", "url": "https://www.iqshw.com/", "js": true},
     {"id": 19, "name": "活动资讯网", "url": "https://www.huodong5.com/", "js": true},
     {"id": 20, "name": "都爱网", "url": "https://www.dujin.org/", "js": true},
@@ -26,18 +25,17 @@
     {"id": 24, "name": "A姐分享", "url": "https://www.ahhhhfs.com/", "js": true},
     {"id": 25, "name": "蓝叔软件", "url": "https://www.lsapk.com/", "js": true},
     {"id": 26, "name": "H6ROOM", "url": "https://www.h6room.com/", "js": true},
-    {"id": 29, "name": "白菜哦", "url": "https://www.baicaio.com/", "js": true},
+    {"id": 29, "name": "白菜哦", "url": "https://www.baicaio.com/", "js": true, "parser": "baicaio"},
     {"id": 30, "name": "赚客联盟", "url": "https://www.zhuanke365.com/", "js": true, "timeout": 40000},
-    {"id": 31, "name": "好羊毛", "url": "https://www.haoyangmao123.com/", "js": true},
-    {"id": 32, "name": "果核剥壳", "url": "https://www.ghxi.com/", "js": true},
+    {"id": 31, "name": "好羊毛", "url": "https://www.haoyangmao123.com/", "js": true, "parser": "haoyangmao"},
+    {"id": 32, "name": "果核剥壳", "url": "https://www.ghxi.com/category/all", "js": true, "parser": "ghxi"},
     {"id": 33, "name": "小众软件", "url": "https://www.appinn.com/", "js": true},
-    {"id": 34, "name": "423Down", "url": "https://www.423down.com/", "js": true},
+    {"id": 34, "name": "423Down", "url": "https://www.423down.com/", "js": true, "parser": "down423"},
     {"id": 35, "name": "佛系软件", "url": "https://foxirj.com/", "js": true, "parser": "foxirj"},
     {"id": 37, "name": "Epic喜加一", "url": "https://store.epicgames.com/zh-CN/free-games", "js": true, "parser": "epic"},
     {"id": 38, "name": "Steam免费区", "url": "https://store.steampowered.com/genre/Free%20to%20Play/", "js": true, "parser": "steam"},
     {"id": 39, "name": "GOG免费区", "url": "https://www.gog.com/free_games", "js": true, "parser": "gog"},
-    {"id": 40, "name": "IndieGamePlus", "url": "https://indiegameplus.com/", "js": true},
-    {"id": 41, "name": "资源亭", "url": "https://www.ziyuanting.com/", "js": true},
-    {"id": 42, "name": "07173导航", "url": "https://www.07173.com/", "js": true}
+    {"id": 40, "name": "IndieGamePlus", "url": "https://indiegameplus.com/", "js": true, "parser": "indiegame"},
+    {"id": 41, "name": "资源亭", "url": "https://www.ziyuanting.com/", "js": true}
   ]
 }
