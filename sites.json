@@ -25,6 +25,23 @@
     {"id": 23, "name": "科学刀论坛", "url": "https://www.kxdao.net/forum-42-1.html", "js": true},
     {"id": 24, "name": "A姐分享", "url": "https://www.ahhhhfs.com/", "js": true},
     {"id": 25, "name": "蓝叔软件", "url": "https://www.lsapk.com/", "js": true},
-    {"id": 26, "name": "H6ROOM", "url": "https://www.h6room.com/", "js": true}
+    {"id": 26, "name": "H6ROOM", "url": "https://www.h6room.com/", "js": true},
+    {"id": 27, "name": "羊毛日报", "url": "https://www.ymribao.com/", "js": true},
+    {"id": 28, "name": "羊毛客", "url": "https://www.youngerke.com/", "js": true},
+    {"id": 29, "name": "白菜哦", "url": "https://www.baicaio.com/", "js": true},
+    {"id": 30, "name": "赚客联盟", "url": "https://www.zhuanke365.com/", "js": true},
+    {"id": 31, "name": "好羊毛", "url": "https://www.haoyangmao123.com/", "js": true},
+    {"id": 32, "name": "果核剥壳", "url": "https://www.ghxi.com/", "js": true},
+    {"id": 33, "name": "小众软件", "url": "https://www.appinn.com/", "js": true},
+    {"id": 34, "name": "423Down", "url": "https://www.423down.com/", "js": true},
+    {"id": 35, "name": "佛系软件", "url": "https://foxirj.com/", "js": true},
+    {"id": 36, "name": "软件SOS", "url": "https://www.rjsos.com/", "js": true},
+    {"id": 37, "name": "Epic喜加一", "url": "https://store.epicgames.com/zh-cn/free-games", "js": true},
+    {"id": 38, "name": "Steam免费区", "url": "https://store.steampowered.com/genre/Free%20to%20Play/", "js": true},
+    {"id": 39, "name": "GOG免费区", "url": "https://www.gog.com/free_games", "js": true},
+    {"id": 40, "name": "IndieGamePlus", "url": "https://indiegameplus.com/", "js": true},
+    {"id": 41, "name": "资源亭", "url": "https://www.ziyuanting.com/", "js": true},
+    {"id": 42, "name": "07173导航", "url": "https://www.07173.com/", "js": true},
+    {"id": 43, "name": "最下载", "url": "https://www.zuixiaza.com/", "js": true}
   ]
 }
