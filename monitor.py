@@ -253,6 +253,129 @@ def parse_foxirj(content, base_url):
     return articles[:15]
 
 
+def parse_haoyangmao(content, base_url):
+    """好羊毛解析器 - 过滤 Cloudflare 错误页"""
+    articles = []
+    if not content:
+        return articles
+    
+    # 检测是否是 Cloudflare 错误页
+    if 'cloudflare' in content.lower() and '5xx-error' in content.lower():
+        print("  检测到 Cloudflare 错误页，跳过")
+        return []
+    
+    # 提取文章链接
+    pattern = r'<a[^>]+href="(https?://www\.haoyangmao123\.com/[^"]+)"[^>]*>([^<]{6,80})</a>'
+    for m in re.finditer(pattern, content, re.DOTALL):
+        url, title = m.groups()
+        title = title.strip()
+        # 过滤导航链接
+        if any(x in title for x in ['首页', '登录', '注册', '更多', '关于']):
+            continue
+        if len(title) >= 6:
+            articles.append({"title": title, "url": url})
+    
+    return articles[:15]
+
+
+def parse_down423(content, base_url):
+    """423Down 解析器 - 提取软件文章"""
+    articles = []
+    if not content:
+        return articles
+    
+    # 423Down 文章结构 - 提取带日期的文章
+    pattern = r'<a[^>]+href="(https://www\.423down\.com/\d+\.html)"[^>]*>([^<]+)</a>'
+    seen_urls = set()
+    for m in re.finditer(pattern, content, re.DOTALL):
+        url, title = m.groups()
+        title = title.strip()
+        # 只保留文章链接（包含数字ID）
+        if '/system.html' in url or '/win11' in url or '/win10' in url or '/win7' in url:
+            continue
+        if url in seen_urls:
+            continue
+        if len(title) >= 3 and len(title) <= 80:
+            seen_urls.add(url)
+            articles.append({"title": title, "url": url})
+    
+    return articles[:20]
+
+
+def parse_ghxi(content, base_url):
+    """果核剥壳解析器 - 从分类页提取"""
+    articles = []
+    if not content:
+        return articles
+    
+    # 果核剥壳文章结构
+    pattern = r'<a[^>]+href="(https://www\.ghxi\.com/[^"]+\.html)"[^>]*>([^<]+)</a>'
+    seen_urls = set()
+    for m in re.finditer(pattern, content, re.DOTALL):
+        url, title = m.groups()
+        title = title.strip()
+        # 过滤非文章链接
+        if any(x in url for x in ['/category/', '/tag/', '/page/', '/author/']):
+            continue
+        if url in seen_urls:
+            continue
+        if len(title) >= 3 and len(title) <= 80:
+            seen_urls.add(url)
+            articles.append({"title": title, "url": url})
+    
+    return articles[:20]
+
+
+def parse_baicaio(content, base_url):
+    """白菜哦解析器"""
+    articles = []
+    if not content:
+        return articles
+    
+    # 白菜哦文章结构
+    pattern = r'<a[^>]+href="(https://www\.baicaio\.com/[^"]+\.html)"[^>]*>([^<]+)</a>'
+    seen_urls = set()
+    for m in re.finditer(pattern, content, re.DOTALL):
+        url, title = m.groups()
+        title = title.strip()
+        if url in seen_urls:
+            continue
+        if len(title) >= 6 and len(title) <= 80:
+            seen_urls.add(url)
+            articles.append({"title": title, "url": url})
+    
+    return articles[:20]
+
+
+def parse_indiegame(content, base_url):
+    """IndieGamePlus 解析器 - 提取独立游戏"""
+    articles = []
+    if not content:
+        return articles
+    
+    # 提取游戏相关链接
+    patterns = [
+        r'<a[^>]+href="(https://indiegameplus\.com/[^"]+)"[^>]*>([^<]{5,80})</a>',
+        r'<a[^>]+href="(https://[^"]*game[^"]*)"[^>]*>([^<]{5,80})</a>',
+    ]
+    
+    seen_urls = set()
+    for pattern in patterns:
+        for m in re.finditer(pattern, content, re.DOTALL):
+            url, title = m.groups()
+            title = title.strip()
+            # 过滤无关链接
+            if any(x in url.lower() for x in ['wix.com', 'template', 'facebook', 'twitter', 'instagram']):
+                continue
+            if url in seen_urls:
+                continue
+            if len(title) >= 5 and len(title) <= 80:
+                seen_urls.add(url)
+                articles.append({"title": title, "url": url})
+    
+    return articles[:15]
+
+
 # ====== 通用内容提取 ======
 def extract_articles(content, base_url=""):
     """从 HTML 提取文章链接和标题（通用规则）"""
@@ -364,6 +487,16 @@ def main():
             articles = parse_gog(content, url)
         elif parser == "foxirj":
             articles = parse_foxirj(content, url)
+        elif parser == "haoyangmao":
+            articles = parse_haoyangmao(content, url)
+        elif parser == "down423":
+            articles = parse_down423(content, url)
+        elif parser == "ghxi":
+            articles = parse_ghxi(content, url)
+        elif parser == "baicaio":
+            articles = parse_baicaio(content, url)
+        elif parser == "indiegame":
+            articles = parse_indiegame(content, url)
         else:
             articles = extract_articles(content, url)[:20]
         
