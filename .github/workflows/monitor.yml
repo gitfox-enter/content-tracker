@@ -6,6 +6,9 @@ on:
     - cron: '*/30 * * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   monitor:
     runs-on: ubuntu-latest
@@ -14,6 +17,8 @@ jobs:
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: 设置 Python
         uses: actions/setup-python@v5
@@ -27,9 +32,12 @@ jobs:
 
       - name: 运行监控
         env:
+          TZ: Asia/Shanghai
           CLAWEMAIL_API_KEY: ${{ secrets.CLAWEMAIL_API_KEY }}
           CLAWEMAIL_USER: ${{ secrets.CLAWEMAIL_USER }}
           RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.GIST_ID }}
         run: python monitor.py
 
       - name: 保存 hashes（有变更时提交）
