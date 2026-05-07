@@ -31,7 +31,7 @@ CLAWEMAIL_USER = os.environ.get("CLAWEMAIL_USER", "")
 RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL", "")
 
 # Gist 配置（用于手机查看监控状态）
-GIST_ID = os.environ.get("GIST_ID", "70d680cef95274df9994a33dd3a65246")
+GIST_ID = os.environ.get("GIST_ID", "5ce05a9a3c49c9c23e1e1607b2b8c43e")
 GIST_TOKEN = os.environ.get("GIST_TOKEN", "")
 
 # clawemail HTTP API
