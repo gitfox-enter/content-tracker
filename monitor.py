@@ -3,7 +3,8 @@
 """
 线报监控脚本 - GitHub Actions 版
 - Playwright 抓取页面内容
-- 内置 clawemail HTTP API 发邮件（无需 Node.js SDK）
+- 支持自定义解析器（Epic、Steam、GOG 等）
+- 内置 clawemail HTTP API 发邮件
 - hashes.json 持久化到 Git 仓库
 """
 
@@ -20,6 +21,9 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).parent
 SITES_CONFIG = SCRIPT_DIR / "sites.json"
 HASH_STORE = SCRIPT_DIR / "hashes.json"
+
+# 默认超时时间（毫秒）
+DEFAULT_TIMEOUT = 25000
 
 # 邮件配置从环境变量读取（GitHub Secrets）
 CLAWEMAIL_API_KEY = os.environ.get("CLAWEMAIL_API_KEY", "")
@@ -109,16 +113,16 @@ def clawemail_send(to_list, subject, body_html, is_html=True):
 
 
 # ====== 页面抓取 ======
-def fetch_with_playwright(url):
+def fetch_with_playwright(url, timeout_ms=DEFAULT_TIMEOUT):
     """用 Playwright 渲染页面，返回 HTML"""
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
-        page.set_default_timeout(20000)
+        page.set_default_timeout(timeout_ms)
         try:
-            page.goto(url, wait_until="networkidle", timeout=20000)
-            time.sleep(1.5)
+            page.goto(url, wait_until="networkidle", timeout=timeout_ms)
+            time.sleep(2)  # 等待动态内容加载
             return page.content()
         except Exception as e:
             print(f"  Playwright 超时/错误: {e}")
@@ -135,16 +139,123 @@ def fetch_with_requests(url):
         "Accept-Language": "zh-CN,zh;q=0.9",
     }
     try:
-        r = req.get(url, timeout=12, headers=headers, allow_redirects=True, verify=False)
+        r = req.get(url, timeout=15, headers=headers, allow_redirects=True, verify=False)
         return r.text
     except Exception as e:
         print(f"  requests 错误: {e}")
         return None
 
 
-# ====== 内容提取 ======
+# ====== 专门解析器 ======
+def parse_epic(content, base_url):
+    """Epic Games 免费游戏解析器"""
+    articles = []
+    if not content:
+        return articles
+    
+    # Epic 页面是 React 渲染，数据在 __NEXT_DATA__ 中
+    match = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', content, re.DOTALL)
+    if match:
+        try:
+            import json
+            data = json.loads(match.group(1))
+            # 尝试从各种可能的位置提取免费游戏
+            catalog = data.get("props", {}).get("pageProps", {}).get("catalogOffers", {})
+            elements = catalog.get("elements", [])
+            for item in elements:
+                title = item.get("title", "")
+                slug = item.get("productSlug", "") or item.get("urlSlug", "")
+                if title and slug:
+                    url = f"https://store.epicgames.com/zh-CN/p/{slug}"
+                    articles.append({"title": f"[Epic免费] {title}", "url": url})
+        except:
+            pass
+    
+    # 备用：正则提取
+    if not articles:
+        pattern = r'href="(/zh-CN/p/[^"]+)"[^>]*>.*?<span[^>]*>([^<]{3,50})</span>'
+        for m in re.finditer(pattern, content, re.DOTALL):
+            href, title = m.groups()
+            if "free" in title.lower() or "免费" in title:
+                articles.append({"title": title.strip(), "url": f"https://store.epicgames.com{href}"})
+    
+    return articles[:10]
+
+
+def parse_steam(content, base_url):
+    """Steam 免费游戏解析器"""
+    articles = []
+    if not content:
+        return articles
+    
+    # Steam 商店页面结构
+    pattern = r'<a[^>]+href="(https://store\.steampowered\.com/app/\d+/[^"]+/)"[^>]*>.*?<span[^>]*class="title"[^>]*>([^<]+)</span>'
+    for m in re.finditer(pattern, content, re.DOTALL):
+        url, title = m.groups()
+        title = title.strip()
+        if len(title) >= 2:
+            articles.append({"title": f"[Steam免费] {title}", "url": url})
+    
+    # 备用模式
+    if not articles:
+        pattern2 = r'<a[^>]+href="(https://store\.steampowered\.com/app/\d+[^"]*)"[^>]*>([^<]{3,80})</a>'
+        for m in re.finditer(pattern2, content, re.DOTALL):
+            url, title = m.groups()
+            title = title.strip()
+            if "免费" in title or "Free" in title.lower() or len(title) < 50:
+                articles.append({"title": title, "url": url})
+    
+    return articles[:15]
+
+
+def parse_gog(content, base_url):
+    """GOG 免费游戏解析器"""
+    articles = []
+    if not content:
+        return articles
+    
+    # GOG 页面结构
+    pattern = r'<a[^>]+href="(https://www\.gog\.com/[^"]+)"[^>]*>.*?class="product-tile__title"[^>]*>([^<]+)</span>'
+    for m in re.finditer(pattern, content, re.DOTALL):
+        url, title = m.groups()
+        title = title.strip()
+        if len(title) >= 2:
+            articles.append({"title": f"[GOG免费] {title}", "url": url})
+    
+    # 备用模式
+    if not articles:
+        pattern2 = r'href="(https://www\.gog\.com/[^"]+game[^"]*)"[^>]*>([^<]{3,60})</a>'
+        for m in re.finditer(pattern2, content, re.DOTALL):
+            url, title = m.groups()
+            articles.append({"title": title.strip(), "url": url})
+    
+    return articles[:15]
+
+
+def parse_foxirj(content, base_url):
+    """佛系软件解析器"""
+    articles = []
+    if not content:
+        return articles
+    
+    # 佛系软件页面结构
+    pattern = r'<a[^>]+href="(https://foxirj\.com/[^"]+)"[^>]*>.*?<h[23][^>]*>([^<]+)</h[23]>'
+    for m in re.finditer(pattern, content, re.DOTALL):
+        url, title = m.groups()
+        title = title.strip()
+        if len(title) >= 3 and "页面" not in title:
+            articles.append({"title": title, "url": url})
+    
+    # 备用通用提取
+    if not articles:
+        articles = extract_articles(content, base_url)
+    
+    return articles[:15]
+
+
+# ====== 通用内容提取 ======
 def extract_articles(content, base_url=""):
-    """从 HTML 提取文章链接和标题"""
+    """从 HTML 提取文章链接和标题（通用规则）"""
     if not content:
         return []
     articles = []
@@ -155,7 +266,11 @@ def extract_articles(content, base_url=""):
         title = re.sub(r'\s+', ' ', m.group(2).strip())
         if len(title) < 6 or len(title) > 120 or title in seen:
             continue
-        if any(x in href.lower() for x in ['login', 'register', 'about', 'contact', 'javascript', '#', 'mailto']):
+        # 过滤无关链接
+        if any(x in href.lower() for x in ['login', 'register', 'about', 'contact', 'javascript', '#', 'mailto', 'search', 'tag/', 'category/', 'page/', 'author/']):
+            continue
+        # 过滤无关标题
+        if any(x in title for x in ['登录', '注册', '搜索', '更多', '返回', '首页', '下一页', '上一页', '加载', '展开']):
             continue
         # 补全相对链接
         if href.startswith('//'):
@@ -219,7 +334,9 @@ def main():
         sid = str(site["id"])
         name = site["name"]
         url = site["url"]
-        use_js = site.get("js", True)  # 默认用 Playwright
+        use_js = site.get("js", True)
+        parser = site.get("parser", "")  # 自定义解析器
+        timeout = site.get("timeout", DEFAULT_TIMEOUT)  # 自定义超时
         old_data = hashes.get(sid, {})
         old_articles = old_data.get("articles", [])
         old_titles = {a["title"] for a in old_articles}
@@ -228,7 +345,7 @@ def main():
 
         # 抓取
         if use_js:
-            content = fetch_with_playwright(url)
+            content = fetch_with_playwright(url, timeout)
         else:
             content = fetch_with_requests(url)
 
@@ -238,8 +355,18 @@ def main():
             time.sleep(1)
             continue
 
-        # 提取文章
-        articles = extract_articles(content, url)[:20]
+        # 根据解析器类型提取文章
+        if parser == "epic":
+            articles = parse_epic(content, url)
+        elif parser == "steam":
+            articles = parse_steam(content, url)
+        elif parser == "gog":
+            articles = parse_gog(content, url)
+        elif parser == "foxirj":
+            articles = parse_foxirj(content, url)
+        else:
+            articles = extract_articles(content, url)[:20]
+        
         new_items = [a for a in articles if a["title"] not in old_titles]
 
         # 更新 hash 存储
