@@ -60,7 +60,7 @@ def get_access_token():
     return token
 
 
-def clawemail_send(to_list, subject, body_html):
+def clawemail_send(to_list, subject, body_html, is_html=True):
     """通过 clawemail HTTP API 发送邮件"""
     if not CLAWEMAIL_API_KEY or not CLAWEMAIL_USER:
         print("[WARN] 未配置 CLAWEMAIL_API_KEY / CLAWEMAIL_USER，跳过邮件发送")
@@ -75,7 +75,7 @@ def clawemail_send(to_list, subject, body_html):
         "to": to_list,
         "subject": subject,
         "content": body_html,
-        "isHtml": True,
+        "isHtml": is_html,
         "priority": 3,
         "saveSentCopy": True,
     }
@@ -283,15 +283,45 @@ def main():
     # 发邮件（仅有新内容时）
     if all_new_items:
         print("\n📧 准备发送邮件通知...")
-        html = build_email_html(all_new_items, ok_count, err_count, len(sites))
+        # 纯文本格式（用户偏好格式）
+        grouped = group_items_by_site(results, all_new_items)
+        text_body = build_email_text(grouped, changed)
         try:
             to = [RECEIVER_EMAIL] if RECEIVER_EMAIL else ["mrjin2004@163.com"]
-            clawemail_send(to, f"🔔 线报监控 - {new_count}条新内容 ({datetime.now():%m/%d %H:%M})", html)
+            clawemail_send(to, f"🔔 线报监控 - {new_count}条新内容 ({datetime.now():%m/%d %H:%M})", text_body, is_html=False)
             print("✅ 邮件发送成功")
         except Exception as e:
             print(f"❌ 邮件发送失败: {e}")
     else:
         print("\n📭 无新内容，不发送邮件")
+
+
+def build_email_text(all_items_by_site, changed_sites):
+    """生成纯文本格式邮件，按站点分组，每站点最多20条"""
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+    lines = [
+        f"线报监控报告 ({now_str})",
+        f"共 {len(changed_sites)} 个站点有更新",
+        f"{'='*40}",
+        "",
+    ]
+    for site_name, items in all_items_by_site:
+        count = len(items)
+        lines.append(f"【{site_name}】 {count} 条新内容")
+        for i, item in enumerate(items[:20], 1):
+            lines.append(f" {i}. {item['title']}")
+            lines.append(f"    链接: {item['url']}")
+        # 站点总链接（取第一个的域名作站点首页）
+        if items:
+            import re as _re
+            m = _re.match(r'https?://([^/]+)', items[0]['url'])
+            if m:
+                lines.append(f" 站点: https://{m.group(1)}/")
+        lines.append("")
+
+    lines.append(f"{'='*40}")
+    lines.append("由线报监控系统自动发送")
+    return "\n".join(lines)
 
 
 def build_email_html(items, ok, err, total):
@@ -327,6 +357,19 @@ def build_email_html(items, ok, err, total):
             📱 <a href="https://gist.github.com/gitfox-enter/70d680cef95274df9994a33dd3a65246" style="color:#1a73e8;">点击查看完整监控状态</a> · 回复本邮件可查最近历史
         </div>
     </div>"""
+
+
+def group_items_by_site(results, all_new_items):
+    """按站点分组，返回 [(site_name, [items]), ...] 按有更新的站点顺序"""
+    changed_names = {r["name"] for r in results if r.get("ok") and r.get("new", 0) > 0}
+    site_items = {}
+    for item in all_new_items:
+        sn = item["site"]
+        if sn not in site_items:
+            site_items[sn] = []
+        site_items[sn].append(item)
+    return [(name, site_items.get(name, [])) for name in changed_names]
+
 
 
 # ====== Gist 更新 ======
