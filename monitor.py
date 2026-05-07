@@ -634,60 +634,52 @@ def group_items_by_site(results, all_new_items):
 
 # ====== Gist 更新 ======
 def update_gist(results, new_items, ok, err, total):
-    """更新 Gist 为最新的监控状态摘要（手机随时可查）"""
+    """更新 Gist 为最新的监控状态（手机随时可查，纯文本格式）"""
     if not GIST_TOKEN:
         print("[INFO] 未配置 GIST_TOKEN，跳过 Gist 更新")
         return
 
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
     changed = [r["name"] for r in results if r.get("ok") and r.get("new", 0) > 0]
     new_count = sum(r.get("new", 0) for r in results)
 
+    # 纯文本格式（和邮件一样）
     lines = [
-        f"# 🔔 线报监控状态",
-        f"",
-        f"⏰ 更新时间: {now}",
-        f"",
-        f"---",
-        f"",
-        f"## 📊 汇总",
-        f"",
-        f"| 指标 | 数值 |",
-        f"|------|------|",
-        f"| 监控站点 | {total} |",
-        f"| 成功 | {ok} |",
-        f"| 失败 | {err} |",
-        f"| 新内容 | {new_count} |",
-        f"",
+        f"线报监控报告 ({now})",
+        f"监控: {total} 站点 | 成功: {ok} | 失败: {err} | 新内容: {new_count}",
+        f"{'='*50}",
+        "",
     ]
 
-    if changed:
-        lines.append(f"## 🔥 有更新的站点")
-        lines.append("")
-        for name in changed:
-            lines.append(f"- **{name}**")
-        lines.append("")
-
     if new_items:
-        lines.append(f"## 📰 最新内容")
-        lines.append("")
-        for item in new_items[:20]:
-            lines.append(f"- [{item['title']}]({item['url']})  _{item['site']}_")
+        # 按站点分组
+        grouped = group_items_by_site(results, new_items)
+        for site_name, items in grouped:
+            count = len(items)
+            lines.append(f"【{site_name}】 {count} 条新内容")
+            for i, item in enumerate(items[:20], 1):
+                lines.append(f" {i}. {item['title']}")
+                lines.append(f"    链接: {item['url']}")
+            # 站点首页
+            if items:
+                import re as _re
+                m = _re.match(r'https?://([^/]+)', items[0]['url'])
+                if m:
+                    lines.append(f" 站点: https://{m.group(1)}/")
+            lines.append("")
+    else:
+        lines.append("无新内容")
         lines.append("")
 
-    # 各站点状态
-    lines.append(f"## 📋 各站点状态")
-    lines.append("")
-    lines.append(f"| 站点 | 状态 | 新内容 | 文章数 |")
-    lines.append(f"|------|------|--------|--------|")
-    for r in results:
-        status = "✅" if r.get("ok") else "❌"
-        new = r.get("new", 0)
-        total_articles = r.get("total", "-")
-        lines.append(f"| {r['name']} | {status} | {new} | {total_articles} |")
-    lines.append("")
-    lines.append(f"---")
-    lines.append(f"_🤖 GitHub Actions 自动监控_")
+    # 失败站点
+    failed = [r["name"] for r in results if not r.get("ok")]
+    if failed:
+        lines.append(f"{'='*50}")
+        lines.append(f"失败站点: {', '.join(failed)}")
+        lines.append("")
+
+    lines.append(f"{'='*50}")
+    lines.append("GitHub Actions 自动监控")
 
     content = "\n".join(lines)
 
