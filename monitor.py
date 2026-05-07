@@ -26,6 +26,10 @@ CLAWEMAIL_API_KEY = os.environ.get("CLAWEMAIL_API_KEY", "")
 CLAWEMAIL_USER = os.environ.get("CLAWEMAIL_USER", "")
 RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL", "")
 
+# Gist 配置（用于手机查看监控状态）
+GIST_ID = os.environ.get("GIST_ID", "70d680cef95274df9994a33dd3a65246")
+GIST_TOKEN = os.environ.get("GIST_TOKEN", "")
+
 # clawemail HTTP API
 TOKEN_URL = "https://claw.163.com/claw-api-gateway/open/v1/mail/auth/token"
 API_BASE = "https://claw.163.com/claw-api-gateway/api/coremail"
@@ -273,6 +277,9 @@ def main():
         summary += "\n所有站点无新内容"
     print(summary)
 
+    # 更新 Gist（每次运行都更新，让手机随时可查最新状态）
+    update_gist(results, all_new_items, ok_count, err_count, len(sites))
+
     # 发邮件（仅有新内容时）
     if all_new_items:
         print("\n📧 准备发送邮件通知...")
@@ -316,9 +323,93 @@ def build_email_html(items, ok, err, total):
             {rows}
         </table>
         <div style="color:#999;font-size:12px;padding:10px 20px;text-align:center;border:1px solid #ddd;border-top:none;border-radius:0 0 8px 8px;">
-            🤖 GitHub Actions 自动监控 · {datetime.now():%Y-%m-%d %H:%M}
+            🤖 GitHub Actions 自动监控 · {datetime.now():%Y-%m-%d %H:%M}<br>
+            📱 <a href="https://gist.github.com/gitfox-enter/70d680cef95274df9994a33dd3a65246" style="color:#1a73e8;">点击查看完整监控状态</a> · 回复本邮件可查最近历史
         </div>
     </div>"""
+
+
+# ====== Gist 更新 ======
+def update_gist(results, new_items, ok, err, total):
+    """更新 Gist 为最新的监控状态摘要（手机随时可查）"""
+    if not GIST_TOKEN:
+        print("[INFO] 未配置 GIST_TOKEN，跳过 Gist 更新")
+        return
+
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    changed = [r["name"] for r in results if r.get("ok") and r.get("new", 0) > 0]
+    new_count = sum(r.get("new", 0) for r in results)
+
+    lines = [
+        f"# 🔔 线报监控状态",
+        f"",
+        f"⏰ 更新时间: {now}",
+        f"",
+        f"---",
+        f"",
+        f"## 📊 汇总",
+        f"",
+        f"| 指标 | 数值 |",
+        f"|------|------|",
+        f"| 监控站点 | {total} |",
+        f"| 成功 | {ok} |",
+        f"| 失败 | {err} |",
+        f"| 新内容 | {new_count} |",
+        f"",
+    ]
+
+    if changed:
+        lines.append(f"## 🔥 有更新的站点")
+        lines.append("")
+        for name in changed:
+            lines.append(f"- **{name}**")
+        lines.append("")
+
+    if new_items:
+        lines.append(f"## 📰 最新内容")
+        lines.append("")
+        for item in new_items[:20]:
+            lines.append(f"- [{item['title']}]({item['url']})  _{item['site']}_")
+        lines.append("")
+
+    # 各站点状态
+    lines.append(f"## 📋 各站点状态")
+    lines.append("")
+    lines.append(f"| 站点 | 状态 | 新内容 | 文章数 |")
+    lines.append(f"|------|------|--------|--------|")
+    for r in results:
+        status = "✅" if r.get("ok") else "❌"
+        new = r.get("new", 0)
+        total_articles = r.get("total", "-")
+        lines.append(f"| {r['name']} | {status} | {new} | {total_articles} |")
+    lines.append("")
+    lines.append(f"---")
+    lines.append(f"_🤖 GitHub Actions 自动监控_")
+
+    content = "\n".join(lines)
+
+    try:
+        resp = req.patch(
+            f"https://api.github.com/gists/{GIST_ID}",
+            headers={
+                "Authorization": f"Bearer {GIST_TOKEN}",
+                "Accept": "application/vnd.github+json",
+            },
+            json={
+                "description": f"线报监控状态 - {now}",
+                "files": {
+                    "xianbao-report.md": {"content": content}
+                },
+            },
+            timeout=15,
+        )
+        if resp.status_code in (200, 201):
+            gist_url = f"https://gist.github.com/{GIST_ID}"
+            print(f"✅ Gist 更新成功: {gist_url}")
+        else:
+            print(f"❌ Gist 更新失败: {resp.status_code} {resp.text[:200]}")
+    except Exception as e:
+        print(f"❌ Gist 更新异常: {e}")
 
 
 if __name__ == "__main__":
