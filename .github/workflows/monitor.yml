@@ -1,0 +1,41 @@
+name: 线报监控
+
+on:
+  schedule:
+    # 每30分钟运行一次（实际 GitHub 最快5分钟粒度，但最短间隔约5-10分钟）
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 安装依赖
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium --with-deps
+
+      - name: 运行监控
+        env:
+          CLAWEMAIL_API_KEY: ${{ secrets.CLAWEMAIL_API_KEY }}
+          CLAWEMAIL_USER: ${{ secrets.CLAWEMAIL_USER }}
+          RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+        run: python monitor.py
+
+      - name: 保存 hashes（有变更时提交）
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add hashes.json
+          git diff --cached --quiet || git commit -m "🔄 更新 hashes $(date +%m/%d-%H:%M)"
+          git push
