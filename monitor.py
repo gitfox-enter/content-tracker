@@ -514,7 +514,7 @@ def main():
             print(f"✅ {len(new_items)} 条新内容")
             for a in new_items[:3]:
                 print(f"    - {a['title']}")
-            all_new_items.extend([{"site": name, **a} for a in new_items[:5]])
+            all_new_items.extend([{"site": name, **a} for a in new_items[:20]])
         else:
             print(f"⚪ 无新内容 ({len(articles)}篇)")
 
