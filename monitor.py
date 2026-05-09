@@ -459,13 +459,24 @@ def main():
     if args.batch:
         print(f"批次: {args.batch}")
 
-    # 加载站点
-    if not SITES_CONFIG.exists():
-        print(f"[ERROR] 找不到站点配置: {SITES_CONFIG}")
+    # 加载站点配置（优先从环境变量，其次从文件）
+    sites_env = os.environ.get("SITES_CONFIG", "")
+    if sites_env:
+        try:
+            config = json.loads(sites_env)
+            all_sites = config.get("sites", [])
+            print(f"从环境变量加载 {len(all_sites)} 个站点")
+        except json.JSONDecodeError as e:
+            print(f"[ERROR] 环境变量 SITES_CONFIG 格式错误: {e}")
+            sys.exit(1)
+    elif SITES_CONFIG.exists():
+        with open(SITES_CONFIG, 'r', encoding='utf-8') as f:
+            config = json.load(f)
+        all_sites = config.get("sites", [])
+        print(f"从文件加载 {len(all_sites)} 个站点")
+    else:
+        print(f"[ERROR] 未找到站点配置（环境变量 SITES_CONFIG 或文件 {SITES_CONFIG}）")
         sys.exit(1)
-    with open(SITES_CONFIG, 'r', encoding='utf-8') as f:
-        config = json.load(f)
-    all_sites = config.get("sites", [])
     
     # 分批处理：每批约一半站点
     if args.batch:
