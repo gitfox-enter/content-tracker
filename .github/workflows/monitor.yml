@@ -2,9 +2,14 @@ name: 线报监控
 
 on:
   schedule:
-    # 每30分钟运行一次（实际 GitHub 最快5分钟粒度，但最短间隔约5-10分钟）
-    - cron: '*/30 * * * *'
+    # 每30分钟运行两次（batch 1 和 batch 2）
+    - cron: '0,30 * * * *'
   workflow_dispatch:
+    inputs:
+      batch:
+        description: '批次 (1 或 2)'
+        required: false
+        default: '1'
 
 permissions:
   contents: write
@@ -12,7 +17,7 @@ permissions:
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     steps:
       - name: 检出代码
@@ -30,7 +35,8 @@ jobs:
           pip install -r requirements.txt
           playwright install chromium --with-deps
 
-      - name: 运行监控
+      - name: 运行监控 (Batch 1)
+        if: github.event_name == 'schedule' || github.event.inputs.batch == '1'
         env:
           TZ: Asia/Shanghai
           CLAWEMAIL_API_KEY: ${{ secrets.CLAWEMAIL_API_KEY }}
@@ -38,7 +44,18 @@ jobs:
           RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
           GIST_ID: ${{ secrets.GIST_ID }}
-        run: python monitor.py
+        run: python monitor.py --batch 1
+
+      - name: 运行监控 (Batch 2)
+        if: github.event_name == 'schedule' || github.event.inputs.batch == '2'
+        env:
+          TZ: Asia/Shanghai
+          CLAWEMAIL_API_KEY: ${{ secrets.CLAWEMAIL_API_KEY }}
+          CLAWEMAIL_USER: ${{ secrets.CLAWEMAIL_USER }}
+          RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+          GIST_ID: ${{ secrets.GIST_ID }}
+        run: python monitor.py --batch 2
 
       - name: 保存 hashes（有变更时提交）
         run: |
