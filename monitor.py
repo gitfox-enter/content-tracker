@@ -32,7 +32,7 @@ CLAWEMAIL_USER = os.environ.get("CLAWEMAIL_USER", "")
 RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL", "")
 
 # Gist 配置（用于手机查看监控状态）
-GIST_ID = os.environ.get("GIST_ID", "70d680cef95274df9994a33dd3a65246")
+GIST_ID = os.environ.get("GIST_ID", "")
 GIST_TOKEN = os.environ.get("GIST_TOKEN", "")
 
 # clawemail HTTP API
@@ -114,28 +114,33 @@ def clawemail_send(to_list, subject, body_html, is_html=True):
 
 
 # ====== 页面抓取 ======
-def fetch_with_playwright(url, browser=None, timeout_ms=DEFAULT_TIMEOUT):
-    """用 Playwright 渲染页面，返回 HTML。可复用传入的 browser 实例。"""
+def fetch_with_playwright(url, browser=None, timeout_ms=DEFAULT_TIMEOUT, max_retries=2):
+    """用 Playwright 渲染页面，返回 HTML。可复用传入的 browser 实例。支持失败重试。"""
     own_browser = browser is None
     if own_browser:
         from playwright.sync_api import sync_playwright
         pw = sync_playwright().start()
         browser = pw.chromium.launch(headless=True)
     
-    page = browser.new_page()
-    try:
-        page.set_default_timeout(timeout_ms)
-        page.goto(url, wait_until="networkidle", timeout=timeout_ms)
-        time.sleep(2)
-        return page.content()
-    except Exception as e:
-        print(f"  Playwright 超时/错误: {e}")
-        return None
-    finally:
-        page.close()
-        if own_browser:
-            browser.close()
-            pw.stop()
+    for attempt in range(max_retries):
+        page = browser.new_page()
+        try:
+            page.set_default_timeout(timeout_ms)
+            page.goto(url, wait_until="networkidle", timeout=timeout_ms)
+            time.sleep(2)
+            return page.content()
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"  重试 {attempt + 1}/{max_retries}...")
+                time.sleep(2)
+            else:
+                print(f"  Playwright 超时/错误: {e}")
+                return None
+        finally:
+            page.close()
+            if own_browser:
+                browser.close()
+                pw.stop()
 
 
 def fetch_with_requests(url):
@@ -483,9 +488,17 @@ def main():
     from playwright.sync_api import sync_playwright
     pw = sync_playwright().start()
     browser = pw.chromium.launch(headless=True)
+    browser_restart_interval = 10  # 每 10 个站点重启浏览器
+    sites_processed = 0
     
     try:
         for i, site in enumerate(sites):
+            # 每 N 个站点重启浏览器，防止内存泄漏
+            if sites_processed > 0 and sites_processed % browser_restart_interval == 0:
+                print(f"\n🔄 已处理 {sites_processed} 个站点，重启浏览器...")
+                browser.close()
+                browser = pw.chromium.launch(headless=True)
+            
             sid = str(site["id"])
             name = site["name"]
             url = site["url"]
@@ -503,6 +516,8 @@ def main():
                 content = fetch_with_playwright(url, browser=browser, timeout_ms=timeout)
             else:
                 content = fetch_with_requests(url)
+            
+            sites_processed += 1
 
             if not content:
                 print("❌ 抓取失败")
@@ -671,8 +686,8 @@ def group_items_by_site(results, all_new_items):
 # ====== Gist 更新 ======
 def update_gist(results, new_items, ok, err, total):
     """更新 Gist 为最新的监控状态摘要（手机随时可查）"""
-    if not GIST_TOKEN:
-        print("[INFO] 未配置 GIST_TOKEN，跳过 Gist 更新")
+    if not GIST_TOKEN or not GIST_ID:
+        print("[INFO] 未配置 GIST_TOKEN 或 GIST_ID，跳过 Gist 更新")
         return
 
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
