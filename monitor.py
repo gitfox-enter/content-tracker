@@ -14,6 +14,7 @@ import json
 import hashlib
 import time
 import re
+import argparse
 from datetime import datetime
 from pathlib import Path
 
@@ -31,7 +32,7 @@ CLAWEMAIL_USER = os.environ.get("CLAWEMAIL_USER", "")
 RECEIVER_EMAIL = os.environ.get("RECEIVER_EMAIL", "")
 
 # Gist 配置（用于手机查看监控状态）
-GIST_ID = os.environ.get("GIST_ID", "5ce05a9a3c49c9c23e1e1607b2b8c43e")
+GIST_ID = os.environ.get("GIST_ID", "70d680cef95274df9994a33dd3a65246")
 GIST_TOKEN = os.environ.get("GIST_TOKEN", "")
 
 # clawemail HTTP API
@@ -113,22 +114,28 @@ def clawemail_send(to_list, subject, body_html, is_html=True):
 
 
 # ====== 页面抓取 ======
-def fetch_with_playwright(url, timeout_ms=DEFAULT_TIMEOUT):
-    """用 Playwright 渲染页面，返回 HTML"""
-    from playwright.sync_api import sync_playwright
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+def fetch_with_playwright(url, browser=None, timeout_ms=DEFAULT_TIMEOUT):
+    """用 Playwright 渲染页面，返回 HTML。可复用传入的 browser 实例。"""
+    own_browser = browser is None
+    if own_browser:
+        from playwright.sync_api import sync_playwright
+        pw = sync_playwright().start()
+        browser = pw.chromium.launch(headless=True)
+    
+    page = browser.new_page()
+    try:
         page.set_default_timeout(timeout_ms)
-        try:
-            page.goto(url, wait_until="networkidle", timeout=timeout_ms)
-            time.sleep(2)  # 等待动态内容加载
-            return page.content()
-        except Exception as e:
-            print(f"  Playwright 超时/错误: {e}")
-            return None
-        finally:
+        page.goto(url, wait_until="networkidle", timeout=timeout_ms)
+        time.sleep(2)
+        return page.content()
+    except Exception as e:
+        print(f"  Playwright 超时/错误: {e}")
+        return None
+    finally:
+        page.close()
+        if own_browser:
             browser.close()
+            pw.stop()
 
 
 def fetch_with_requests(url):
@@ -436,8 +443,16 @@ def save_json(path, data):
 
 
 def main():
+    # 解析命令行参数
+    parser = argparse.ArgumentParser(description='线报监控脚本')
+    parser.add_argument('--batch', type=int, choices=[1, 2], default=None,
+                        help='批次号 (1 或 2)，不指定则跑全部站点')
+    args = parser.parse_args()
+    
     print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] 线报监控启动")
     print(f"Python: {sys.version}")
+    if args.batch:
+        print(f"批次: {args.batch}")
 
     # 加载站点
     if not SITES_CONFIG.exists():
@@ -445,81 +460,102 @@ def main():
         sys.exit(1)
     with open(SITES_CONFIG, 'r', encoding='utf-8') as f:
         config = json.load(f)
-    sites = config.get("sites", [])
-    print(f"共 {len(sites)} 个站点待监控\n")
+    all_sites = config.get("sites", [])
+    
+    # 分批处理：每批约一半站点
+    if args.batch:
+        batch_size = (len(all_sites) + 1) // 2  # 向上取整
+        if args.batch == 1:
+            sites = all_sites[:batch_size]
+        else:
+            sites = all_sites[batch_size:]
+        print(f"共 {len(all_sites)} 个站点，本批次 {len(sites)} 个\n")
+    else:
+        sites = all_sites
+        print(f"共 {len(sites)} 个站点待监控\n")
 
     # 加载历史 hash
     hashes = load_json(HASH_STORE)
     results = []
     all_new_items = []
 
-    for i, site in enumerate(sites):
-        sid = str(site["id"])
-        name = site["name"]
-        url = site["url"]
-        use_js = site.get("js", True)
-        parser = site.get("parser", "")  # 自定义解析器
-        timeout = site.get("timeout", DEFAULT_TIMEOUT)  # 自定义超时
-        old_data = hashes.get(sid, {})
-        old_articles = old_data.get("articles", [])
-        old_titles = {a["title"] for a in old_articles}
+    # 启动共享浏览器实例
+    from playwright.sync_api import sync_playwright
+    pw = sync_playwright().start()
+    browser = pw.chromium.launch(headless=True)
+    
+    try:
+        for i, site in enumerate(sites):
+            sid = str(site["id"])
+            name = site["name"]
+            url = site["url"]
+            use_js = site.get("js", True)
+            parser = site.get("parser", "")  # 自定义解析器
+            timeout = site.get("timeout", DEFAULT_TIMEOUT)  # 自定义超时
+            old_data = hashes.get(sid, {})
+            old_articles = old_data.get("articles", [])
+            old_titles = {a["title"] for a in old_articles}
 
-        print(f"[{i+1}/{len(sites)}] {name} ({url})", end=" ", flush=True)
+            print(f"[{i+1}/{len(sites)}] {name} ({url})", end=" ", flush=True)
 
-        # 抓取
-        if use_js:
-            content = fetch_with_playwright(url, timeout)
-        else:
-            content = fetch_with_requests(url)
+            # 抓取
+            if use_js:
+                content = fetch_with_playwright(url, browser=browser, timeout_ms=timeout)
+            else:
+                content = fetch_with_requests(url)
 
-        if not content:
-            print("❌ 抓取失败")
-            results.append({"name": name, "ok": False})
-            time.sleep(1)
-            continue
+            if not content:
+                print("❌ 抓取失败")
+                results.append({"name": name, "ok": False})
+                time.sleep(1)
+                continue
 
-        # 根据解析器类型提取文章
-        if parser == "epic":
-            articles = parse_epic(content, url)
-        elif parser == "steam":
-            articles = parse_steam(content, url)
-        elif parser == "gog":
-            articles = parse_gog(content, url)
-        elif parser == "foxirj":
-            articles = parse_foxirj(content, url)
-        elif parser == "haoyangmao":
-            articles = parse_haoyangmao(content, url)
-        elif parser == "down423":
-            articles = parse_down423(content, url)
-        elif parser == "ghxi":
-            articles = parse_ghxi(content, url)
-        elif parser == "baicaio":
-            articles = parse_baicaio(content, url)
-        elif parser == "indiegame":
-            articles = parse_indiegame(content, url)
-        else:
-            articles = extract_articles(content, url)[:20]
-        
-        new_items = [a for a in articles if a["title"] not in old_titles]
+            # 根据解析器类型提取文章
+            if parser == "epic":
+                articles = parse_epic(content, url)
+            elif parser == "steam":
+                articles = parse_steam(content, url)
+            elif parser == "gog":
+                articles = parse_gog(content, url)
+            elif parser == "foxirj":
+                articles = parse_foxirj(content, url)
+            elif parser == "haoyangmao":
+                articles = parse_haoyangmao(content, url)
+            elif parser == "down423":
+                articles = parse_down423(content, url)
+            elif parser == "ghxi":
+                articles = parse_ghxi(content, url)
+            elif parser == "baicaio":
+                articles = parse_baicaio(content, url)
+            elif parser == "indiegame":
+                articles = parse_indiegame(content, url)
+            else:
+                articles = extract_articles(content, url)[:20]
+            
+            new_items = [a for a in articles if a["title"] not in old_titles]
 
-        # 更新 hash 存储
-        new_hash = content_hash(content)
-        hashes[sid] = {
-            "hash": new_hash,
-            "articles": articles[:20],
-            "time": datetime.now().isoformat(),
-        }
+            # 更新 hash 存储
+            new_hash = content_hash(content)
+            hashes[sid] = {
+                "hash": new_hash,
+                "articles": articles[:20],
+                "time": datetime.now().isoformat(),
+            }
 
-        if new_items:
-            print(f"✅ {len(new_items)} 条新内容")
-            for a in new_items[:3]:
-                print(f"    - {a['title']}")
-            all_new_items.extend([{"site": name, **a} for a in new_items[:20]])
-        else:
-            print(f"⚪ 无新内容 ({len(articles)}篇)")
+            if new_items:
+                print(f"✅ {len(new_items)} 条新内容")
+                for a in new_items[:3]:
+                    print(f"    - {a['title']}")
+                all_new_items.extend([{"site": name, **a} for a in new_items[:20]])
+            else:
+                print(f"⚪ 无新内容 ({len(articles)}篇)")
 
-        results.append({"name": name, "ok": True, "new": len(new_items), "total": len(articles)})
-        time.sleep(1.5)
+            results.append({"name": name, "ok": True, "new": len(new_items), "total": len(articles)})
+            time.sleep(1.5)
+    finally:
+        # 关闭浏览器
+        browser.close()
+        pw.stop()
 
     # 保存 hash
     save_json(HASH_STORE, hashes)
@@ -634,52 +670,60 @@ def group_items_by_site(results, all_new_items):
 
 # ====== Gist 更新 ======
 def update_gist(results, new_items, ok, err, total):
-    """更新 Gist 为最新的监控状态（手机随时可查，纯文本格式）"""
+    """更新 Gist 为最新的监控状态摘要（手机随时可查）"""
     if not GIST_TOKEN:
         print("[INFO] 未配置 GIST_TOKEN，跳过 Gist 更新")
         return
 
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     changed = [r["name"] for r in results if r.get("ok") and r.get("new", 0) > 0]
     new_count = sum(r.get("new", 0) for r in results)
 
-    # 纯文本格式（和邮件一样）
     lines = [
-        f"线报监控报告 ({now})",
-        f"监控: {total} 站点 | 成功: {ok} | 失败: {err} | 新内容: {new_count}",
-        f"{'='*50}",
-        "",
+        f"# 🔔 线报监控状态",
+        f"",
+        f"⏰ 更新时间: {now}",
+        f"",
+        f"---",
+        f"",
+        f"## 📊 汇总",
+        f"",
+        f"| 指标 | 数值 |",
+        f"|------|------|",
+        f"| 监控站点 | {total} |",
+        f"| 成功 | {ok} |",
+        f"| 失败 | {err} |",
+        f"| 新内容 | {new_count} |",
+        f"",
     ]
 
+    if changed:
+        lines.append(f"## 🔥 有更新的站点")
+        lines.append("")
+        for name in changed:
+            lines.append(f"- **{name}**")
+        lines.append("")
+
     if new_items:
-        # 按站点分组
-        grouped = group_items_by_site(results, new_items)
-        for site_name, items in grouped:
-            count = len(items)
-            lines.append(f"【{site_name}】 {count} 条新内容")
-            for i, item in enumerate(items[:20], 1):
-                lines.append(f" {i}. {item['title']}")
-                lines.append(f"    链接: {item['url']}")
-            # 站点首页
-            if items:
-                import re as _re
-                m = _re.match(r'https?://([^/]+)', items[0]['url'])
-                if m:
-                    lines.append(f" 站点: https://{m.group(1)}/")
-            lines.append("")
-    else:
-        lines.append("无新内容")
+        lines.append(f"## 📰 最新内容")
+        lines.append("")
+        for item in new_items[:20]:
+            lines.append(f"- [{item['title']}]({item['url']})  _{item['site']}_")
         lines.append("")
 
-    # 失败站点
-    failed = [r["name"] for r in results if not r.get("ok")]
-    if failed:
-        lines.append(f"{'='*50}")
-        lines.append(f"失败站点: {', '.join(failed)}")
-        lines.append("")
-
-    lines.append(f"{'='*50}")
-    lines.append("GitHub Actions 自动监控")
+    # 各站点状态
+    lines.append(f"## 📋 各站点状态")
+    lines.append("")
+    lines.append(f"| 站点 | 状态 | 新内容 | 文章数 |")
+    lines.append(f"|------|------|--------|--------|")
+    for r in results:
+        status = "✅" if r.get("ok") else "❌"
+        new = r.get("new", 0)
+        total_articles = r.get("total", "-")
+        lines.append(f"| {r['name']} | {status} | {new} | {total_articles} |")
+    lines.append("")
+    lines.append(f"---")
+    lines.append(f"_🤖 GitHub Actions 自动监控_")
 
     content = "\n".join(lines)
 
