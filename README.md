@@ -1,52 +1,58 @@
-# 线报监控 - GitHub Actions 版
+# Web Content Monitor
 
-自动监控 26 个线报网站，发现新内容时发送邮件通知。
+A lightweight web content monitoring tool that tracks changes on configured websites and sends notifications when new content is detected.
 
-## 工作原理
+## Features
 
-1. GitHub Actions 每 30 分钟自动运行
-2. 用 Playwright 渲染页面，提取文章链接
-3. 对比历史 hashes.json，检测新内容
-4. 有新内容时，通过 clawemail API 发邮件通知
+- Automated monitoring via GitHub Actions
+- Playwright-based rendering for JavaScript-heavy sites
+- Content hash comparison for change detection
+- Email notifications for new content
+- Configurable monitoring targets
 
-## 一次性设置
+## Setup
 
-### 1. 创建 GitHub 私有仓库
+### 1. Configure Secrets
 
-```bash
-# 在 GitHub 上创建私有仓库，然后：
-cd xianbao-github
-git init
-git add .
-git commit -m "🚀 线报监控初始化"
-git remote add origin https://github.com/你的用户名/xianbao-monitor.git
-git push -u origin main
+Add the following secrets in your repository settings (Settings → Secrets and variables → Actions):
+
+| Secret | Description |
+|--------|-------------|
+| `SITES_CONFIG` | JSON configuration of sites to monitor |
+| `CLAWEMAIL_API_KEY` | Email service API key |
+| `CLAWEMAIL_USER` | Email sender account |
+| `RECEIVER_EMAIL` | Email recipient address |
+| `GIST_TOKEN` | GitHub token for Gist updates (optional) |
+| `GIST_ID` | Gist ID for status page (optional) |
+
+### 2. SITES_CONFIG Format
+
+```json
+{
+  "sites": [
+    {
+      "id": 1,
+      "name": "Site Name",
+      "url": "https://example.com",
+      "js": true,
+      "parser": "custom_parser_name"
+    }
+  ]
+}
 ```
 
-### 2. 配置 GitHub Secrets
+### 3. Run
 
-在仓库 Settings → Secrets and variables → Actions 中添加：
+The workflow runs automatically on schedule. You can also trigger it manually from the Actions tab.
 
-| Secret 名 | 值 | 说明 |
-|-----------|-----|------|
-| `CLAWEMAIL_API_KEY` | `ck_live_049108b6...` | clawemail API 密钥 |
-| `CLAWEMAIL_USER` | `qaidaily@claw.163.com` | 发件邮箱 |
-| `RECEIVER_EMAIL` | `mrjin2004@163.com` | 收件邮箱 |
+## Files
 
-### 3. 测试运行
+- `monitor.py` - Main monitoring script
+- `requirements.txt` - Python dependencies
+- `.github/workflows/monitor.yml` - GitHub Actions workflow
 
-在仓库 Actions 页面点击 "Run workflow" 手动触发一次。
+## Notes
 
-## 文件说明
-
-- `monitor.py` — 主脚本（Playwright + clawemail HTTP API）
-- `sites.json` — 监控站点列表
-- `hashes.json` — 历史数据（自动更新）
-- `.github/workflows/monitor.yml` — GitHub Actions 定时任务
-
-## 注意事项
-
-- GitHub Actions 服务器在海外，部分国内小站可能访问较慢或失败
-- GitHub cron 最小间隔约 5 分钟，实际触发可能有几分钟延迟
-- 每月 2000 分钟免费额度，每次运行约 3-5 分钟，绰绰有余
-- hashes.json 通过 git commit 持久化，无需额外存储
+- Sites configuration is stored in GitHub Secrets for privacy
+- Content hashes are persisted via git commits
+- Supports both static and JavaScript-rendered pages
