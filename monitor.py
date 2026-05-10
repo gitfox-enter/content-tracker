@@ -710,8 +710,7 @@ def main():
     # 发送邮件
     if all_new_items:
         print("\n📧 准备发送邮件通知...")
-        grouped = group_items_by_site(results, all_new_items)
-        text_body = build_email_text(grouped, changed)
+        text_body = build_email_text(results, all_new_items, ok_count, err_count, len(results), trends, slow_sites, skipped_sites)
         try:
             to = [RECEIVER_EMAIL] if RECEIVER_EMAIL else ["mrjin2004@163.com"]
             clawemail_send(to, f"🔔 线报监控 - {new_count}条新内容 ({datetime.now():%m/%d %H:%M})", text_body, is_html=False)
@@ -722,30 +721,192 @@ def main():
         print("\n📭 无新内容，不发送邮件")
 
 
-def build_email_text(all_items_by_site, changed_sites):
-    """生成纯文本格式邮件"""
-    now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
-    lines = [
-        f"线报监控报告 ({now_str})",
-        f"共 {len(changed_sites)} 个站点有更新",
-        f"{'='*40}",
-        "",
-    ]
-    for site_name, items in all_items_by_site:
-        count = len(items)
-        lines.append(f"【{site_name}】 {count} 条新内容")
-        for i, item in enumerate(items[:20], 1):
-            lines.append(f" {i}. {item['title']}")
-            lines.append(f"    链接: {item['url']}")
-        if items:
-            m = re.match(r'https?://([^/]+)', items[0]['url'])
-            if m:
-                lines.append(f" 站点: https://{m.group(1)}/")
+def build_report_content(results, new_items, ok, err, total, trends, slow_sites, skipped_sites, format="markdown"):
+    """
+    生成统一的报告内容
+    
+    format: "markdown" 用于 Gist, "text" 用于邮件
+    """
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    changed = [r["name"] for r in results if r.get("ok") and r.get("new", 0) > 0]
+    new_count = sum(r.get("new", 0) for r in results)
+    
+    # 按站点分组新内容
+    site_items = {}
+    for item in new_items:
+        sn = item["site"]
+        if sn not in site_items:
+            site_items[sn] = []
+        site_items[sn].append(item)
+    
+    lines = []
+    
+    if format == "markdown":
+        # Markdown 格式（Gist）
+        lines.extend([
+            f"# 🔔 线报监控报告",
+            f"",
+            f"⏰ 更新时间: {now}",
+            f"",
+            f"---",
+            f"",
+            f"## 📊 汇总",
+            f"",
+            f"监控站点: {total} | 成功: {ok} | 失败: {err} | 新内容: {new_count}",
+            f"",
+        ])
+        
+        # 7 天趋势
+        if trends:
+            lines.extend([
+                f"## 📈 近 7 天趋势",
+                f"",
+                f"| 日期 | 新内容 | 成功 | 失败 |",
+                f"|------|--------|------|------|",
+            ])
+            for date in sorted(trends.keys(), reverse=True)[:7]:
+                d = trends[date]
+                lines.append(f"| {date} | {d.get('new_count', 0)} | {d.get('success', 0)} | {d.get('failed', 0)} |")
+            lines.append("")
+        
+        # 有更新的站点
+        if changed:
+            lines.extend([f"## 🔥 有更新的站点", f""])
+            site_counts = [f"**{name}**({len(site_items.get(name, []))})" for name in changed]
+            lines.append(", ".join(site_counts))
+            lines.append("")
+        
+        # 新内容详情（按站点分组）
+        if new_items:
+            lines.extend([f"## 📰 新内容详情", f""])
+            for site_name in changed:
+                items = site_items.get(site_name, [])
+                if not items:
+                    continue
+                lines.append(f"### {site_name} ({len(items)} 条)")
+                lines.append("")
+                for item in items:
+                    lines.append(f"- [{item['title']}]({item['url']})")
+                # 站点链接
+                m = re.match(r'https?://([^/]+)', items[0]['url'])
+                if m:
+                    lines.append(f"")
+                    lines.append(f"站点: https://{m.group(1)}/")
+                lines.append("")
+        
+        # 各站点状态
+        lines.extend([
+            f"## 📋 各站点状态",
+            f"",
+            f"| 站点 | 状态 | 新内容 | 文章数 | 耗时 |",
+            f"|------|------|--------|--------|------|",
+        ])
+        for r in results:
+            status = "✅" if r.get("ok") else "❌"
+            new = r.get("new", 0)
+            total_articles = r.get("total", "-")
+            time_str = f"{r.get('time', 0):.1f}s" if r.get("ok") else "-"
+            lines.append(f"| {r['name']} | {status} | {new} | {total_articles} | {time_str} |")
         lines.append("")
-
-    lines.append(f"{'='*40}")
-    lines.append("由线报监控系统自动发送")
+        
+        # 最慢站点
+        if slow_sites:
+            lines.extend([f"## 🐢 最慢站点", f""])
+            for s in slow_sites:
+                lines.append(f"- {s['name']}: {s['time']:.1f}s")
+            lines.append("")
+        
+        lines.extend([
+            f"---",
+            f"_🤖 GitHub Actions 自动监控 v2.0_",
+        ])
+    
+    else:
+        # 纯文本格式（邮件）
+        lines.extend([
+            f"线报监控报告",
+            f"更新时间: {now}",
+            f"",
+            f"{'='*50}",
+            f"",
+            f"【汇总】",
+            f"监控站点: {total} | 成功: {ok} | 失败: {err} | 新内容: {new_count}",
+            f"",
+        ])
+        
+        # 7 天趋势
+        if trends:
+            lines.extend([
+                f"【近 7 天趋势】",
+                f"日期          新内容  成功  失败",
+                f"-" * 40,
+            ])
+            for date in sorted(trends.keys(), reverse=True)[:7]:
+                d = trends[date]
+                lines.append(f"{date}    {d.get('new_count', 0):>6}  {d.get('success', 0):>4}  {d.get('failed', 0):>4}")
+            lines.append("")
+        
+        # 有更新的站点
+        if changed:
+            lines.extend([f"【有更新的站点】", f""])
+            for name in changed:
+                count = len(site_items.get(name, []))
+                lines.append(f"• {name} ({count} 条)")
+            lines.append("")
+        
+        # 新内容详情（按站点分组）
+        if new_items:
+            lines.extend([f"【新内容详情】", f""])
+            for site_name in changed:
+                items = site_items.get(site_name, [])
+                if not items:
+                    continue
+                lines.append(f"")
+                lines.append(f"▼ {site_name} ({len(items)} 条)")
+                lines.append(f"-" * 50)
+                for i, item in enumerate(items, 1):
+                    lines.append(f"{i}. {item['title']}")
+                    lines.append(f"   链接: {item['url']}")
+                # 站点链接
+                m = re.match(r'https?://([^/]+)', items[0]['url'])
+                if m:
+                    lines.append(f"   站点: https://{m.group(1)}/")
+                lines.append("")
+        
+        # 各站点状态
+        lines.extend([
+            f"【各站点状态】",
+            f"站点              状态  新内容  文章数  耗时",
+            f"-" * 50,
+        ])
+        for r in results:
+            status = "✅" if r.get("ok") else "❌"
+            new = r.get("new", 0)
+            total_articles = r.get("total", "-")
+            time_str = f"{r.get('time', 0):.1f}s" if r.get("ok") else "-"
+            # 截断站点名
+            name = r['name'][:12].ljust(12) if len(r['name']) > 12 else r['name'].ljust(12)
+            lines.append(f"{name}  {status}   {new:>4}  {total_articles:>6}  {time_str:>6}")
+        lines.append("")
+        
+        # 最慢站点
+        if slow_sites:
+            lines.extend([f"【最慢站点】", f""])
+            for s in slow_sites:
+                lines.append(f"• {s['name']}: {s['time']:.1f}s")
+            lines.append("")
+        
+        lines.extend([
+            f"{'='*50}",
+            f"由线报监控系统自动发送",
+        ])
+    
     return "\n".join(lines)
+
+
+def build_email_text(results, new_items, ok, err, total, trends, slow_sites, skipped_sites):
+    """生成纯文本格式邮件"""
+    return build_report_content(results, new_items, ok, err, total, trends, slow_sites, skipped_sites, format="text")
 
 
 def group_items_by_site(results, all_new_items):
@@ -768,81 +929,7 @@ def update_gist(results, new_items, ok, err, total, trends, slow_sites, skipped_
         return
 
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    changed = [r["name"] for r in results if r.get("ok") and r.get("new", 0) > 0]
-    new_count = sum(r.get("new", 0) for r in results)
-
-    lines = [
-        f"# 🔔 线报监控状态",
-        f"",
-        f"⏰ 更新时间: {now}",
-        f"",
-        f"---",
-        f"",
-        f"## 📊 汇总",
-        f"",
-        f"| 指标 | 数值 |",
-        f"|------|------|",
-        f"| 监控站点 | {total} |",
-        f"| 成功 | {ok} |",
-        f"| 失败 | {err} |",
-        f"| 新内容 | {new_count} |",
-    ]
-    
-    if skipped_sites:
-        lines.append(f"| 跳过（降频） | {len(skipped_sites)} |")
-    
-    lines.append("")
-
-    # 7 天趋势
-    if trends:
-        lines.append(f"## 📈 近 7 天趋势")
-        lines.append("")
-        lines.append(f"| 日期 | 新内容 | 成功 | 失败 |")
-        lines.append(f"|------|--------|------|------|")
-        for date in sorted(trends.keys(), reverse=True)[:7]:
-            d = trends[date]
-            lines.append(f"| {date} | {d.get('new_count', 0)} | {d.get('success', 0)} | {d.get('failed', 0)} |")
-        lines.append("")
-
-    if changed:
-        lines.append(f"## 🔥 有更新的站点")
-        lines.append("")
-        for name in changed:
-            lines.append(f"- **{name}**")
-        lines.append("")
-
-    if new_items:
-        lines.append(f"## 📰 最新内容 ({len(new_items)} 条)")
-        lines.append("")
-        for item in new_items:
-            lines.append(f"- [{item['title']}]({item['url']})  _{item['site']}_")
-        lines.append("")
-
-    # 各站点状态
-    lines.append(f"## 📋 各站点状态")
-    lines.append("")
-    lines.append(f"| 站点 | 状态 | 新内容 | 文章数 | 耗时 |")
-    lines.append(f"|------|------|--------|--------|------|")
-    for r in results:
-        status = "✅" if r.get("ok") else "❌"
-        new = r.get("new", 0)
-        total_articles = r.get("total", "-")
-        time_str = f"{r.get('time', 0):.1f}s" if r.get("ok") else "-"
-        lines.append(f"| {r['name']} | {status} | {new} | {total_articles} | {time_str} |")
-    lines.append("")
-    
-    # 最慢站点
-    if slow_sites:
-        lines.append(f"## 🐢 最慢站点")
-        lines.append("")
-        for s in slow_sites:
-            lines.append(f"- {s['name']}: {s['time']:.1f}s")
-        lines.append("")
-
-    lines.append(f"---")
-    lines.append(f"_🤖 GitHub Actions 自动监控 v2.0_")
-
-    content = "\n".join(lines)
+    content = build_report_content(results, new_items, ok, err, total, trends, slow_sites, skipped_sites, format="markdown")
 
     try:
         resp = req.patch(
@@ -852,7 +939,7 @@ def update_gist(results, new_items, ok, err, total, trends, slow_sites, skipped_
                 "Accept": "application/vnd.github+json",
             },
             json={
-                "description": f"线报监控状态 - {now}",
+                "description": f"线报监控报告 - {now}",
                 "files": {
                     "xianbao-report.md": {"content": content}
                 },
