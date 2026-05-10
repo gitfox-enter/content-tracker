@@ -814,7 +814,7 @@ def update_gist(results, new_items, ok, err, total, trends, slow_sites, skipped_
     if new_items:
         lines.append(f"## 📰 最新内容")
         lines.append("")
-        for item in new_items[:20]:
+        for item in new_items[:50]:
             lines.append(f"- [{item['title']}]({item['url']})  _{item['site']}_")
         lines.append("")
 
