@@ -643,7 +643,7 @@ def main():
                 print(f"✅ {len(new_items)} 条新内容 ({fetch_time:.1f}s)")
                 for a in new_items[:3]:
                     print(f"    - {a['title']}")
-                all_new_items.extend([{"site": name, **a} for a in new_items[:20]])
+                all_new_items.extend([{"site": name, **a} for a in new_items])
             else:
                 print(f"⚪ 无新内容 ({len(articles)}篇, {fetch_time:.1f}s)")
 
@@ -812,9 +812,9 @@ def update_gist(results, new_items, ok, err, total, trends, slow_sites, skipped_
         lines.append("")
 
     if new_items:
-        lines.append(f"## 📰 最新内容")
+        lines.append(f"## 📰 最新内容 ({len(new_items)} 条)")
         lines.append("")
-        for item in new_items[:50]:
+        for item in new_items:
             lines.append(f"- [{item['title']}]({item['url']})  _{item['site']}_")
         lines.append("")
 
