@@ -506,6 +506,46 @@ def update_trends(trends, results, new_count):
     return trends
 
 
+def validate_site_config(site):
+    """验证站点配置是否有效"""
+    required = ["id", "name", "url"]
+    for field in required:
+        if field not in site:
+            return False, f"缺少必填字段: {field}"
+    
+    if not site["url"].startswith(("http://", "https://")):
+        return False, f"URL 格式无效: {site['url']}"
+    
+    return True, None
+
+
+def health_check():
+    """启动时健康检查"""
+    errors = []
+    
+    # 检查 Playwright
+    try:
+        from playwright.sync_api import sync_playwright
+        pw = sync_playwright().start()
+        browser = pw.chromium.launch(headless=True)
+        browser.close()
+        pw.stop()
+    except Exception as e:
+        errors.append(f"Playwright 不可用: {e}")
+    
+    # 检查邮件配置
+    if not CLAWEMAIL_API_KEY:
+        errors.append("未配置 CLAWEMAIL_API_KEY")
+    if not CLAWEMAIL_USER:
+        errors.append("未配置 CLAWEMAIL_USER")
+    
+    # 检查 Gist 配置
+    if not GIST_TOKEN or not GIST_ID:
+        print("[WARN] 未配置 GIST_TOKEN 或 GIST_ID，将跳过 Gist 更新")
+    
+    return errors
+
+
 def main():
     parser = argparse.ArgumentParser(description='线报监控脚本 v2.0')
     parser.add_argument('--batch', type=int, choices=[1, 2], default=None,
@@ -516,6 +556,12 @@ def main():
     print(f"Python: {sys.version}")
     if args.batch:
         print(f"批次: {args.batch}")
+
+    # 健康检查
+    health_errors = health_check()
+    if health_errors:
+        for err in health_errors:
+            print(f"[WARN] {err}")
 
     # 加载站点配置
     sites_env = os.environ.get("SITES_CONFIG", "")
@@ -534,6 +580,19 @@ def main():
         print(f"从文件加载 {len(all_sites)} 个站点")
     else:
         print(f"[ERROR] 未找到站点配置")
+        sys.exit(1)
+    
+    # 验证站点配置
+    invalid_sites = []
+    for site in all_sites:
+        valid, err = validate_site_config(site)
+        if not valid:
+            invalid_sites.append(f"站点 {site.get('id', '?')}: {err}")
+    
+    if invalid_sites:
+        print(f"[ERROR] 站点配置无效:")
+        for err in invalid_sites:
+            print(f"  - {err}")
         sys.exit(1)
     
     # 分批处理
