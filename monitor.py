@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-线报监控脚本 - GitHub Actions 版
+线报监控脚本 - GitHub Actions 版 v2.0
 - Playwright 抓取页面内容
 - 支持自定义解析器（Epic、Steam、GOG 等）
 - 内置 clawemail HTTP API 发邮件
 - hashes.json 持久化到 Git 仓库
+- 新增：内容去重、失败降频、性能监控、告警机制、历史趋势
 """
 
 import os
@@ -15,16 +16,27 @@ import hashlib
 import time
 import re
 import argparse
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
+from collections import defaultdict
+from difflib import SequenceMatcher
 
 # ====== 配置 ======
 SCRIPT_DIR = Path(__file__).parent
 SITES_CONFIG = SCRIPT_DIR / "sites.json"
 HASH_STORE = SCRIPT_DIR / "hashes.json"
+TREND_STORE = SCRIPT_DIR / "trends.json"
 
 # 默认超时时间（毫秒）
 DEFAULT_TIMEOUT = 25000
+
+# 清理配置
+MAX_ARTICLES_PER_SITE = 30  # 每站点最多保留文章数
+MAX_FAIL_COUNT = 3  # 连续失败多少次后降频
+ALERT_FAIL_COUNT = 5  # 连续失败多少次后发送告警
+
+# 去重配置
+SIMILARITY_THRESHOLD = 0.75  # 标题相似度阈值
 
 # 邮件配置从环境变量读取（GitHub Secrets）
 CLAWEMAIL_API_KEY = os.environ.get("CLAWEMAIL_API_KEY", "")
@@ -75,7 +87,6 @@ def clawemail_send(to_list, subject, body_html, is_html=True):
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json",
     }
-    # Step 1: compose continue
     compose_body = {
         "to": to_list,
         "subject": subject,
@@ -99,7 +110,6 @@ def clawemail_send(to_list, subject, body_html, is_html=True):
     if not compose_id:
         raise RuntimeError(f"未获取 composeId: {data1}")
 
-    # Step 2: compose deliver
     deliver_body = dict(compose_body)
     resp2 = req.post(
         f"{API_BASE}/proxy",
@@ -158,234 +168,183 @@ def fetch_with_requests(url):
         return None
 
 
-# ====== 专门解析器 ======
-def parse_epic(content, base_url):
-    """Epic Games 免费游戏解析器"""
-    articles = []
-    if not content:
-        return articles
+# ====== 通用解析器基类 ======
+class BaseParser:
+    """解析器基类，提供通用功能"""
     
-    # Epic 页面是 React 渲染，数据在 __NEXT_DATA__ 中
-    match = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', content, re.DOTALL)
-    if match:
-        try:
-            import json
-            data = json.loads(match.group(1))
-            # 尝试从各种可能的位置提取免费游戏
-            catalog = data.get("props", {}).get("pageProps", {}).get("catalogOffers", {})
-            elements = catalog.get("elements", [])
-            for item in elements:
-                title = item.get("title", "")
-                slug = item.get("productSlug", "") or item.get("urlSlug", "")
-                if title and slug:
-                    url = f"https://store.epicgames.com/zh-CN/p/{slug}"
-                    articles.append({"title": f"[Epic免费] {title}", "url": url})
-        except:
-            pass
+    def __init__(self, content, base_url):
+        self.content = content
+        self.base_url = base_url
     
-    # 备用：正则提取
-    if not articles:
-        pattern = r'href="(/zh-CN/p/[^"]+)"[^>]*>.*?<span[^>]*>([^<]{3,50})</span>'
-        for m in re.finditer(pattern, content, re.DOTALL):
-            href, title = m.groups()
-            if "free" in title.lower() or "免费" in title:
-                articles.append({"title": title.strip(), "url": f"https://store.epicgames.com{href}"})
+    def parse(self):
+        """子类实现具体解析逻辑"""
+        raise NotImplementedError
     
-    return articles[:10]
-
-
-def parse_steam(content, base_url):
-    """Steam 免费游戏解析器"""
-    articles = []
-    if not content:
-        return articles
-    
-    # Steam 商店页面结构
-    pattern = r'<a[^>]+href="(https://store\.steampowered\.com/app/\d+/[^"]+/)"[^>]*>.*?<span[^>]*class="title"[^>]*>([^<]+)</span>'
-    for m in re.finditer(pattern, content, re.DOTALL):
-        url, title = m.groups()
-        title = title.strip()
-        if len(title) >= 2:
-            articles.append({"title": f"[Steam免费] {title}", "url": url})
-    
-    # 备用模式
-    if not articles:
-        pattern2 = r'<a[^>]+href="(https://store\.steampowered\.com/app/\d+[^"]*)"[^>]*>([^<]{3,80})</a>'
-        for m in re.finditer(pattern2, content, re.DOTALL):
-            url, title = m.groups()
-            title = title.strip()
-            if "免费" in title or "Free" in title.lower() or len(title) < 50:
-                articles.append({"title": title, "url": url})
-    
-    return articles[:15]
-
-
-def parse_gog(content, base_url):
-    """GOG 免费游戏解析器"""
-    articles = []
-    if not content:
-        return articles
-    
-    # GOG 页面结构
-    pattern = r'<a[^>]+href="(https://www\.gog\.com/[^"]+)"[^>]*>.*?class="product-tile__title"[^>]*>([^<]+)</span>'
-    for m in re.finditer(pattern, content, re.DOTALL):
-        url, title = m.groups()
-        title = title.strip()
-        if len(title) >= 2:
-            articles.append({"title": f"[GOG免费] {title}", "url": url})
-    
-    # 备用模式
-    if not articles:
-        pattern2 = r'href="(https://www\.gog\.com/[^"]+game[^"]*)"[^>]*>([^<]{3,60})</a>'
-        for m in re.finditer(pattern2, content, re.DOTALL):
-            url, title = m.groups()
-            articles.append({"title": title.strip(), "url": url})
-    
-    return articles[:15]
-
-
-def parse_foxirj(content, base_url):
-    """佛系软件解析器"""
-    articles = []
-    if not content:
-        return articles
-    
-    # 佛系软件页面结构
-    pattern = r'<a[^>]+href="(https://foxirj\.com/[^"]+)"[^>]*>.*?<h[23][^>]*>([^<]+)</h[23]>'
-    for m in re.finditer(pattern, content, re.DOTALL):
-        url, title = m.groups()
-        title = title.strip()
-        if len(title) >= 3 and "页面" not in title:
-            articles.append({"title": title, "url": url})
-    
-    # 备用通用提取
-    if not articles:
-        articles = extract_articles(content, base_url)
-    
-    return articles[:15]
-
-
-def parse_haoyangmao(content, base_url):
-    """好羊毛解析器 - 过滤 Cloudflare 错误页"""
-    articles = []
-    if not content:
-        return articles
-    
-    # 检测是否是 Cloudflare 错误页
-    if 'cloudflare' in content.lower() and '5xx-error' in content.lower():
-        print("  检测到 Cloudflare 错误页，跳过")
-        return []
-    
-    # 提取文章链接
-    pattern = r'<a[^>]+href="(https?://www\.haoyangmao123\.com/[^"]+)"[^>]*>([^<]{6,80})</a>'
-    for m in re.finditer(pattern, content, re.DOTALL):
-        url, title = m.groups()
-        title = title.strip()
-        # 过滤导航链接
-        if any(x in title for x in ['首页', '登录', '注册', '更多', '关于']):
-            continue
-        if len(title) >= 6:
-            articles.append({"title": title, "url": url})
-    
-    return articles[:15]
-
-
-def parse_down423(content, base_url):
-    """423Down 解析器 - 提取软件文章"""
-    articles = []
-    if not content:
-        return articles
-    
-    # 423Down 文章结构 - 提取带日期的文章
-    pattern = r'<a[^>]+href="(https://www\.423down\.com/\d+\.html)"[^>]*>([^<]+)</a>'
-    seen_urls = set()
-    for m in re.finditer(pattern, content, re.DOTALL):
-        url, title = m.groups()
-        title = title.strip()
-        # 只保留文章链接（包含数字ID）
-        if '/system.html' in url or '/win11' in url or '/win10' in url or '/win7' in url:
-            continue
-        if url in seen_urls:
-            continue
-        if len(title) >= 3 and len(title) <= 80:
+    def extract_by_pattern(self, pattern, max_items=20, url_group=1, title_group=2, 
+                          filters=None, seen_urls=None):
+        """通用正则提取方法"""
+        articles = []
+        if not self.content:
+            return articles
+        
+        if seen_urls is None:
+            seen_urls = set()
+        
+        for m in re.finditer(pattern, self.content, re.DOTALL):
+            url = m.group(url_group).strip()
+            title = m.group(title_group).strip()
+            
+            # 应用过滤器
+            if filters:
+                if any(f in title for f in filters.get('title_exclude', [])):
+                    continue
+                if any(f in url for f in filters.get('url_exclude', [])):
+                    continue
+            
+            if url in seen_urls:
+                continue
+            if len(title) < 3 or len(title) > 120:
+                continue
+            
             seen_urls.add(url)
             articles.append({"title": title, "url": url})
-    
-    return articles[:20]
-
-
-def parse_ghxi(content, base_url):
-    """果核剥壳解析器 - 从分类页提取"""
-    articles = []
-    if not content:
+            
+            if len(articles) >= max_items:
+                break
+        
         return articles
-    
-    # 果核剥壳文章结构
-    pattern = r'<a[^>]+href="(https://www\.ghxi\.com/[^"]+\.html)"[^>]*>([^<]+)</a>'
-    seen_urls = set()
-    for m in re.finditer(pattern, content, re.DOTALL):
-        url, title = m.groups()
-        title = title.strip()
-        # 过滤非文章链接
-        if any(x in url for x in ['/category/', '/tag/', '/page/', '/author/']):
-            continue
-        if url in seen_urls:
-            continue
-        if len(title) >= 3 and len(title) <= 80:
-            seen_urls.add(url)
-            articles.append({"title": title, "url": url})
-    
-    return articles[:20]
 
 
-def parse_baicaio(content, base_url):
-    """白菜哦解析器"""
-    articles = []
-    if not content:
-        return articles
-    
-    # 白菜哦文章结构
-    pattern = r'<a[^>]+href="(https://www\.baicaio\.com/[^"]+\.html)"[^>]*>([^<]+)</a>'
-    seen_urls = set()
-    for m in re.finditer(pattern, content, re.DOTALL):
-        url, title = m.groups()
-        title = title.strip()
-        if url in seen_urls:
-            continue
-        if len(title) >= 6 and len(title) <= 80:
-            seen_urls.add(url)
-            articles.append({"title": title, "url": url})
-    
-    return articles[:20]
+class EpicParser(BaseParser):
+    def parse(self):
+        articles = []
+        if not self.content:
+            return articles
+        
+        # Epic 页面是 React 渲染，数据在 __NEXT_DATA__ 中
+        match = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', self.content, re.DOTALL)
+        if match:
+            try:
+                data = json.loads(match.group(1))
+                catalog = data.get("props", {}).get("pageProps", {}).get("catalogOffers", {})
+                elements = catalog.get("elements", [])
+                for item in elements:
+                    title = item.get("title", "")
+                    slug = item.get("productSlug", "") or item.get("urlSlug", "")
+                    if title and slug:
+                        url = f"https://store.epicgames.com/zh-CN/p/{slug}"
+                        articles.append({"title": f"[Epic免费] {title}", "url": url})
+            except:
+                pass
+        
+        if not articles:
+            pattern = r'href="(/zh-CN/p/[^"]+)"[^>]*>.*?<span[^>]*>([^<]{3,50})</span>'
+            for m in re.finditer(pattern, self.content, re.DOTALL):
+                href, title = m.groups()
+                if "free" in title.lower() or "免费" in title:
+                    articles.append({"title": title.strip(), "url": f"https://store.epicgames.com{href}"})
+        
+        return articles[:10]
 
 
-def parse_indiegame(content, base_url):
-    """IndieGamePlus 解析器 - 提取独立游戏"""
-    articles = []
-    if not content:
-        return articles
+class SteamParser(BaseParser):
+    def parse(self):
+        pattern = r'<a[^>]+href="(https://store\.steampowered\.com/app/\d+/[^"]+/)"[^>]*>.*?<span[^>]*class="title"[^>]*>([^<]+)</span>'
+        articles = self.extract_by_pattern(pattern, max_items=15)
+        
+        if not articles:
+            pattern2 = r'<a[^>]+href="(https://store\.steampowered\.com/app/\d+[^"]*)"[^>]*>([^<]{3,80})</a>'
+            for m in re.finditer(pattern2, self.content, re.DOTALL):
+                url, title = m.groups()
+                title = title.strip()
+                if "免费" in title or "Free" in title.lower() or len(title) < 50:
+                    articles.append({"title": title, "url": url})
+        
+        return [{"title": f"[Steam免费] {a['title']}", "url": a['url']} for a in articles]
+
+
+class GogParser(BaseParser):
+    def parse(self):
+        pattern = r'<a[^>]+href="(https://www\.gog\.com/[^"]+)"[^>]*>.*?class="product-tile__title"[^>]*>([^<]+)</span>'
+        articles = self.extract_by_pattern(pattern, max_items=15)
+        
+        if not articles:
+            pattern2 = r'href="(https://www\.gog\.com/[^"]+game[^"]*)"[^>]*>([^<]{3,60})</a>'
+            articles = self.extract_by_pattern(pattern2, max_items=15)
+        
+        return [{"title": f"[GOG免费] {a['title']}", "url": a['url']} for a in articles]
+
+
+class GenericLinkParser(BaseParser):
+    """通用链接解析器，支持自定义配置"""
     
-    # 提取游戏相关链接
-    patterns = [
-        r'<a[^>]+href="(https://indiegameplus\.com/[^"]+)"[^>]*>([^<]{5,80})</a>',
-        r'<a[^>]+href="(https://[^"]*game[^"]*)"[^>]*>([^<]{5,80})</a>',
-    ]
+    def __init__(self, content, base_url, url_pattern=None, title_min=6, title_max=80,
+                 url_excludes=None, title_excludes=None):
+        super().__init__(content, base_url)
+        self.url_pattern = url_pattern
+        self.title_min = title_min
+        self.title_max = title_max
+        self.url_excludes = url_excludes or []
+        self.title_excludes = title_excludes or []
     
-    seen_urls = set()
-    for pattern in patterns:
-        for m in re.finditer(pattern, content, re.DOTALL):
-            url, title = m.groups()
-            title = title.strip()
-            # 过滤无关链接
-            if any(x in url.lower() for x in ['wix.com', 'template', 'facebook', 'twitter', 'instagram']):
+    def parse(self):
+        if not self.content:
+            return []
+        
+        articles = []
+        seen_urls = set()
+        
+        if self.url_pattern:
+            pattern = self.url_pattern
+        else:
+            pattern = r'<a[^>]+href="([^"]+)"[^>]*>([^<]+)</a>'
+        
+        for m in re.finditer(pattern, self.content, re.DOTALL):
+            url = m.group(1).strip()
+            title = m.group(2).strip()
+            
+            # 过滤
+            if any(x in url for x in self.url_excludes):
+                continue
+            if any(x in title for x in self.title_excludes):
                 continue
             if url in seen_urls:
                 continue
-            if len(title) >= 5 and len(title) <= 80:
-                seen_urls.add(url)
-                articles.append({"title": title, "url": url})
-    
-    return articles[:15]
+            if len(title) < self.title_min or len(title) > self.title_max:
+                continue
+            
+            seen_urls.add(url)
+            articles.append({"title": title, "url": url})
+        
+        return articles[:20]
+
+
+# ====== 解析器工厂 ======
+PARSERS = {
+    "epic": EpicParser,
+    "steam": SteamParser,
+    "gog": GogParser,
+    "foxirj": lambda c, u: GenericLinkParser(c, u, 
+        url_pattern=r'<a[^>]+href="(https://foxirj\.com/[^"]+)"[^>]*>.*?<h[23][^>]*>([^<]+)</h[23]>',
+        title_min=3, title_excludes=["页面"]).parse(),
+    "haoyangmao": lambda c, u: (GenericLinkParser(c, u,
+        url_pattern=r'<a[^>]+href="(https?://www\.haoyangmao123\.com/[^"]+)"[^>]*>([^<]+)</a>',
+        title_min=6, title_excludes=['首页', '登录', '注册', '更多', '关于']).parse() 
+        if not ('cloudflare' in c.lower() and '5xx-error' in c.lower()) else []),
+    "down423": lambda c, u: GenericLinkParser(c, u,
+        url_pattern=r'<a[^>]+href="(https://www\.423down\.com/\d+\.html)"[^>]*>([^<]+)</a>',
+        url_excludes=['/system.html', '/win11', '/win10', '/win7']).parse(),
+    "ghxi": lambda c, u: GenericLinkParser(c, u,
+        url_pattern=r'<a[^>]+href="(https://www\.ghxi\.com/[^"]+\.html)"[^>]*>([^<]+)</a>',
+        url_excludes=['/category/', '/tag/', '/page/', '/author/']).parse(),
+    "baicaio": lambda c, u: GenericLinkParser(c, u,
+        url_pattern=r'<a[^>]+href="(https://www\.baicaio\.com/[^"]+\.html)"[^>]*>([^<]+)</a>',
+        title_min=6).parse(),
+    "indiegame": lambda c, u: GenericLinkParser(c, u,
+        url_pattern=r'<a[^>]+href="(https://[^"]+)"[^>]*>([^<]{5,80})</a>',
+        url_excludes=['wix.com', 'template', 'facebook', 'twitter', 'instagram'],
+        title_min=5).parse(),
+}
 
 
 # ====== 通用内容提取 ======
@@ -401,13 +360,10 @@ def extract_articles(content, base_url=""):
         title = re.sub(r'\s+', ' ', m.group(2).strip())
         if len(title) < 6 or len(title) > 120 or title in seen:
             continue
-        # 过滤无关链接
         if any(x in href.lower() for x in ['login', 'register', 'about', 'contact', 'javascript', '#', 'mailto', 'search', 'tag/', 'category/', 'page/', 'author/']):
             continue
-        # 过滤无关标题
         if any(x in title for x in ['登录', '注册', '搜索', '更多', '返回', '首页', '下一页', '上一页', '加载', '展开']):
             continue
-        # 补全相对链接
         if href.startswith('//'):
             href = 'https:' + href
         elif href.startswith('/'):
@@ -431,6 +387,30 @@ def content_hash(content):
     return hashlib.md5(c.encode()).hexdigest()
 
 
+# ====== 内容去重 ======
+def title_similarity(t1, t2):
+    """计算两个标题的相似度"""
+    return SequenceMatcher(None, t1, t2).ratio()
+
+
+def deduplicate_items(items, threshold=SIMILARITY_THRESHOLD):
+    """基于标题相似度去重"""
+    if not items:
+        return items
+    
+    unique = []
+    for item in items:
+        is_dup = False
+        for existing in unique:
+            if title_similarity(item['title'], existing['title']) >= threshold:
+                is_dup = True
+                break
+        if not is_dup:
+            unique.append(item)
+    
+    return unique
+
+
 # ====== 主逻辑 ======
 def load_json(path):
     if path.exists():
@@ -447,19 +427,97 @@ def save_json(path, data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
+def cleanup_hashes(hashes):
+    """清理 hashes.json，限制每个站点的文章数量"""
+    for sid, data in hashes.items():
+        if "articles" in data and len(data["articles"]) > MAX_ARTICLES_PER_SITE:
+            data["articles"] = data["articles"][-MAX_ARTICLES_PER_SITE:]
+    return hashes
+
+
+def should_skip_site(site, hashes):
+    """判断是否应该跳过该站点（失败降频）"""
+    sid = str(site["id"])
+    old_data = hashes.get(sid, {})
+    fail_count = old_data.get("fail_count", 0)
+    
+    if fail_count >= MAX_FAIL_COUNT:
+        # 检查上次检查时间
+        last_time_str = old_data.get("time", "")
+        if last_time_str:
+            try:
+                last_time = datetime.fromisoformat(last_time_str)
+                # 降频：每 2 小时检查一次
+                if datetime.now() - last_time < timedelta(hours=2):
+                    return True
+            except:
+                pass
+    return False
+
+
+def update_fail_count(hashes, sid, success):
+    """更新失败计数"""
+    sid = str(sid)
+    if sid not in hashes:
+        hashes[sid] = {}
+    
+    if success:
+        hashes[sid]["fail_count"] = 0
+    else:
+        hashes[sid]["fail_count"] = hashes[sid].get("fail_count", 0) + 1
+    
+    return hashes[sid].get("fail_count", 0)
+
+
+def get_alert_sites(hashes):
+    """获取需要发送告警的站点"""
+    alert_sites = []
+    for sid, data in hashes.items():
+        fail_count = data.get("fail_count", 0)
+        # 刚好达到告警阈值时发送
+        if fail_count == ALERT_FAIL_COUNT:
+            alert_sites.append({
+                "id": sid,
+                "fail_count": fail_count,
+                "last_time": data.get("time", "")
+            })
+    return alert_sites
+
+
+def update_trends(trends, results, new_count):
+    """更新趋势数据"""
+    today = datetime.now().strftime("%Y-%m-%d")
+    
+    if today not in trends:
+        trends[today] = {
+            "new_count": 0,
+            "success": 0,
+            "failed": 0
+        }
+    
+    trends[today]["new_count"] += new_count
+    trends[today]["success"] += sum(1 for r in results if r.get("ok"))
+    trends[today]["failed"] += sum(1 for r in results if not r.get("ok"))
+    
+    # 只保留最近 7 天
+    cutoff = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
+    trends = {k: v for k, v in trends.items() if k >= cutoff}
+    
+    return trends
+
+
 def main():
-    # 解析命令行参数
-    parser = argparse.ArgumentParser(description='线报监控脚本')
+    parser = argparse.ArgumentParser(description='线报监控脚本 v2.0')
     parser.add_argument('--batch', type=int, choices=[1, 2], default=None,
                         help='批次号 (1 或 2)，不指定则跑全部站点')
     args = parser.parse_args()
     
-    print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] 线报监控启动")
+    print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] 线报监控启动 v2.0")
     print(f"Python: {sys.version}")
     if args.batch:
         print(f"批次: {args.batch}")
 
-    # 加载站点配置（优先从环境变量，其次从文件）
+    # 加载站点配置
     sites_env = os.environ.get("SITES_CONFIG", "")
     if sites_env:
         try:
@@ -475,12 +533,12 @@ def main():
         all_sites = config.get("sites", [])
         print(f"从文件加载 {len(all_sites)} 个站点")
     else:
-        print(f"[ERROR] 未找到站点配置（环境变量 SITES_CONFIG 或文件 {SITES_CONFIG}）")
+        print(f"[ERROR] 未找到站点配置")
         sys.exit(1)
     
-    # 分批处理：每批约一半站点
+    # 分批处理
     if args.batch:
-        batch_size = (len(all_sites) + 1) // 2  # 向上取整
+        batch_size = (len(all_sites) + 1) // 2
         if args.batch == 1:
             sites = all_sites[:batch_size]
         else:
@@ -490,21 +548,28 @@ def main():
         sites = all_sites
         print(f"共 {len(sites)} 个站点待监控\n")
 
-    # 加载历史 hash
+    # 加载历史数据
     hashes = load_json(HASH_STORE)
+    trends = load_json(TREND_STORE)
+    
+    # 清理历史数据
+    hashes = cleanup_hashes(hashes)
+    
     results = []
     all_new_items = []
+    skipped_sites = []
+    performance_stats = []
 
-    # 启动共享浏览器实例
+    # 启动浏览器
     from playwright.sync_api import sync_playwright
     pw = sync_playwright().start()
     browser = pw.chromium.launch(headless=True)
-    browser_restart_interval = 10  # 每 10 个站点重启浏览器
+    browser_restart_interval = 10
     sites_processed = 0
     
     try:
         for i, site in enumerate(sites):
-            # 每 N 个站点重启浏览器，防止内存泄漏
+            # 浏览器重启
             if sites_processed > 0 and sites_processed % browser_restart_interval == 0:
                 print(f"\n🔄 已处理 {sites_processed} 个站点，重启浏览器...")
                 browser.close()
@@ -514,14 +579,24 @@ def main():
             name = site["name"]
             url = site["url"]
             use_js = site.get("js", True)
-            parser = site.get("parser", "")  # 自定义解析器
-            timeout = site.get("timeout", DEFAULT_TIMEOUT)  # 自定义超时
+            parser_name = site.get("parser", "")
+            timeout = site.get("timeout", DEFAULT_TIMEOUT)
+            
+            # 检查是否应该跳过（失败降频）
+            if should_skip_site(site, hashes):
+                print(f"[{i+1}/{len(sites)}] {name} ⏭️ 跳过（降频中）")
+                skipped_sites.append(name)
+                continue
+            
             old_data = hashes.get(sid, {})
             old_articles = old_data.get("articles", [])
             old_titles = {a["title"] for a in old_articles}
 
             print(f"[{i+1}/{len(sites)}] {name} ({url})", end=" ", flush=True)
 
+            # 记录开始时间
+            start_time = time.time()
+            
             # 抓取
             if use_js:
                 content = fetch_with_playwright(url, browser=browser, timeout_ms=timeout)
@@ -529,83 +604,112 @@ def main():
                 content = fetch_with_requests(url)
             
             sites_processed += 1
+            fetch_time = time.time() - start_time
 
             if not content:
                 print("❌ 抓取失败")
-                results.append({"name": name, "ok": False})
+                fail_count = update_fail_count(hashes, sid, False)
+                results.append({"name": name, "ok": False, "fail_count": fail_count})
+                performance_stats.append({"name": name, "time": fetch_time, "ok": False})
                 time.sleep(1)
                 continue
 
-            # 根据解析器类型提取文章
-            if parser == "epic":
-                articles = parse_epic(content, url)
-            elif parser == "steam":
-                articles = parse_steam(content, url)
-            elif parser == "gog":
-                articles = parse_gog(content, url)
-            elif parser == "foxirj":
-                articles = parse_foxirj(content, url)
-            elif parser == "haoyangmao":
-                articles = parse_haoyangmao(content, url)
-            elif parser == "down423":
-                articles = parse_down423(content, url)
-            elif parser == "ghxi":
-                articles = parse_ghxi(content, url)
-            elif parser == "baicaio":
-                articles = parse_baicaio(content, url)
-            elif parser == "indiegame":
-                articles = parse_indiegame(content, url)
+            # 解析
+            if parser_name in PARSERS:
+                parser = PARSERS[parser_name]
+                if callable(parser):
+                    articles = parser(content, url)
+                else:
+                    articles = parser(content, url).parse()
             else:
                 articles = extract_articles(content, url)[:20]
+            
+            # 去重
+            articles = deduplicate_items(articles)
             
             new_items = [a for a in articles if a["title"] not in old_titles]
 
             # 更新 hash 存储
             new_hash = content_hash(content)
+            fail_count = update_fail_count(hashes, sid, True)
             hashes[sid] = {
                 "hash": new_hash,
-                "articles": articles[:20],
+                "articles": articles[:MAX_ARTICLES_PER_SITE],
                 "time": datetime.now().isoformat(),
+                "fail_count": fail_count,
             }
 
             if new_items:
-                print(f"✅ {len(new_items)} 条新内容")
+                print(f"✅ {len(new_items)} 条新内容 ({fetch_time:.1f}s)")
                 for a in new_items[:3]:
                     print(f"    - {a['title']}")
                 all_new_items.extend([{"site": name, **a} for a in new_items[:20]])
             else:
-                print(f"⚪ 无新内容 ({len(articles)}篇)")
+                print(f"⚪ 无新内容 ({len(articles)}篇, {fetch_time:.1f}s)")
 
-            results.append({"name": name, "ok": True, "new": len(new_items), "total": len(articles)})
+            results.append({
+                "name": name, 
+                "ok": True, 
+                "new": len(new_items), 
+                "total": len(articles),
+                "time": fetch_time
+            })
+            performance_stats.append({"name": name, "time": fetch_time, "ok": True})
             time.sleep(1.5)
     finally:
-        # 关闭浏览器
         browser.close()
         pw.stop()
 
-    # 保存 hash
+    # 保存数据
     save_json(HASH_STORE, hashes)
+    
+    # 更新趋势
+    new_count = sum(r.get("new", 0) for r in results)
+    trends = update_trends(trends, results, new_count)
+    save_json(TREND_STORE, trends)
 
     # 汇总
     ok_count = sum(1 for r in results if r.get("ok"))
     err_count = sum(1 for r in results if not r.get("ok"))
-    new_count = sum(r.get("new", 0) for r in results)
     changed = [r["name"] for r in results if r.get("ok") and r.get("new", 0) > 0]
 
-    summary = f"\n{'='*50}\n汇总: {ok_count}/{len(sites)} 成功, {err_count} 失败, {new_count} 条新内容"
+    # 性能统计
+    slow_sites = sorted([s for s in performance_stats if s["ok"]], 
+                       key=lambda x: x["time"], reverse=True)[:3]
+
+    summary = f"\n{'='*50}\n汇总: {ok_count}/{len(results)} 成功, {err_count} 失败, {new_count} 条新内容"
+    if skipped_sites:
+        summary += f"\n跳过（降频）: {len(skipped_sites)} 个站点"
     if changed:
         summary += f"\n有更新: {', '.join(changed)}"
     else:
         summary += "\n所有站点无新内容"
+    if slow_sites:
+        slow_info = ", ".join([f"{s['name']}({s['time']:.1f}s)" for s in slow_sites])
+        summary += f"\n最慢站点: {slow_info}"
     print(summary)
 
-    # 更新 Gist（每次运行都更新，让手机随时可查最新状态）
-    update_gist(results, all_new_items, ok_count, err_count, len(sites))
+    # 检查告警
+    alert_sites = get_alert_sites(hashes)
+    if alert_sites:
+        print(f"\n⚠️ 告警: {len(alert_sites)} 个站点连续失败 {ALERT_FAIL_COUNT} 次")
+        alert_body = f"以下站点连续失败 {ALERT_FAIL_COUNT} 次，请检查：\n\n"
+        for s in alert_sites:
+            alert_body += f"- 站点ID: {s['id']}, 失败次数: {s['fail_count']}\n"
+        alert_body += f"\n时间: {datetime.now():%Y-%m-%d %H:%M:%S}"
+        try:
+            to = [RECEIVER_EMAIL] if RECEIVER_EMAIL else ["mrjin2004@163.com"]
+            clawemail_send(to, f"⚠️ 线报监控告警 - {len(alert_sites)}个站点异常", alert_body, is_html=False)
+            print("✅ 告警邮件已发送")
+        except Exception as e:
+            print(f"❌ 告警邮件发送失败: {e}")
 
-    # 发邮件（仅有新内容时）
+    # 更新 Gist
+    update_gist(results, all_new_items, ok_count, err_count, len(results), trends, slow_sites, skipped_sites)
+
+    # 发送邮件
     if all_new_items:
         print("\n📧 准备发送邮件通知...")
-        # 纯文本格式（用户偏好格式）
         grouped = group_items_by_site(results, all_new_items)
         text_body = build_email_text(grouped, changed)
         try:
@@ -619,7 +723,7 @@ def main():
 
 
 def build_email_text(all_items_by_site, changed_sites):
-    """生成纯文本格式邮件，按站点分组，每站点最多20条"""
+    """生成纯文本格式邮件"""
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
     lines = [
         f"线报监控报告 ({now_str})",
@@ -633,10 +737,8 @@ def build_email_text(all_items_by_site, changed_sites):
         for i, item in enumerate(items[:20], 1):
             lines.append(f" {i}. {item['title']}")
             lines.append(f"    链接: {item['url']}")
-        # 站点总链接（取第一个的域名作站点首页）
         if items:
-            import re as _re
-            m = _re.match(r'https?://([^/]+)', items[0]['url'])
+            m = re.match(r'https?://([^/]+)', items[0]['url'])
             if m:
                 lines.append(f" 站点: https://{m.group(1)}/")
         lines.append("")
@@ -646,43 +748,8 @@ def build_email_text(all_items_by_site, changed_sites):
     return "\n".join(lines)
 
 
-def build_email_html(items, ok, err, total):
-    """生成邮件 HTML"""
-    rows = ""
-    for item in items:
-        rows += f"""
-        <tr>
-            <td style="padding:6px 10px;border-bottom:1px solid #eee;color:#666;">{item['site']}</td>
-            <td style="padding:6px 10px;border-bottom:1px solid #eee;">
-                <a href="{item['url']}" style="color:#1a73e8;text-decoration:none;">{item['title']}</a>
-            </td>
-        </tr>"""
-    return f"""
-    <div style="font-family:Arial,sans-serif;max-width:680px;margin:0 auto;">
-        <div style="background:#1a73e8;color:#fff;padding:16px 20px;border-radius:8px 8px 0 0;">
-            <h2 style="margin:0;font-size:18px;">🔔 线报监控通知</h2>
-        </div>
-        <div style="background:#f8f9fa;padding:12px 20px;border-left:1px solid #ddd;border-right:1px solid #ddd;">
-            <span style="color:#333;">✅ {ok}/{total} 成功</span> &nbsp;
-            <span style="color:#999;">❌ {err} 失败</span> &nbsp;
-            <span style="color:#1a73e8;font-weight:bold;">🔥 {len(items)} 条新内容</span>
-        </div>
-        <table style="width:100%;border-collapse:collapse;background:#fff;border:1px solid #ddd;">
-            <tr style="background:#f0f0f0;">
-                <th style="padding:8px 10px;text-align:left;font-size:13px;color:#555;">站点</th>
-                <th style="padding:8px 10px;text-align:left;font-size:13px;color:#555;">标题</th>
-            </tr>
-            {rows}
-        </table>
-        <div style="color:#999;font-size:12px;padding:10px 20px;text-align:center;border:1px solid #ddd;border-top:none;border-radius:0 0 8px 8px;">
-            🤖 GitHub Actions 自动监控 · {datetime.now():%Y-%m-%d %H:%M}<br>
-            📱 <a href="https://gist.github.com/gitfox-enter/70d680cef95274df9994a33dd3a65246" style="color:#1a73e8;">点击查看完整监控状态</a> · 回复本邮件可查最近历史
-        </div>
-    </div>"""
-
-
 def group_items_by_site(results, all_new_items):
-    """按站点分组，返回 [(site_name, [items]), ...] 按有更新的站点顺序"""
+    """按站点分组"""
     changed_names = {r["name"] for r in results if r.get("ok") and r.get("new", 0) > 0}
     site_items = {}
     for item in all_new_items:
@@ -693,10 +760,9 @@ def group_items_by_site(results, all_new_items):
     return [(name, site_items.get(name, [])) for name in changed_names]
 
 
-
 # ====== Gist 更新 ======
-def update_gist(results, new_items, ok, err, total):
-    """更新 Gist 为最新的监控状态摘要（手机随时可查）"""
+def update_gist(results, new_items, ok, err, total, trends, slow_sites, skipped_sites):
+    """更新 Gist 为最新的监控状态摘要"""
     if not GIST_TOKEN or not GIST_ID:
         print("[INFO] 未配置 GIST_TOKEN 或 GIST_ID，跳过 Gist 更新")
         return
@@ -720,8 +786,23 @@ def update_gist(results, new_items, ok, err, total):
         f"| 成功 | {ok} |",
         f"| 失败 | {err} |",
         f"| 新内容 | {new_count} |",
-        f"",
     ]
+    
+    if skipped_sites:
+        lines.append(f"| 跳过（降频） | {len(skipped_sites)} |")
+    
+    lines.append("")
+
+    # 7 天趋势
+    if trends:
+        lines.append(f"## 📈 近 7 天趋势")
+        lines.append("")
+        lines.append(f"| 日期 | 新内容 | 成功 | 失败 |")
+        lines.append(f"|------|--------|------|------|")
+        for date in sorted(trends.keys(), reverse=True)[:7]:
+            d = trends[date]
+            lines.append(f"| {date} | {d.get('new_count', 0)} | {d.get('success', 0)} | {d.get('failed', 0)} |")
+        lines.append("")
 
     if changed:
         lines.append(f"## 🔥 有更新的站点")
@@ -740,16 +821,26 @@ def update_gist(results, new_items, ok, err, total):
     # 各站点状态
     lines.append(f"## 📋 各站点状态")
     lines.append("")
-    lines.append(f"| 站点 | 状态 | 新内容 | 文章数 |")
-    lines.append(f"|------|------|--------|--------|")
+    lines.append(f"| 站点 | 状态 | 新内容 | 文章数 | 耗时 |")
+    lines.append(f"|------|------|--------|--------|------|")
     for r in results:
         status = "✅" if r.get("ok") else "❌"
         new = r.get("new", 0)
         total_articles = r.get("total", "-")
-        lines.append(f"| {r['name']} | {status} | {new} | {total_articles} |")
+        time_str = f"{r.get('time', 0):.1f}s" if r.get("ok") else "-"
+        lines.append(f"| {r['name']} | {status} | {new} | {total_articles} | {time_str} |")
     lines.append("")
+    
+    # 最慢站点
+    if slow_sites:
+        lines.append(f"## 🐢 最慢站点")
+        lines.append("")
+        for s in slow_sites:
+            lines.append(f"- {s['name']}: {s['time']:.1f}s")
+        lines.append("")
+
     lines.append(f"---")
-    lines.append(f"_🤖 GitHub Actions 自动监控_")
+    lines.append(f"_🤖 GitHub Actions 自动监控 v2.0_")
 
     content = "\n".join(lines)
 
