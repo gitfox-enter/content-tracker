@@ -676,10 +676,10 @@ def main():
             # 解析
             if parser_name in PARSERS:
                 parser = PARSERS[parser_name]
-                if callable(parser):
-                    articles = parser(content, url)
-                else:
+                if isinstance(parser, type):  # 是类，需要实例化
                     articles = parser(content, url).parse()
+                else:  # 是函数或 lambda
+                    articles = parser(content, url)
             else:
                 articles = extract_articles(content, url)[:20]
             
