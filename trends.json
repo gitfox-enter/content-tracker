@@ -3,5 +3,10 @@
     "new_count": 267,
     "success": 69,
     "failed": 5
+  },
+  "2026-05-12": {
+    "new_count": 91,
+    "success": 45,
+    "failed": 4
   }
 }
