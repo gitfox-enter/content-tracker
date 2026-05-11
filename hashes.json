@@ -83,20 +83,22 @@
         "url": "https://xianbaomi.com/xb/242872.html"
       }
     ],
-    "time": "2026-05-10T07:53:49.551836"
+    "time": "2026-05-11T18:43:19.149334",
+    "fail_count": 0
   },
   "2": {
-    "hash": "19e863ab6711cd217f4feb52b96847ef",
+    "hash": "edcd3a8c5356d1c068745899f3bc2462",
     "articles": [
       {
         "title": "点击链接直接加群",
         "url": "https://qm.qq.com/q/3epql6V5h6"
       }
     ],
-    "time": "2026-05-10T07:53:55.828970"
+    "time": "2026-05-11T18:43:25.184884",
+    "fail_count": 0
   },
   "3": {
-    "hash": "3e0bac7114e3174be51807d32b8c7d9f",
+    "hash": "a151ab88daef0e567cb3d9b9cb825b54",
     "articles": [
       {
         "title": "0818线报",
@@ -107,11 +109,20 @@
         "url": "https://beian.miit.gov.cn"
       }
     ],
-    "time": "2026-05-10T07:54:03.752672"
+    "time": "2026-05-11T18:43:32.825401",
+    "fail_count": 0
   },
   "4": {
-    "hash": "92ab1905578602a19761864cce290f94",
+    "hash": "ff26cec4792968855156e8151c49d6d8",
     "articles": [
+      {
+        "title": "外卖单王，30万买奥迪a6，钱那么好赚吗",
+        "url": "http://79tao.linejia.com/huodong/2474009.html"
+      },
+      {
+        "title": "中行超给力估计有水",
+        "url": "http://79tao.linejia.com/huodong/2473861.html"
+      },
       {
         "title": "工行速度大毛",
         "url": "http://79tao.linejia.com/huodong/2473839.html"
@@ -183,20 +194,13 @@
       {
         "title": "听音乐的APP大牛们现在都用哪个？",
         "url": "http://79tao.linejia.com/huodong/2471638.html"
-      },
-      {
-        "title": "移动话费速度冲啊，现在随便领了",
-        "url": "http://79tao.linejia.com/huodong/2471254.html"
-      },
-      {
-        "title": "今天早上上班被帽子拦下来查了",
-        "url": "http://79tao.linejia.com/huodong/2471200.html"
       }
     ],
-    "time": "2026-05-10T07:54:08.937537"
+    "time": "2026-05-11T18:43:37.556831",
+    "fail_count": 0
   },
   "5": {
-    "hash": "9fd33a349b98a7cc8d42ce81a5f1d738",
+    "hash": "692ba825104d2bbf54a75bbace4d62b3",
     "articles": [
       {
         "title": "可乐读书复活：半自动阅读单号每天拿2~4元",
@@ -217,6 +221,14 @@
       {
         "title": "手机兼职十大赚钱最快的APP推荐",
         "url": "https://www.daydayzhuan.com/article/11910"
+      },
+      {
+        "title": "金赏赏：做任务赚钱，1元提现！",
+        "url": "https://www.daydayzhuan.com/article/21815"
+      },
+      {
+        "title": "新一期腾讯游戏人生扭蛋抽奖亲测3元现金红包",
+        "url": "https://www.daydayzhuan.com/article/21813"
       },
       {
         "title": "汤臣倍健阅读有礼抽随机小红包",
@@ -269,25 +281,19 @@
       {
         "title": "星栖小镇：新人免费领2.1元以上！",
         "url": "https://www.daydayzhuan.com/article/21793"
-      },
-      {
-        "title": "雾漫山河：新人免费领2.2元以上！",
-        "url": "https://www.daydayzhuan.com/article/21792"
-      },
-      {
-        "title": "微博一起过五一抽奖亲测0.77元现金秒到",
-        "url": "https://www.daydayzhuan.com/article/21787"
       }
     ],
-    "time": "2026-05-10T07:54:16.933770"
+    "time": "2026-05-11T18:43:45.359440",
+    "fail_count": 0
   },
   "6": {
-    "hash": "b9315a29856d81c948429f094d148071",
+    "hash": "96be09e0392b9fd1573d1da3cff066bb",
     "articles": [],
-    "time": "2026-05-10T07:54:23.358443"
+    "time": "2026-05-11T18:43:50.839355",
+    "fail_count": 0
   },
   "7": {
-    "hash": "53517024ecabdcf64da25e4456ad0c64",
+    "hash": "bf741d3f971d74f354a74129dd82af2c",
     "articles": [
       {
         "title": "闽ICP备2024062941号",
@@ -302,186 +308,217 @@
         "url": "https://www.downext.com"
       }
     ],
-    "time": "2026-05-10T07:54:30.099300"
+    "time": "2026-05-11T18:44:24.227597",
+    "fail_count": 0
   },
   "8": {
-    "hash": "027cc8eab032bc8a2a27cb09cf45794d",
+    "hash": "c6c908b0a805ebd66f8bc7c3da66d1d3",
     "articles": [
       {
         "title": "线报一对一自定义推送 配置教程",
         "url": "https://907k.cn/post/146439"
       },
       {
-        "title": "罗蒙的京东自营和京喜的自营差的只是一个品牌标吗？？？",
-        "url": "https://907k.cn/post/269166"
+        "title": "刷券 宏泰记丁香陈皮2.58一罐",
+        "url": "https://907k.cn/post/269369"
       },
       {
-        "title": "工行大毛抽盲盒 还有 没找到入口的 速度",
-        "url": "https://907k.cn/post/269165"
+        "title": "稳健口罩100只16r",
+        "url": "https://907k.cn/post/269368"
       },
       {
-        "title": "工行1000豆或8000豆",
-        "url": "https://907k.cn/post/269164"
+        "title": "红色火箭 月度宠粉红包",
+        "url": "https://907k.cn/post/269367"
       },
       {
-        "title": "美的直流变频风扇 208入",
-        "url": "https://907k.cn/post/269163"
+        "title": "刷券林三满牛肉丸29元四包",
+        "url": "https://907k.cn/post/269366"
       },
       {
-        "title": "拼多多“ 邀好友抽5折券”组队专用帖",
-        "url": "https://907k.cn/post/269162"
+        "title": "农行 深圳立减金",
+        "url": "https://907k.cn/post/269365"
       },
       {
-        "title": "益肤蓝凝胶10g临期2.2",
-        "url": "https://907k.cn/post/269161"
+        "title": "15r宠物辅酶q10",
+        "url": "https://907k.cn/post/269364"
       },
       {
-        "title": "本宫饿了奶酥",
-        "url": "https://907k.cn/post/269160"
+        "title": "光大 立减金，看脸",
+        "url": "https://907k.cn/post/269363"
       },
       {
-        "title": "巧乐兹1r 梦龙3r",
-        "url": "https://907k.cn/post/269158"
+        "title": "📢 中行cxk微信还款抵扣券7r和13r",
+        "url": "https://907k.cn/post/269362"
       },
       {
-        "title": "20r八瓶味全胡萝卜汁送1.6L苹果汁",
-        "url": "https://907k.cn/post/269159"
+        "title": "刷券好价欧莱雅茶树洗发水500ml3瓶31.5",
+        "url": "https://907k.cn/post/269361"
       },
       {
-        "title": "8💰广州酒家180g猪肉脯+200g腊肠",
-        "url": "https://907k.cn/post/269157"
+        "title": "有没有淘宝跳一跳的脚本？",
+        "url": "https://907k.cn/post/269359"
       },
       {
-        "title": "工行速度大毛",
-        "url": "https://907k.cn/post/269156"
+        "title": "库迪小黄油美式4元，不用做任务",
+        "url": "https://907k.cn/post/269358"
       },
       {
-        "title": "zeze腊肠狗挂件积分价8.8",
-        "url": "https://907k.cn/post/269155"
+        "title": "三得利沁柠水15瓶25-27元",
+        "url": "https://907k.cn/post/269357"
       },
       {
-        "title": "淘宝免单抽奖",
-        "url": "https://907k.cn/post/269154"
+        "title": "澳门猪肉脯228g 12r+",
+        "url": "https://907k.cn/post/269356"
       },
       {
-        "title": "云闪付广州工行储蓄卡100-5",
-        "url": "https://907k.cn/post/269153"
+        "title": "京东物流面单上写的逆向单号是啥情况？",
+        "url": "https://907k.cn/post/269355"
       },
       {
-        "title": "iPhone16调价400元",
-        "url": "https://907k.cn/post/269152"
+        "title": "三得利沁柠水沁葡水 1.87一瓶",
+        "url": "https://907k.cn/post/269354"
       },
       {
-        "title": "赚吧没落了，连管理都不来了",
-        "url": "https://907k.cn/post/269150"
+        "title": "母婴，贝肽斯口水巾新款，刷券",
+        "url": "https://907k.cn/post/269353"
       },
       {
-        "title": "7r买四瓶味全每日c橙汁",
-        "url": "https://907k.cn/post/269151"
+        "title": "温氏老母鸡鸡肉米粉好价",
+        "url": "https://907k.cn/post/269352"
       },
       {
-        "title": "工行600豆",
-        "url": "https://907k.cn/post/269149"
-      },
-      {
-        "title": "好看T恤99三件",
-        "url": "https://907k.cn/post/269148"
+        "title": "自营金典纯牛奶22.7一箱",
+        "url": "https://907k.cn/post/269350"
       }
     ],
-    "time": "2026-05-10T07:54:35.717148"
+    "time": "2026-05-11T18:44:29.992769",
+    "fail_count": 0
   },
   "9": {
-    "hash": "9ce3bcfad3cbbaa0dee1e49d2123dbfb",
+    "hash": "ebc17ccb8b0cbf1095821c6d1dd0c28f",
     "articles": [
       {
-        "title": "工行母亲节活动抽最高20万工银i豆",
-        "url": "https://ym2.cc/ymxb/12466.html"
+        "title": "红色火箭宠粉/抽1888亓微信红包",
+        "url": "https://ym2.cc/ymxb/12481.html"
       },
       {
-        "title": "5.10日周天：部分银行羊毛线报活动一览...",
-        "url": "https://ym2.cc/ymxb/12465.html"
+        "title": "支付宝支付有礼/反馈1元通用红包秒到",
+        "url": "https://ym2.cc/ymxb/12480.html"
       },
       {
-        "title": "5月10日星期日，农历三月廿四，工作愉快，平安喜乐",
-        "url": "https://ym2.cc/ymxb/12464.html"
+        "title": "金典抽0.28-0.68亓红包/新一期",
+        "url": "https://ym2.cc/ymxb/12448.html"
       },
       {
-        "title": "5月新！九江银行储蓄卡/微信月月刷",
-        "url": "https://ym2.cc/ymxb/12463.html"
+        "title": "交行1分兑2.8亓支付券/可冲话费用",
+        "url": "https://ym2.cc/ymxb/12233.html"
       },
       {
-        "title": "移动网龄礼领30亓电影票/免費视频会员",
-        "url": "https://ym2.cc/ymxb/12011.html"
+        "title": "冰醇茶饮/千店同庆/1毛钱领冰淇淋",
+        "url": "https://ym2.cc/ymxb/12479.html"
       },
       {
-        "title": "之前领的麦当劳汉堡，记得去核销！",
-        "url": "https://ym2.cc/ymxb/12462.html"
+        "title": "工行简单答题，0.4亓小红包秒到",
+        "url": "https://ym2.cc/ymxb/12478.html"
       },
       {
-        "title": "淘宝拍拍乐每天参与兑现金秒到支付宝",
-        "url": "https://ym2.cc/ymxb/11778.html"
+        "title": "工行5亓立减+转账6亓立减+还款立减",
+        "url": "https://ym2.cc/ymxb/12477.html"
       },
       {
-        "title": "支付宝银行卡天天抽红包/视频会员等",
-        "url": "https://ym2.cc/ymxb/10685.html"
+        "title": "美团每周1分钱买1元*10张建行支付券",
+        "url": "https://ym2.cc/ymxb/11686.html"
       },
       {
-        "title": "最后一天/麦当劳领免費堡/下午去兑",
-        "url": "https://ym2.cc/ymxb/12461.html"
+        "title": "支付宝建行大小号收款，预计5亓+",
+        "url": "https://ym2.cc/ymxb/12476.html"
       },
       {
-        "title": "交行新！1分钱秒杀6张2.8亓支付券",
-        "url": "https://ym2.cc/ymxb/12460.html"
+        "title": "蚂蚁阿福解读体验报告概率1亓得小药箱",
+        "url": "https://ym2.cc/ymxb/12475.html"
       },
       {
-        "title": "工银e生活消费达标礼/领不同面值豆豆",
-        "url": "https://ym2.cc/ymxb/12459.html"
+        "title": "5月11日星期一，农历三月廿五，工作愉快，平安喜乐",
+        "url": "https://ym2.cc/ymxb/12474.html"
       },
       {
-        "title": "今日9点，建行支付达标去抽立减金",
-        "url": "https://ym2.cc/ymxb/12457.html"
+        "title": "交行周周领好礼抽1-18亓立减金",
+        "url": "https://ym2.cc/ymxb/12417.html"
       },
       {
-        "title": "5.9日周六：部分银行羊毛线报一览...",
-        "url": "https://ym2.cc/ymxb/12458.html"
+        "title": "5.11日周一：部分银行羊毛线报一览..",
+        "url": "https://ym2.cc/ymxb/12473.html"
       },
       {
-        "title": "5月9日星期六，农历三月廿三，周末愉快，平安喜乐",
-        "url": "https://ym2.cc/ymxb/12456.html"
+        "title": "移动周日视频日抽话费券/流量券等",
+        "url": "https://ym2.cc/ymxb/9803.html"
       },
       {
-        "title": "5月丨农行省钱卡/5元支付宝立减金",
-        "url": "https://ym2.cc/ymxb/12455.html"
+        "title": "腾讯游戏人生扭蛋抽奖/反馈5亓",
+        "url": "https://ym2.cc/ymxb/12472.html"
       },
       {
-        "title": "光大简单答题抽1-88亓微信立减金",
-        "url": "https://ym2.cc/ymxb/12454.html"
+        "title": "建行/工行/邮储领奖！浦发/工行/中行达标活动提醒！",
+        "url": "https://ym2.cc/ymxb/12471.html"
       },
       {
-        "title": "抖音月付立减20元/反馈85购100京东e卡",
-        "url": "https://ym2.cc/ymxb/12453.html"
+        "title": "工行抽0.28-88亓支付宝红包",
+        "url": "https://ym2.cc/ymxb/12470.html"
       },
       {
-        "title": "美团部分人有0亓好想来/蜜雪",
-        "url": "https://ym2.cc/ymxb/12452.html"
+        "title": "小天才抽10万个微信红包",
+        "url": "https://ym2.cc/ymxb/12469.html"
       },
       {
-        "title": "5月新！辽宁农商储蓄卡/微信月月刷",
-        "url": "https://ym2.cc/ymxb/12451.html"
+        "title": "邮储信用卡抽3元碰一下支付红包",
+        "url": "https://ym2.cc/ymxb/12468.html"
       },
       {
-        "title": "5月新！青岛工行储蓄卡/微信月月刷",
-        "url": "https://ym2.cc/ymxb/12450.html"
+        "title": "兴业银行母亲节活动抽至高10亓立减金",
+        "url": "https://ym2.cc/ymxb/12467.html"
       }
     ],
-    "time": "2026-05-10T07:54:42.768517"
+    "time": "2026-05-11T18:44:37.068379",
+    "fail_count": 0
   },
   "10": {
-    "hash": "fcb9d38cf04f3420787cab29890b5910",
+    "hash": "94c58679dee459f569c0532566714df2",
     "articles": [
       {
         "title": "500G流量卡",
         "url": "https://b1.ymxianbao.cn/7887.html"
+      },
+      {
+        "title": "淘宝拍拍乐6亓零钱",
+        "url": "https://b1.ymxianbao.cn/28501.html"
+      },
+      {
+        "title": "南航有670里程用户兑30立减金",
+        "url": "https://b1.ymxianbao.cn/28499.html"
+      },
+      {
+        "title": "zfb支付有礼累计瓜分碰一下券",
+        "url": "https://b1.ymxianbao.cn/28498.html"
+      },
+      {
+        "title": "工行答题0.4零钱到卡",
+        "url": "https://b1.ymxianbao.cn/28496.html"
+      },
+      {
+        "title": "zfb大小号转账建行两次1k-2+",
+        "url": "https://b1.ymxianbao.cn/28495.html"
+      },
+      {
+        "title": "蚂蚁阿福1亓小药箱",
+        "url": "https://b1.ymxianbao.cn/28493.html"
+      },
+      {
+        "title": "微xin支付部分抽中行多笔立减",
+        "url": "https://b1.ymxianbao.cn/28492.html"
+      },
+      {
+        "title": "饿了么/美团抽鲜花免单",
+        "url": "https://b1.ymxianbao.cn/28479.html"
       },
       {
         "title": "邮储盲盒抽1亓立减金",
@@ -516,10 +553,6 @@
         "url": "https://b1.ymxianbao.cn/28482.html"
       },
       {
-        "title": "饿了么/美团抽鲜花免单",
-        "url": "https://b1.ymxianbao.cn/28479.html"
-      },
-      {
         "title": "建行提升资产1天最高10w积分",
         "url": "https://b1.ymxianbao.cn/28477.html"
       },
@@ -528,42 +561,15 @@
         "url": "https://b1.ymxianbao.cn/28475.html"
       },
       {
-        "title": "交行12-12:30点看直播抽0.5-68贴金券",
-        "url": "https://b1.ymxianbao.cn/23574.html"
-      },
-      {
-        "title": "移动灵犀助手抽加赠话费券",
-        "url": "https://b1.ymxianbao.cn/28472.html"
-      },
-      {
-        "title": "4月可抽：中行每月达标最高1888立减金",
-        "url": "https://b1.ymxianbao.cn/28471.html"
-      },
-      {
-        "title": "京东女性用户签到领0.01小样",
-        "url": "https://b1.ymxianbao.cn/28469.html"
-      },
-      {
-        "title": "蜜雪冰城抽10w份免单券",
-        "url": "https://b1.ymxianbao.cn/28467.html"
-      },
-      {
-        "title": "建行生活缴费抽2~5亓立减金",
-        "url": "https://b1.ymxianbao.cn/28465.html"
-      },
-      {
-        "title": "麦当劳每天10:45抢板烧鸡腿堡券",
-        "url": "https://b1.ymxianbao.cn/28462.html"
-      },
-      {
         "title": "任务平台合集",
         "url": "https://b1.ymxianbao.cn/8889.html"
       }
     ],
-    "time": "2026-05-10T07:54:49.446313"
+    "time": "2026-05-11T18:44:43.202995",
+    "fail_count": 0
   },
   "11": {
-    "hash": "c94cea485958d6f662e0c1b18b8a98e9",
+    "hash": "04d8bd5513587aa8ea474e60856e0893",
     "articles": [
       {
         "title": "话费流量活动",
@@ -646,10 +652,11 @@
         "url": "https://www.007ymd.com/?id=17750"
       }
     ],
-    "time": "2026-05-10T07:54:58.392132"
+    "time": "2026-05-11T18:44:52.474847",
+    "fail_count": 0
   },
   "12": {
-    "hash": "5466966dd23fa979058ac0aa3276adae",
+    "hash": "8b7e933ee006b7069ff830a40d51c8e8",
     "articles": [
       {
         "title": "QQ/WX群",
@@ -672,156 +679,158 @@
         "url": "http://news.ixbk.net/category-mianfei/"
       },
       {
-        "title": "微信家校 &amp; wxpusher 线报酷推送",
-        "url": "http://news.ixbk.net/gonggao/6763.html"
+        "title": "WxPusher APP 获取线报酷实时推送",
+        "url": "http://news.ixbk.net/jiaocheng/5320529.html"
       },
       {
-        "title": "鲨鱼菲特白芸豆黑咖啡粉80条 25.9元",
-        "url": "http://news.ixbk.net/haodan/6276540.html"
+        "title": "海盐芝士棒10包 分开拍2箪 发24包 0.8元",
+        "url": "http://news.ixbk.net/haodan/6282020.html"
       },
       {
-        "title": "佳帮手伸缩加长款擦刮两用擦窗神器 14.9元",
-        "url": "http://news.ixbk.net/haodan/6276539.html"
+        "title": "贝夫巧克力水牛奶蛋糕370g 10.5元",
+        "url": "http://news.ixbk.net/haodan/6282019.html"
       },
       {
-        "title": "奥克斯1.5匹省电侠 1528元，奥克斯省电侠Pro1.5匹 1614元",
-        "url": "http://news.ixbk.net/haodan/6276538.html"
+        "title": "闪动这个zfb搜 闪动 也可以充 选招.行数.币 可以看到立减 没有不充",
+        "url": "http://news.ixbk.net/weibo/6282018.html"
       },
       {
-        "title": "康师傅3+2苏打夹心饼干125g*4袋 15.9元",
-        "url": "http://news.ixbk.net/haodan/6276537.html"
+        "title": "皇家小虎全肉速食任选5件 49元",
+        "url": "http://news.ixbk.net/haodan/6282017.html"
       },
       {
-        "title": "佳帮手双面清洗夹布玻璃擦 19.9元",
-        "url": "http://news.ixbk.net/haodan/6276536.html"
+        "title": "八马袋泡茶叶组合12包 26.9元，八马茉莉花茶250g 50元，八马正山小种250g 79元",
+        "url": "http://news.ixbk.net/haodan/6282015.html"
       },
       {
-        "title": "都市丽人超薄无痕软支撑内衣任选2件 49元",
-        "url": "http://news.ixbk.net/haodan/6276534.html"
+        "title": "博皓便携洗牙器 88.9元",
+        "url": "http://news.ixbk.net/haodan/6282016.html"
       },
       {
-        "title": "京地达海南妃子笑荔枝净重5斤 49.8元",
-        "url": "http://news.ixbk.net/haodan/6276533.html"
+        "title": "ve狗生骨肉肉粒6.8g*10 49元，兔肉饼 69元",
+        "url": "http://news.ixbk.net/haodan/6282014.html"
       },
       {
-        "title": "Move Free益节 男/女士氨糖软骨素钙片 120粒/瓶 214元",
-        "url": "http://news.ixbk.net/haodan/6276532.html"
+        "title": "一盒补个新 辛德瑞拉小卖部:院线专供 二类楔字号 院线专供的",
+        "url": "http://news.ixbk.net/weibo/6282013.html"
       },
       {
-        "title": "吉香居下饭菜系列任选2件12.9元，折0.6/袋，入会加赠榨菜15g*2袋",
-        "url": "http://news.ixbk.net/haodan/6276531.html"
+        "title": "骆驼男女速干T神运动T恤 33.55元，骆驼女速干T神圆领短袖T恤 33.55元",
+        "url": "http://news.ixbk.net/haodan/6282012.html"
       },
       {
-        "title": "柳丝木隔离 7元一只 这个是好价吗",
-        "url": "http://news.ixbk.net/weibo-chaohua/6276530.html"
+        "title": "双头棉签约200枚2包 0.8元，活性炭100g3包 1.1元，一次性马桶垫5包 1.1元",
+        "url": "http://news.ixbk.net/haodan/6282011.html"
       },
       {
-        "title": "Solove医护级卫生巾安睡裤任选10件 29.8元",
-        "url": "http://news.ixbk.net/haodan/6276526.html"
+        "title": "无穷 盐焗卤蛋16个 15.6元",
+        "url": "http://news.ixbk.net/weibo/6282009.html"
       },
       {
-        "title": "五羊牌雪糕冰激凌组合25支1814g 64.25元",
-        "url": "http://news.ixbk.net/haodan/6276524.html"
+        "title": "广州酒家品味出粽礼盒1.24kg 49元",
+        "url": "http://news.ixbk.net/haodan/6282007.html"
       },
       {
-        "title": "蔬果园茶香泡泡洗手液300ml*3瓶 19.9元",
-        "url": "http://news.ixbk.net/haodan/6276525.html"
+        "title": "墨兜布丁厚乳主食餐盒40g*6 9.9元",
+        "url": "http://news.ixbk.net/haodan/6282006.html"
       },
       {
-        "title": "好丽友薯愿香烤原味5包 34元",
-        "url": "http://news.ixbk.net/haodan/6276523.html"
+        "title": "小猪班纳男女童新款纯棉短袖任选3件 39.7元",
+        "url": "http://news.ixbk.net/haodan/6282005.html"
       }
     ],
-    "time": "2026-05-10T07:55:06.259477"
+    "time": "2026-05-11T18:45:02.403822",
+    "fail_count": 0
   },
   "13": {
-    "hash": "b41c7824781a5ca32103ec8dc4439dea",
+    "hash": "927521f84ff14a4c8fba4c262a3235ce",
     "articles": [
       {
         "title": "每日必领：淘宝闪购+美团外卖+京东外卖红包",
         "url": "https://www.zhuanyes.com/xianbao/676666.html"
       },
       {
-        "title": "对了，这个每天记得去提现",
-        "url": "https://www.zhuanyes.com/xianbao/691442.html"
+        "title": "小红薯搜：迪奥锁妆粉底液 ，去试试掉不掉盒子 ​",
+        "url": "https://www.zhuanyes.com/xianbao/691722.html"
       },
       {
-        "title": "复制发博私信拆，三次",
-        "url": "https://www.zhuanyes.com/xianbao/691441.html"
+        "title": "淘宝搜：淘宝密码 ，19点截止 21点30开",
+        "url": "https://www.zhuanyes.com/xianbao/691721.html"
       },
       {
-        "title": "改位置北京 去抽立减金",
-        "url": "https://www.zhuanyes.com/xianbao/691440.html"
+        "title": "移动一豆有好礼 抽最高88元话费/流量",
+        "url": "https://www.zhuanyes.com/xianbao/691720.html"
       },
       {
-        "title": "工行速度大毛",
-        "url": "https://www.zhuanyes.com/xianbao/691439.html"
+        "title": "闪.动APP-充值用招.行数.币",
+        "url": "https://www.zhuanyes.com/xianbao/691719.html"
       },
       {
-        "title": "工行任务中心i豆",
-        "url": "https://www.zhuanyes.com/xianbao/691438.html"
+        "title": "天猫app搜【毕雯珺飞利浦牙刷礼盒】",
+        "url": "https://www.zhuanyes.com/xianbao/691718.html"
       },
       {
-        "title": "iPhone16调价400元",
-        "url": "https://www.zhuanyes.com/xianbao/691434.html"
+        "title": "复制到京东 拉1有10豆 ，拉3有200豆 拉5有400豆",
+        "url": "https://www.zhuanyes.com/xianbao/691717.html"
       },
       {
-        "title": "领3个月会员需要苹果手机才行",
-        "url": "https://www.zhuanyes.com/xianbao/691433.html"
+        "title": "凤凰新闻 输入自己的手机号",
+        "url": "https://www.zhuanyes.com/xianbao/691716.html"
       },
       {
-        "title": "0点 有个惊喜场 没睡的试抽❗",
-        "url": "https://www.zhuanyes.com/xianbao/691432.html"
+        "title": "邮.储app搜【本地优惠】切深圳",
+        "url": "https://www.zhuanyes.com/xianbao/691715.html"
       },
       {
-        "title": "阿迪达斯 只有一次兔费机会 ，别用wifi 用流量去抽下",
-        "url": "https://www.zhuanyes.com/xianbao/691431.html"
+        "title": "工.行 湘约有礼领1立减 ，如光了就忽略",
+        "url": "https://www.zhuanyes.com/xianbao/691714.html"
       },
       {
-        "title": "0点 京东扫 苏超试抽衣服兔箪",
-        "url": "https://www.zhuanyes.com/xianbao/691430.html"
+        "title": "十月稻田五常大米 5kg 2袋",
+        "url": "https://www.zhuanyes.com/xianbao/691713.html"
       },
       {
-        "title": "⏰0点/1点 小虹薯试下搜： ，这届妈妈超尽兴【新】",
-        "url": "https://www.zhuanyes.com/xianbao/691429.html"
+        "title": "高de每周领5亓无门槛券",
+        "url": "https://www.zhuanyes.com/xianbao/691712.html"
       },
       {
-        "title": "1️⃣0点 淘宝掉盒子 认0.01试用",
-        "url": "https://www.zhuanyes.com/xianbao/691428.html"
+        "title": "目前有反馈立减J 去抽试试 ，zfb-我的-银.行.咔",
+        "url": "https://www.zhuanyes.com/xianbao/691710.html"
       },
       {
-        "title": "再提醒一次❗ ，有参与19点AI穿搭的 开桨了哈",
-        "url": "https://www.zhuanyes.com/xianbao/691427.html"
+        "title": "鲸探抽数字藏品/实物 亲测中数字藏品",
+        "url": "https://www.zhuanyes.com/xianbao/691709.html"
       },
       {
-        "title": "还有反馈哈 还没抽的试试 ，淘宝搜：一起奔跑吧",
-        "url": "https://www.zhuanyes.com/xianbao/691426.html"
+        "title": "一颗大如果没货的 ，从掏惍币进去",
+        "url": "https://www.zhuanyes.com/xianbao/691708.html"
       },
       {
-        "title": "Moccamaster兔费请喝咖啡",
-        "url": "https://www.zhuanyes.com/xianbao/691425.html"
+        "title": "一颗大樱桃番茄破价5.6一盒‼️",
+        "url": "https://www.zhuanyes.com/xianbao/691707.html"
       },
       {
-        "title": "工.行抽1.08立减 非bi中",
-        "url": "https://www.zhuanyes.com/xianbao/691424.html"
+        "title": "淘宝搜 淘出666 ，去抽0.26鸿包试试 ​",
+        "url": "https://www.zhuanyes.com/xianbao/691706.html"
       },
       {
-        "title": "抖音月付12期买E卡减10元，有的减20自测",
-        "url": "https://www.zhuanyes.com/xianbao/691423.html"
+        "title": "补了 鞋靴zbj 弹新人10块鸿苞",
+        "url": "https://www.zhuanyes.com/xianbao/691705.html"
       },
       {
-        "title": "小虹薯两个积fen许愿抽实wu",
-        "url": "https://www.zhuanyes.com/xianbao/691422.html"
+        "title": "库迪抽1k份全场任饮卷",
+        "url": "https://www.zhuanyes.com/xianbao/691704.html"
       },
       {
-        "title": "农行豆子多的去小豆乐园换e卡，我怎么才几千豆。",
-        "url": "https://www.zhuanyes.com/xianbao/691421.html"
+        "title": "限上海中行-生活-城市服务",
+        "url": "https://www.zhuanyes.com/xianbao/691703.html"
       }
     ],
-    "time": "2026-05-10T06:52:52.603094"
+    "time": "2026-05-11T18:45:08.683329",
+    "fail_count": 0
   },
   "15": {
-    "hash": "93abe66f47a4d7617ebe2062c399765f",
+    "hash": "b22d2d9019881f8ead8cb2f86f1756a8",
     "articles": [
       {
         "title": "Archiver",
@@ -832,10 +841,11 @@
         "url": "http://www.ruanmei.com"
       }
     ],
-    "time": "2026-05-10T07:55:32.745273"
+    "time": "2026-05-11T18:45:17.387552",
+    "fail_count": 0
   },
   "16": {
-    "hash": "24d3cfedebf2dc7e9ec218694473108b",
+    "hash": "4fbe5aca6ed0eba7f66686831990c6a1",
     "articles": [
       {
         "title": "反斗软件Steam游戏史低追踪",
@@ -850,36 +860,64 @@
         "url": "https://t.me/apprcn"
       },
       {
+        "title": "限时免费获取 Steam 游戏 LivingBattle 生存战场[Windows][¥62→0]",
+        "url": "https://free.apprcn.com/limited-time-get-steam-game-livingbattle-for-free/"
+      },
+      {
+        "title": "Copy Files Into Multiple Folders – 将文件复制到多个文件夹中[Windows][$19→0]",
+        "url": "https://free.apprcn.com/copy-files-into-multiple-folders-15/"
+      },
+      {
+        "title": "ZD Meeting Recorder - 在线会议录制工具[Windows][$39→0]",
+        "url": "https://free.apprcn.com/zd-meeting-recorder/"
+      },
+      {
+        "title": "限时免费获取视频编辑软件 Winxvideo Al 授权[终身不可升级授权][Windows][$89.95→0]",
+        "url": "https://free.apprcn.com/limited-time-get-winxvideo-ai-license-for-free-9/"
+      },
+      {
+        "title": "限时免费获取字体包 Beautiful Script Font Bundle[Windows、macOS][$602→0]",
+        "url": "https://free.apprcn.com/limited-time-get-beautiful-script-font-bundle-for-free/"
+      },
+      {
+        "title": "限时免费获取一年 Malware Hunter Pro 授权[Windows][$49.95→0]",
+        "url": "https://free.apprcn.com/limited-time-get-one-year-malware-hunter-pro-license-for-free-6/"
+      },
+      {
+        "title": "Coolmuster Data Recovery – 数据恢复还原软件[1年授权][Windows][$49.95→0]",
+        "url": "https://free.apprcn.com/coolmuster-data-recovery-15/"
+      },
+      {
         "title": "限时免费获取游戏 Adventure mosaics. Forest spirits[Windows][$5.99→0]",
         "url": "https://free.apprcn.com/limited-time-get-game-adventure-mosaics-forest-spirits-for-free/"
       },
       {
-        "title": "限时免费获取一年 Sticky Password Premium[Windows、macOS、iOS、Android][$39.99→0]",
-        "url": "https://free.apprcn.com/limited-time-get-one-year-sticky-password-premium-license-for-free-9/"
+        "title": "LivingBattle",
+        "url": "https://free.apprcn.com/limited-time-get-steam-game-livingbattle-for-free/"
       },
       {
-        "title": "限时免费获取字体 Lemon Dreams[Windows、macOS][$15→0]",
-        "url": "https://free.apprcn.com/limited-time-get-lemon-dreams-for-free/"
+        "title": "Copy Files Into Multiple Folders",
+        "url": "https://free.apprcn.com/copy-files-into-multiple-folders-15/"
       },
       {
-        "title": "限时免费获取 Steam 游戏 Mai: Child of Ages[Windows、macOS、Linux]",
-        "url": "https://free.apprcn.com/limited-time-get-steam-game-mai-child-of-ages-for-free-2/"
+        "title": "ZD Meeting Recorder",
+        "url": "https://free.apprcn.com/zd-meeting-recorder/"
       },
       {
-        "title": "限时免费获取字体 Blossom Script Font[Windows、macOS]",
-        "url": "https://free.apprcn.com/limited-time-get-blossom-script-font-for-free/"
+        "title": "Winxvideo AI",
+        "url": "https://free.apprcn.com/limited-time-get-winxvideo-ai-license-for-free-9/"
       },
       {
-        "title": "限时免费获取游戏 The Brave Little Cloud[Windows]",
-        "url": "https://free.apprcn.com/limited-time-get-game-the-brave-little-cloud-for-free-2/"
+        "title": "Beautiful Script Font Bundle",
+        "url": "https://free.apprcn.com/limited-time-get-beautiful-script-font-bundle-for-free/"
       },
       {
-        "title": "限时免费获取 Steam 游戏 NEXT JUMP: Shmup Tactics[Windows、macOS、Linux][￥18→0]",
-        "url": "https://free.apprcn.com/limited-time-get-steam-game-next-jump-shmup-tactics-for-free-2/"
+        "title": "Malware Hunter Pro",
+        "url": "https://free.apprcn.com/limited-time-get-one-year-malware-hunter-pro-license-for-free-6/"
       },
       {
-        "title": "限时免费获取音频插件 SnapClip[Windows、macOS][$19→0]",
-        "url": "https://free.apprcn.com/limited-time-get-snapclip-for-free/"
+        "title": "Coolmuster Data Recovery",
+        "url": "https://free.apprcn.com/coolmuster-data-recovery-15/"
       },
       {
         "title": "Adventure mosaics. Forest spirits",
@@ -888,37 +926,10 @@
       {
         "title": "Sticky Password",
         "url": "https://free.apprcn.com/limited-time-get-one-year-sticky-password-premium-license-for-free-9/"
-      },
-      {
-        "title": "Lemon Dreams",
-        "url": "https://free.apprcn.com/limited-time-get-lemon-dreams-for-free/"
-      },
-      {
-        "title": "Mai: Child of Ages",
-        "url": "https://free.apprcn.com/limited-time-get-steam-game-mai-child-of-ages-for-free-2/"
-      },
-      {
-        "title": "Blossom Script Font",
-        "url": "https://free.apprcn.com/limited-time-get-blossom-script-font-for-free/"
-      },
-      {
-        "title": "The Brave Little Cloud",
-        "url": "https://free.apprcn.com/limited-time-get-game-the-brave-little-cloud-for-free-2/"
-      },
-      {
-        "title": "NEXT JUMP: Shmup Tactics",
-        "url": "https://free.apprcn.com/limited-time-get-steam-game-next-jump-shmup-tactics-for-free-2/"
-      },
-      {
-        "title": "SnapClip",
-        "url": "https://free.apprcn.com/limited-time-get-snapclip-for-free/"
-      },
-      {
-        "title": "Chloe Puzzle Game Pro",
-        "url": "https://free.apprcn.com/chloe-puzzle-game-pro-3/"
       }
     ],
-    "time": "2026-05-10T07:55:40.544687"
+    "time": "2026-05-11T18:45:25.459566",
+    "fail_count": 0
   },
   "17": {
     "hash": "0eec3b9088c3777cd64b9e091294d1ce",
@@ -999,7 +1010,7 @@
     "time": "2026-05-07T18:28:24.578549"
   },
   "18": {
-    "hash": "05e05a0c8a7e4b3c5ddbb6d214bf0e20",
+    "hash": "ffd74bdf2c6b8fc1e62eeeb00bccf153",
     "articles": [
       {
         "title": "QQ手游活动",
@@ -1082,10 +1093,11 @@
         "url": "https://www.iqshw.com/qita/190707.html"
       }
     ],
-    "time": "2026-05-10T07:55:46.764325"
+    "time": "2026-05-11T18:45:31.394423",
+    "fail_count": 0
   },
   "19": {
-    "hash": "b74f3b70d77056228c2b120981966dd7",
+    "hash": "739cd45949da3461e3c7997f1b7e194c",
     "articles": [
       {
         "title": "活动资讯网域名更换为www.huodong8.com，点击这里进入新网站查看活动",
@@ -1110,10 +1122,6 @@
       {
         "title": "饿了么领3-500元现金红包",
         "url": "https://www.huodong5.com/221120.html"
-      },
-      {
-        "title": "活动资讯网域名更换为www.huodong8.com，进入新网站查看活动",
-        "url": "https://www.huodong5.com/223591.html"
       },
       {
         "title": "淘宝抓猫猫赢红包领最高8888元无门槛红包 亲测中4.06元",
@@ -1168,10 +1176,11 @@
         "url": "https://www.huodong5.com/221959.html"
       }
     ],
-    "time": "2026-05-10T07:55:56.402809"
+    "time": "2026-05-11T18:45:40.094599",
+    "fail_count": 0
   },
   "20": {
-    "hash": "9475128d6f475b74138f53b0e3c8086c",
+    "hash": "2ce4864fc1a8e30968d1be21d93c20e2",
     "articles": [
       {
         "title": "Cloudflare",
@@ -1182,10 +1191,11 @@
         "url": "https://www.cloudflare.com/privacypolicy/"
       }
     ],
-    "time": "2026-05-10T07:56:01.853004"
+    "time": "2026-05-11T18:45:45.036273",
+    "fail_count": 0
   },
   "21": {
-    "hash": "26d271f2e02c2245acb88d507dedd782",
+    "hash": "e1eab8b7a25cb08420dba49da6ba3421",
     "articles": [
       {
         "title": "异星大流量卡",
@@ -1200,52 +1210,56 @@
         "url": "https://www.yxssp.com/59793.html"
       },
       {
-        "title": "Weather XL Premium「天气 XL Pro」 v1.5.8.0 for Android 修改专业版 —— 最佳天气预测，精彩华丽动画",
-        "url": "https://www.yxssp.com/59036.html"
+        "title": "Xodo PDF Reader &amp; Editor Pro「Xodo PDF 阅读器和编辑器」v10.14.0 for Android 解锁专业版...",
+        "url": "https://www.yxssp.com/41595.html"
       },
       {
-        "title": "计步器「Step Counter – Pedometer」 v1.6.7 for Android 解锁VIP高级版 —— 卡路里计算，追踪您所消耗的卡路里，步行距离和时间",
-        "url": "https://www.yxssp.com/59727.html"
+        "title": "Shazam Encore「音乐雷达」v16.40.0 for Android 直装已付费版 —— 一款识别音乐和电视节目/演员/音乐的应用",
+        "url": "https://www.yxssp.com/27253.html"
       },
       {
-        "title": "速度检查器「SpeedChecker Speed Test Premium」 v2.9.99 for Android 解锁高级版 —— 快速检查您的网速 /...",
-        "url": "https://www.yxssp.com/56926.html"
+        "title": "Rosetta Stone「语言学习」v9.1.1 for Android 解锁高级订阅版 —— 帮助您轻松直观地学习一门新的语言",
+        "url": "https://www.yxssp.com/30619.html"
+      },
+      {
+        "title": "Podcast Republic v26.5.4R for Android 解锁付费专业版 —— 功能齐全且可高度定制的管理和播放播客",
+        "url": "https://www.yxssp.com/38888.html"
+      },
+      {
+        "title": "MobiPDF 原：PDF Extra Pro v11.14.270427 for Android 直装解锁高级版 —— 一款具备所有 PDF...",
+        "url": "https://www.yxssp.com/29020.html"
+      },
+      {
+        "title": "MobiOffice 原：OfficeSuite pro v16.3.59646 for Android 直装解锁高级版 —— 最强大 / 兼容性最好的移动平台...",
+        "url": "https://www.yxssp.com/23319.html"
+      },
+      {
+        "title": "忆术家「Memrise」v2025.09.03.0 for Android 直装解锁高级版 —— 以探索宇宙游戏为背景模式的趣味语言学习应用",
+        "url": "https://www.yxssp.com/23637.html"
+      },
+      {
+        "title": "FotMob Pro v231.16617.20260506.rc for Android 直装付费专业版 —— 世界排名第一的足球应用，涵盖100多个联赛",
+        "url": "https://www.yxssp.com/27630.html"
+      },
+      {
+        "title": "Enpass password manager Pro v6.11.21.1279 for Android 直装付费专业版 —— 世界上最安全、最具成本效益的密码管理应用",
+        "url": "https://www.yxssp.com/26739.html"
+      },
+      {
+        "title": "多邻国语言学习 v6.78.4 for Android 直装解锁付费版 —— 英语、日语、韩语、德语…等30余种语言学习应用",
+        "url": "https://www.yxssp.com/27330.html"
       },
       {
         "title": "SnapTube Pro v7.59.0.75950110 for Android 直装 VIP 高级版 —— 一键下载 YouTuBe...",
         "url": "https://www.yxssp.com/58925.html"
       },
       {
-        "title": "威力导演「PowerDirector」v16.3.7 for Android 直装付费完美解锁版 —— 市面上最强大的影音创作应用",
-        "url": "https://www.yxssp.com/26104.html"
-      },
-      {
-        "title": "Permission Pilot Pro v2.1.0-rc0 for Android 解锁专业版 + 汉化版 —— 列出所有权限，为您提供应用程序权限的鸟瞰图",
-        "url": "https://www.yxssp.com/49509.html"
-      },
-      {
         "title": "Nova启动器「Nova Launcher」v87500 (8.7.5) for Android 直装解锁专业版「+未读计数插件」 —— 最强大的老牌安卓第三方启动器",
         "url": "https://www.yxssp.com/23869.html"
       },
       {
-        "title": "Multi Timer「多工计时器」v2.14.2 for Android 解锁高级版 —— 设计精美的时间管理应用，可同时运行多个计时器",
-        "url": "https://www.yxssp.com/31908.html"
-      },
-      {
-        "title": "MobiOffice 原：OfficeSuite pro v16.3.59638 for Android 直装解锁高级版 —— 最强大 / 兼容性最好的移动平台...",
-        "url": "https://www.yxssp.com/23319.html"
-      },
-      {
         "title": "财务和预算「Bluecoins Pro」v13.0.655 for Android 付费高级版 —— 无理财产品推荐 / 便捷 / 强悍...",
         "url": "https://www.yxssp.com/23651.html"
-      },
-      {
-        "title": "Adobe Photoshop Lightroom CC v11.3.2 for Android 直装解锁高级版 —— Photoshop 技术支持...",
-        "url": "https://www.yxssp.com/24241.html"
-      },
-      {
-        "title": "Easy Notes Pro v1.3.47.0427 for Android 解锁专业版 —— 记事本，笔记本，备忘录，彩色便利贴，提醒事项，加密笔记",
-        "url": "https://www.yxssp.com/40199.html"
       },
       {
         "title": "sitemap",
@@ -1256,13 +1270,14 @@
         "url": "https://beian.miit.gov.cn/"
       }
     ],
-    "time": "2026-05-10T07:56:08.078715"
+    "time": "2026-05-11T18:45:53.056739",
+    "fail_count": 0
   },
   "22": {
-    "hash": "ffa440dfdc63f1c7c7c008b88649b2e9",
+    "hash": "a9bee9f6e0d39f70490fef6203b4d209",
     "articles": [
       {
-        "title": "2025精选资源",
+        "title": "2026精选资源",
         "url": "https://libao.wobangzhao.com"
       },
       {
@@ -1278,26 +1293,6 @@
         "url": "https://www.wobangzhao.com/forum-141-1.html"
       },
       {
-        "title": "法语学习教程",
-        "url": "https://www.wobangzhao.com/forum-143-1.html"
-      },
-      {
-        "title": "德语学习教程",
-        "url": "https://www.wobangzhao.com/forum-144-1.html"
-      },
-      {
-        "title": "韩语学习教程",
-        "url": "https://www.wobangzhao.com/forum-145-1.html"
-      },
-      {
-        "title": "泰语学习教程",
-        "url": "https://www.wobangzhao.com/forum-146-1.html"
-      },
-      {
-        "title": "日语学习教程",
-        "url": "https://www.wobangzhao.com/forum-147-1.html"
-      },
-      {
         "title": "西班牙语学习教程",
         "url": "https://www.wobangzhao.com/forum-148-1.html"
       },
@@ -1308,10 +1303,6 @@
       {
         "title": "普通话/方言学习教程",
         "url": "https://www.wobangzhao.com/forum-178-1.html"
-      },
-      {
-        "title": "小语种学习教程",
-        "url": "https://www.wobangzhao.com/forum-227-1.html"
       },
       {
         "title": "潜能开发学习",
@@ -1342,10 +1333,11 @@
         "url": "https://www.wobangzhao.com/forum-215-1.html"
       }
     ],
-    "time": "2026-05-10T07:56:14.817502"
+    "time": "2026-05-11T18:46:29.376698",
+    "fail_count": 0
   },
   "23": {
-    "hash": "c8650617fec462d2b09b60dc9efab488",
+    "hash": "941c1bcccc01332c26fa29560d0de779",
     "articles": [
       {
         "title": "本站资源来自互联网用户收集发布，仅供用于学习和交流。如有侵权之处，请联系站长并出示版权证明以便删除，敬请谅解！",
@@ -1356,10 +1348,11 @@
         "url": "https://www.xiaodao.biz/"
       }
     ],
-    "time": "2026-05-10T07:56:21.563254"
+    "time": "2026-05-11T18:46:34.751920",
+    "fail_count": 0
   },
   "24": {
-    "hash": "89e4091f4cac8d5f446941e8cd164c06",
+    "hash": "76ce9ed30fd238fc22b0233036caf096",
     "articles": [
       {
         "title": "Cloudflare",
@@ -1370,10 +1363,11 @@
         "url": "https://www.cloudflare.com/privacypolicy/"
       }
     ],
-    "time": "2026-05-10T07:56:26.803652"
+    "time": "2026-05-11T18:46:39.468844",
+    "fail_count": 0
   },
   "25": {
-    "hash": "737d8a9022802d8339be7f85dc0c7f12",
+    "hash": "9e4879b9231acdbd3079535a88d91d0f",
     "articles": [
       {
         "title": "那些“消失”的应用去那儿了？？",
@@ -1384,44 +1378,44 @@
         "url": "https://www.lsapk.com/1703.html"
       },
       {
-        "title": "Weather XL Premium「天气 XL Pro」 v1.5.8.0 破解专业版",
-        "url": "https://www.lsapk.com/4675.html"
+        "title": "Xodo PDF Reader &amp; Editor Pro「Xodo PDF 阅读器和编辑器」v10.14.0 破解专业版",
+        "url": "https://www.lsapk.com/751.html"
       },
       {
-        "title": "计步器「Step Counter – Pedometer」 v1.6.7 破解VIP高级版",
-        "url": "https://www.lsapk.com/5502.html"
+        "title": "Shazam Encore「音乐雷达」v16.40.0 已付费版",
+        "url": "https://www.lsapk.com/4837.html"
       },
       {
-        "title": "速度检查器「SpeedChecker Speed Test Premium」 v2.9.99 破解高级版",
-        "url": "https://www.lsapk.com/3325.html"
+        "title": "Rosetta Stone「语言学习」v9.1.1 破解高级订阅版",
+        "url": "https://www.lsapk.com/5090.html"
       },
       {
-        "title": "SnapTube v7.59.0.75950110 破解付费 Vip 测试版 + 稳定版",
-        "url": "https://www.lsapk.com/339.html"
+        "title": "Podcast Republic v26.5.4R 破解付费专业版",
+        "url": "https://www.lsapk.com/162.html"
       },
       {
-        "title": "威力导演「PowerDirector Premium」v16.3.7 破解高级版",
-        "url": "https://www.lsapk.com/213.html"
+        "title": "MobiPDF 原：PDF Extra Premium v11.14.270427 破解高级版",
+        "url": "https://www.lsapk.com/562.html"
       },
       {
-        "title": "相片大师「PhotoDirector」v20.12.4 破解高级版",
-        "url": "https://www.lsapk.com/416.html"
-      },
-      {
-        "title": "Permission Pilot Pro v2.1.0-rc0 破解专业版",
-        "url": "https://www.lsapk.com/2017.html"
-      },
-      {
-        "title": "Nova Launcher v87500 (8.7.5) 破解高级版",
-        "url": "https://www.lsapk.com/543.html"
-      },
-      {
-        "title": "Multi Timer「多工计时器」v2.14.2 破解高级版",
-        "url": "https://www.lsapk.com/3078.html"
-      },
-      {
-        "title": "MobiOffice 原：OfficeSuite Premium v16.3.59638 破解付费高级版",
+        "title": "MobiOffice 原：OfficeSuite Premium v16.3.59646 破解付费高级版",
         "url": "https://www.lsapk.com/225.html"
+      },
+      {
+        "title": "忆术家「Memrise Premium」 v2025.09.03.0 破解高级版",
+        "url": "https://www.lsapk.com/2893.html"
+      },
+      {
+        "title": "FotMob Pro v231.16617.20260506.rc 付费专业版",
+        "url": "https://www.lsapk.com/5011.html"
+      },
+      {
+        "title": "Enpass password manager Pro v6.11.21.1279 破解专业版",
+        "url": "https://www.lsapk.com/4814.html"
+      },
+      {
+        "title": "Duolingo「多邻国」v6.78.4 破解高级版",
+        "url": "https://www.lsapk.com/289.html"
       },
       {
         "title": "酷我音乐 v12.0.8.0 破解豪华 VIP 版 + HD v8.5.4.2 会员版 + v6.7.8.21 车机 会员版 + 酷我音乐时代 v1.9.33 盒子会员版 + v1.1.9 手表会员版",
@@ -1436,8 +1430,8 @@
         "url": "https://www.lsapk.com/167.html"
       },
       {
-        "title": "Duolingo「多邻国」v6.77.5 破解高级版",
-        "url": "https://www.lsapk.com/289.html"
+        "title": "SnapTube v7.59.0.75950110 破解付费 Vip 测试版 + 稳定版",
+        "url": "https://www.lsapk.com/339.html"
       },
       {
         "title": "th_sjy 汉化",
@@ -1456,10 +1450,11 @@
         "url": "https://www.mimods.com/"
       }
     ],
-    "time": "2026-05-10T07:56:34.163933"
+    "time": "2026-05-11T18:46:46.895185",
+    "fail_count": 0
   },
   "26": {
-    "hash": "f96a1c9f842c6bff1b67072f558b757d",
+    "hash": "1451a1a644cb96497f3a07ce50661199",
     "articles": [
       {
         "title": "重庆宽带特惠",
@@ -1474,75 +1469,68 @@
         "url": "https://www.h6room.com/6187.html"
       },
       {
+        "title": "不忘初心纯净版/美化版/游戏版Windows11 24H2_26100.8328_X64 精简版无更新",
+        "url": "https://www.h6room.com/16753.html"
+      },
+      {
+        "title": "CapCut剪映国际版-视频剪辑编辑制作工具 v17.7.0 解锁专业版",
+        "url": "https://www.h6room.com/3057.html"
+      },
+      {
+        "title": "稀饭动漫-免费动漫追番 v5.4.0 去广告纯净版",
+        "url": "https://www.h6room.com/5812.html"
+      },
+      {
+        "title": "橘汁视频 v3.0.2.1 / 橘子视频 v4.2.6 去广告纯净免费版",
+        "url": "https://www.h6room.com/732.html"
+      },
+      {
+        "title": "Xodo-佐道PDF阅读器 v10.14.0 解锁付费专业版",
+        "url": "https://www.h6room.com/3774.html"
+      },
+      {
+        "title": "WeNote微笔记-记事本备忘录 v6.71 去广告解锁高级版",
+        "url": "https://www.h6room.com/4608.html"
+      },
+      {
+        "title": "MobiPDF(原PDF Extra)-PDF扫描编辑OCR识别 v11.14.270427 解锁高级版",
+        "url": "https://www.h6room.com/1115.html"
+      },
+      {
+        "title": "MobiOffice高效率办公Office软件 v16.3.59646 去广告解锁高级订阅版",
+        "url": "https://www.h6room.com/15429.html"
+      },
+      {
+        "title": "KMS_VL_ALL_AIO(智能激活脚本) v55 中文版&nbsp;",
+        "url": "https://www.h6room.com/8667.html"
+      },
+      {
+        "title": "Easy Notes 备忘录笔记便签工具 v1.3.48.0507 解锁VIP会员版",
+        "url": "https://www.h6room.com/1977.html"
+      },
+      {
+        "title": "Duolingo多邻国-语言学习 v6.78.4 解锁高级版",
+        "url": "https://www.h6room.com/719.html"
+      },
+      {
+        "title": "CAD看图王(CAD手机看图专业版) v5.16.19 解锁VIP会员版",
+        "url": "https://www.h6room.com/9226.html"
+      },
+      {
+        "title": "AI Photo Enhancer-Ai照片增强修复 v1.4.0.114 解锁高级版",
+        "url": "https://www.h6room.com/5068.html"
+      },
+      {
+        "title": "360安全浏览器 v16.1.6000.64 去广告绿色便携版",
+        "url": "https://www.h6room.com/971.html"
+      },
+      {
         "title": "鸭趣听书-免费听书软件 v1.0.6 去广告纯净版",
         "url": "https://www.h6room.com/22444.html"
-      },
-      {
-        "title": "追剧达人-海量影视追剧 v2.1.1 去广告纯净版",
-        "url": "https://www.h6room.com/9157.html"
-      },
-      {
-        "title": "概念画板-素描笔记和画图 v2026.04.1 解锁高级版",
-        "url": "https://www.h6room.com/6834.html"
-      },
-      {
-        "title": "昊昊听书(昊昊享听) v4.82 安卓免费听书 正式版/开发版/去广告纯净版",
-        "url": "https://www.h6room.com/3172.html"
-      },
-      {
-        "title": "指尖时光-效率日程管理工具 v9.1.6 解锁VIP会员版",
-        "url": "https://www.h6room.com/17683.html"
-      },
-      {
-        "title": "幕悦时光-免费影视 v0.2.6 去广告纯净版",
-        "url": "https://www.h6room.com/22726.html"
-      },
-      {
-        "title": "小柠檬影视视频-免费追剧看剧 v2.0.9 去广告纯净版",
-        "url": "https://www.h6room.com/13576.html"
-      },
-      {
-        "title": "双子星动漫App-高清免费追番 v6.4.5 去广告纯净版",
-        "url": "https://www.h6room.com/15084.html"
-      },
-      {
-        "title": "YouCam Perfect玩美相机 v6.17.3 解锁高级版",
-        "url": "https://www.h6room.com/665.html"
-      },
-      {
-        "title": "YouCam Makeup玩美彩妆-照片上妆 v6.43.0 解锁高级版",
-        "url": "https://www.h6room.com/608.html"
-      },
-      {
-        "title": "Spring视频剪辑 v2.1.9.36502 解锁高级版",
-        "url": "https://www.h6room.com/12330.html"
-      },
-      {
-        "title": "RocksPlayer影片-多格式高清视频播放器 v12.1.428 解锁高级版",
-        "url": "https://www.h6room.com/4340.html"
-      },
-      {
-        "title": "REAPER v7.72中文便携版-数字音频工作站多轨混音",
-        "url": "https://www.h6room.com/22376.html"
-      },
-      {
-        "title": "РotРlayer影音播放器 v1.7.22862 去广告绿色版美化增强版",
-        "url": "https://www.h6room.com/1060.html"
-      },
-      {
-        "title": "PhotoGrid照片视频拼图编辑-超多素材 v9.25 解锁黄金会员版",
-        "url": "https://www.h6room.com/14222.html"
-      },
-      {
-        "title": "Photo Lab照片编辑特效换脸照片 v3.13.96 解锁Pro专业会员版",
-        "url": "https://www.h6room.com/13453.html"
-      },
-      {
-        "title": "KineMaster巧影-视频编辑 v8.1.9.36502.GP 谷歌高级版",
-        "url": "https://www.h6room.com/568.html"
       }
     ],
-    "time": "2026-05-10T07:56:45.137841"
+    "time": "2026-05-11T18:46:57.963207",
+    "fail_count": 0
   },
   "29": {
     "hash": "feeb6c720001f57fbce7850862b79bee",
@@ -2652,5 +2640,36 @@
       }
     ],
     "time": "2026-05-10T06:58:13.396128"
+  },
+  "14": {
+    "hash": "bda961db5587665fb4d50aae02a5c0f8",
+    "articles": [
+      {
+        "title": "获取网赚项目&amp;精品源码",
+        "url": "https://www.52xb.cn/"
+      },
+      {
+        "title": "旧52线报网",
+        "url": "https://www.52xb.cn"
+      },
+      {
+        "title": "235资源网",
+        "url": "http://d.52xb.cn/gmqk"
+      },
+      {
+        "title": "115辅助网",
+        "url": "http://d.52xb.cn/p4k9"
+      },
+      {
+        "title": "派派云服务器",
+        "url": "https://www.paipai5.com/"
+      },
+      {
+        "title": "闽ICP备19006036号-4",
+        "url": "https://beian.miit.gov.cn/"
+      }
+    ],
+    "time": "2026-05-11T18:45:11.194442",
+    "fail_count": 0
   }
 }
