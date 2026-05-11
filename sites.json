@@ -82,7 +82,7 @@
       "id": 14,
       "name": "我爱线报",
       "url": "http://www.52xianbao.cn/",
-      "js": true
+      "js": false
     },
     {
       "id": 15,
@@ -112,7 +112,8 @@
       "id": 19,
       "name": "都爱网",
       "url": "https://www.dujin.org/",
-      "js": true
+      "js": true,
+      "parser": "dujin"
     },
     {
       "id": 20,
@@ -136,13 +137,15 @@
       "id": 23,
       "name": "A姐分享",
       "url": "https://www.ahhhhfs.com/",
-      "js": true
+      "js": true,
+      "parser": "ahhhhfs"
     },
     {
       "id": 24,
       "name": "蓝叔软件",
       "url": "https://www.lsapk.com/",
-      "js": true
+      "js": true,
+      "parser": "lsapk"
     },
     {
       "id": 25,
@@ -154,13 +157,15 @@
       "id": 26,
       "name": "白菜哦",
       "url": "https://www.baicaio.com/",
-      "js": true
+      "js": true,
+      "parser": "baicaio"
     },
     {
       "id": 27,
       "name": "果核剥壳",
       "url": "https://www.ghxi.com/category/all",
-      "js": true
+      "js": true,
+      "parser": "ghxi"
     },
     {
       "id": 28,
@@ -172,49 +177,36 @@
       "id": 29,
       "name": "423Down",
       "url": "https://www.423down.com/",
-      "js": true
+      "js": true,
+      "parser": "down423"
     },
     {
       "id": 30,
       "name": "佛系软件",
       "url": "https://foxirj.com/",
-      "js": true
-    },
-    {
-      "id": 32,
-      "name": "果核剥壳(备用)",
-      "url": "https://www.ghxi.com/",
-      "js": true
-    },
-    {
-      "id": 33,
-      "name": "小众软件(备用)",
-      "url": "https://www.appinn.com/",
-      "js": true
-    },
-    {
-      "id": 34,
-      "name": "423Down(备用)",
-      "url": "https://www.423down.com/",
-      "js": true
+      "js": true,
+      "parser": "foxirj"
     },
     {
       "id": 35,
       "name": "Steam喜加一",
       "url": "https://store.steampowered.com/search/?specials=1&os=win",
-      "js": true
+      "js": true,
+      "parser": "steam"
     },
     {
       "id": 37,
       "name": "GOG喜加一",
       "url": "https://www.gog.com/partner/free_games",
-      "js": true
+      "js": true,
+      "parser": "gog"
     },
     {
       "id": 38,
       "name": "Steam游戏",
       "url": "https://store.steampowered.com/",
-      "js": true
+      "js": true,
+      "parser": "steam"
     },
     {
       "id": 39,

@@ -131,14 +131,36 @@ def fetch_with_playwright(url, browser=None, timeout_ms=DEFAULT_TIMEOUT, max_ret
         from playwright.sync_api import sync_playwright
         pw = sync_playwright().start()
         browser = pw.chromium.launch(headless=True)
-    
+
     for attempt in range(max_retries):
         page = browser.new_page()
         try:
+            # 反检测：设置真实的浏览器环境
+            page.set_extra_http_headers({
+                "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+            })
+            # 注入 stealth 脚本绕过 Cloudflare 等反爬检测
+            page.add_init_script("""
+                Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+                Object.defineProperty(navigator, 'languages', {get: () => ['zh-CN', 'zh', 'en']});
+                Object.defineProperty(navigator, 'plugins', {get: () => [1, 2, 3, 4, 5]});
+                window.chrome = { runtime: {} };
+            """)
             page.set_default_timeout(timeout_ms)
-            page.goto(url, wait_until="networkidle", timeout=timeout_ms)
-            time.sleep(2)
-            return page.content()
+            page.goto(url, wait_until="domcontentloaded", timeout=timeout_ms)
+            # 等待页面渲染
+            time.sleep(3)
+            html = page.content()
+            # 检测 Cloudflare 挑战页，等待其自动完成
+            if 'Just a moment' in html or 'cf-browser-verification' in html:
+                print("  检测到 Cloudflare 挑战，等待通过...")
+                try:
+                    page.wait_for_url("**", timeout=15000)
+                    time.sleep(3)
+                    html = page.content()
+                except:
+                    pass
+            return html
         except Exception as e:
             if attempt < max_retries - 1:
                 print(f"  重试 {attempt + 1}/{max_retries}...")
@@ -275,6 +297,43 @@ class GogParser(BaseParser):
         return [{"title": f"[GOG免费] {a['title']}", "url": a['url']} for a in articles]
 
 
+class DujinParser(BaseParser):
+    """都爱网 - Cloudflare 保护的站点，提取文章列表"""
+    def parse(self):
+        if not self.content:
+            return []
+        # Cloudflare 挑战页直接返回空
+        if 'Just a moment' in self.content or 'cf-browser-verification' in self.content:
+            return []
+        pattern = r'<a[^>]+href="(https?://www\.dujin\.org/\d+\.html)"[^>]*>([^<]+)</a>'
+        return self.extract_by_pattern(pattern, max_items=15,
+            filters={'title_exclude': ['首页', '登录', '注册', '关于', '联系', '标签', '分类', '页面']})
+
+
+class AhhhhfsParser(BaseParser):
+    """A姐分享 - Cloudflare 保护的站点"""
+    def parse(self):
+        if not self.content:
+            return []
+        if 'Just a moment' in self.content or 'cf-browser-verification' in self.content:
+            return []
+        pattern = r'<a[^>]+href="(https?://www\.ahhhhfs\.com/\d+\.html)"[^>]*>([^<]+)</a>'
+        return self.extract_by_pattern(pattern, max_items=15,
+            filters={'title_exclude': ['首页', '登录', '注册', '关于', '联系', '页面']})
+
+
+class LsapkParser(BaseParser):
+    """蓝叔软件 - Cloudflare 保护的站点"""
+    def parse(self):
+        if not self.content:
+            return []
+        if 'Just a moment' in self.content or 'cf-browser-verification' in self.content:
+            return []
+        pattern = r'<a[^>]+href="(https?://www\.lsapk\.com/\d+\.html)"[^>]*>([^<]+)</a>'
+        return self.extract_by_pattern(pattern, max_items=15,
+            filters={'title_exclude': ['首页', '登录', '注册', '关于', '联系']})
+
+
 class GenericLinkParser(BaseParser):
     """通用链接解析器，支持自定义配置"""
     
@@ -324,6 +383,9 @@ PARSERS = {
     "epic": EpicParser,
     "steam": SteamParser,
     "gog": GogParser,
+    "dujin": DujinParser,
+    "ahhhhfs": AhhhhfsParser,
+    "lsapk": LsapkParser,
     "foxirj": lambda c, u: GenericLinkParser(c, u, 
         url_pattern=r'<a[^>]+href="(https://foxirj\.com/[^"]+)"[^>]*>.*?<h[23][^>]*>([^<]+)</h[23]>',
         title_min=3, title_excludes=["页面"]).parse(),
@@ -354,11 +416,11 @@ def extract_articles(content, base_url=""):
         return []
     articles = []
     seen = set()
-    pattern = r'<a[^>]+href=["\']([^"\']+)["\'][^>]*>\s*([^<]{6,120})\s*</a>'
+    pattern = r'<a[^>]+href=["\']([^"\']+)["\'][^>]*>\s*([^<]{4,120})\s*</a>'
     for m in re.finditer(pattern, content, re.I | re.S):
         href = m.group(1).strip()
         title = re.sub(r'\s+', ' ', m.group(2).strip())
-        if len(title) < 6 or len(title) > 120 or title in seen:
+        if len(title) < 4 or len(title) > 120 or title in seen:
             continue
         if any(x in href.lower() for x in ['login', 'register', 'about', 'contact', 'javascript', '#', 'mailto', 'search', 'tag/', 'category/', 'page/', 'author/']):
             continue
@@ -378,9 +440,12 @@ def extract_articles(content, base_url=""):
 
 
 def content_hash(content):
-    """对去噪后的 HTML 算 hash"""
+    """对去噪后的 HTML 算 hash。如果是 Cloudflare 验证页则返回特殊标记。"""
     if not content:
         return None
+    # 检测 Cloudflare 验证页
+    if 'Just a moment' in content or 'cf-browser-verification' in content or 'cf-error-page' in content:
+        return "__CLOUDFLARE_BLOCKED__"
     c = re.sub(r'<script[^>]*>.*?</script>', '', content, flags=re.DOTALL | re.IGNORECASE)
     c = re.sub(r'<style[^>]*>.*?</style>', '', c, flags=re.DOTALL | re.IGNORECASE)
     c = re.sub(r'\s+', ' ', c)
