@@ -297,31 +297,6 @@ class GogParser(BaseParser):
         return [{"title": f"[GOG免费] {a['title']}", "url": a['url']} for a in articles]
 
 
-class DujinParser(BaseParser):
-    """都爱网 - Cloudflare 保护的站点，提取文章列表"""
-    def parse(self):
-        if not self.content:
-            return []
-        # Cloudflare 挑战页直接返回空
-        if 'Just a moment' in self.content or 'cf-browser-verification' in self.content:
-            return []
-        pattern = r'<a[^>]+href="(https?://www\.dujin\.org/\d+\.html)"[^>]*>([^<]+)</a>'
-        return self.extract_by_pattern(pattern, max_items=15,
-            filters={'title_exclude': ['首页', '登录', '注册', '关于', '联系', '标签', '分类', '页面']})
-
-
-class AhhhhfsParser(BaseParser):
-    """A姐分享 - Cloudflare 保护的站点"""
-    def parse(self):
-        if not self.content:
-            return []
-        if 'Just a moment' in self.content or 'cf-browser-verification' in self.content:
-            return []
-        pattern = r'<a[^>]+href="(https?://www\.ahhhhfs\.com/\d+\.html)"[^>]*>([^<]+)</a>'
-        return self.extract_by_pattern(pattern, max_items=15,
-            filters={'title_exclude': ['首页', '登录', '注册', '关于', '联系', '页面']})
-
-
 class LsapkParser(BaseParser):
     """蓝叔软件 - Cloudflare 保护的站点"""
     def parse(self):
@@ -383,8 +358,6 @@ PARSERS = {
     "epic": EpicParser,
     "steam": SteamParser,
     "gog": GogParser,
-    "dujin": DujinParser,
-    "ahhhhfs": AhhhhfsParser,
     "lsapk": LsapkParser,
     "foxirj": lambda c, u: GenericLinkParser(c, u, 
         url_pattern=r'<a[^>]+href="(https://foxirj\.com/[^"]+)"[^>]*>.*?<h[23][^>]*>([^<]+)</h[23]>',
