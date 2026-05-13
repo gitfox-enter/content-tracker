@@ -83,11 +83,11 @@
         "url": "https://xianbaomi.com/xb/242878.html"
       }
     ],
-    "time": "2026-05-13T18:32:21.460843",
+    "time": "2026-05-13T21:14:26.423906",
     "fail_count": 0
   },
   "2": {
-    "hash": "7ec224f63a478edaed21f47e556af9bc",
+    "hash": "125a7a5f105bfd04124ad09e316247f3",
     "articles": [
       {
         "title": "最新线报",
@@ -118,11 +118,11 @@
         "url": "https://qm.qq.com/q/3epql6V5h6"
       }
     ],
-    "time": "2026-05-13T18:32:28.186128",
+    "time": "2026-05-13T21:14:32.453819",
     "fail_count": 0
   },
   "3": {
-    "hash": "01a48e9e373f182989139a6e48e895d7",
+    "hash": "a7c1b6c19345dd5310a02fbaaf1f5582",
     "articles": [
       {
         "title": "0818团",
@@ -141,11 +141,11 @@
         "url": "https://beian.miit.gov.cn"
       }
     ],
-    "time": "2026-05-13T18:32:34.611482",
+    "time": "2026-05-13T21:14:38.238067",
     "fail_count": 0
   },
   "4": {
-    "hash": "9fa6b8d3dcca0cbcd0f105f096bc7764",
+    "hash": "ddfea84b0a93f3f1be56df522611319e",
     "articles": [
       {
         "title": "邻家线报",
@@ -158,6 +158,10 @@
       {
         "title": "全网线报",
         "url": "http://www.linejia.com/haojia"
+      },
+      {
+        "title": "抖音一打开全是给阿麼的情书",
+        "url": "http://79tao.linejia.com/huodong/2474278.html"
       },
       {
         "title": "拼多多“ 邀好友抽5折券”组队专用帖",
@@ -222,17 +226,13 @@
       {
         "title": "有没有去鳌太线穿越的小伙伴，最好有卫星电话",
         "url": "http://79tao.linejia.com/huodong/2472608.html"
-      },
-      {
-        "title": "一夜未睡，错失600多万",
-        "url": "http://79tao.linejia.com/huodong/2472439.html"
       }
     ],
-    "time": "2026-05-13T18:32:39.698829",
+    "time": "2026-05-13T21:14:43.756283",
     "fail_count": 0
   },
   "5": {
-    "hash": "791ae8fad01f26b9b4ec082f66063d5f",
+    "hash": "17567041bc72eb2bcafcbc412041825f",
     "articles": [
       {
         "title": "实时线报",
@@ -271,6 +271,14 @@
         "url": "https://www.daydayzhuan.com/article/11910"
       },
       {
+        "title": "南方基金输口令抽现金红包亲测0.88元秒到",
+        "url": "https://www.daydayzhuan.com/article/21825"
+      },
+      {
+        "title": "去看短剧13：看广告拿多个红包亲测0.86元",
+        "url": "https://www.daydayzhuan.com/article/21824"
+      },
+      {
         "title": "中信学理财知识抽立减金亲测1元立减金秒到",
         "url": "https://www.daydayzhuan.com/article/21823"
       },
@@ -287,10 +295,6 @@
         "url": "https://www.daydayzhuan.com/article/21817"
       },
       {
-        "title": "乐看剧14：看广告拿多个红包亲测0.68元",
-        "url": "https://www.daydayzhuan.com/article/21816"
-      },
-      {
         "title": "金赏赏：做任务赚钱，1元提现！",
         "url": "https://www.daydayzhuan.com/article/21815"
       },
@@ -305,21 +309,13 @@
       {
         "title": "滨海物语：欢乐消消，新人免费领2.1元！",
         "url": "https://www.daydayzhuan.com/article/21811"
-      },
-      {
-        "title": "山野趣笺：看广告那多个红包亲测0.53元",
-        "url": "https://www.daydayzhuan.com/article/21809"
-      },
-      {
-        "title": "富国基金微管家：新一期10w份红包亲测0.3元微信红包",
-        "url": "https://www.daydayzhuan.com/article/21807"
       }
     ],
-    "time": "2026-05-13T18:32:47.016799",
+    "time": "2026-05-13T21:14:50.168985",
     "fail_count": 0
   },
   "7": {
-    "hash": "f44d69effb859ff0fa5a1cd2d54d0979",
+    "hash": "68a0bde6f4a141017d6d7b7696060c66",
     "articles": [
       {
         "title": "闽ICP备2024062941号",
@@ -358,94 +354,98 @@
         "url": "https://cjx8.com/feedback"
       }
     ],
-    "time": "2026-05-13T18:32:53.404747",
+    "time": "2026-05-13T21:14:56.044547",
     "fail_count": 0
   },
   "8": {
-    "hash": "a1cd91d113256f2f2367e72d7fb81e64",
+    "hash": "c8c8fa60ce1e82ed19ba4b3e957d1218",
     "articles": [
       {
         "title": "线报一对一自定义推送 配置教程",
         "url": "https://907k.cn/post/146439"
       },
       {
-        "title": "中信8块还款券",
-        "url": "https://907k.cn/post/269707"
+        "title": "太难了，有没有抢到建材券的啊",
+        "url": "https://907k.cn/post/269748"
       },
       {
-        "title": "百利高蛋白猫粮10磅331，百利无谷11磅230",
-        "url": "https://907k.cn/post/269706"
+        "title": "有没有人京东无论下什么都是被取消",
+        "url": "https://907k.cn/post/269747"
       },
       {
-        "title": "河南工行月月刷",
-        "url": "https://907k.cn/post/269705"
+        "title": "超便宜四海鱼蛋 江苏有赠品 牛筋丸/鱼丸",
+        "url": "https://907k.cn/post/269744"
       },
       {
-        "title": "刚需神牛v1pro闪光灯1343不确定是不是好价",
-        "url": "https://907k.cn/post/269704"
+        "title": "柴火大院五常生态大米10斤25.68",
+        "url": "https://907k.cn/post/269746"
       },
       {
-        "title": "才40多就记性好差",
-        "url": "https://907k.cn/post/269703"
+        "title": "三枪92%棉男秋衣秋裤套装17",
+        "url": "https://907k.cn/post/269745"
       },
       {
-        "title": "[中国广电] 广新卡29元192G，套外1元1G",
-        "url": "https://907k.cn/post/269702"
+        "title": "石头 p20ultra plus 水箱版好价 2600 ➕",
+        "url": "https://907k.cn/post/269743"
       },
       {
-        "title": "京东杭州的fa~票能抽奖吗？",
-        "url": "https://907k.cn/post/269701"
+        "title": "京东怎么开会员便宜",
+        "url": "https://907k.cn/post/269742"
       },
       {
-        "title": "德尔玛新品吸吹两用吸尘器不到50",
-        "url": "https://907k.cn/post/269700"
+        "title": "松达抚触油50ml约19r，需淘金币，拍两瓶",
+        "url": "https://907k.cn/post/269741"
       },
       {
-        "title": "刚需价格可以",
-        "url": "https://907k.cn/post/269699"
+        "title": "梦之蓝m6 52度两瓶礼盒820",
+        "url": "https://907k.cn/post/269740"
       },
       {
-        "title": "好奇大家开车油耗多少",
-        "url": "https://907k.cn/post/269698"
+        "title": "京东健康抽免单，感觉几率比较大？",
+        "url": "https://907k.cn/post/269739"
       },
       {
-        "title": "淘宝的淘金币借的居然还要还",
-        "url": "https://907k.cn/post/269697"
+        "title": "海澜之家男士西服裤子马甲三件套400+",
+        "url": "https://907k.cn/post/269738"
       },
       {
-        "title": "618想买个2K27寸显示器，有好价吗",
-        "url": "https://907k.cn/post/269696"
+        "title": "618了，我这次得买彩色打印机了",
+        "url": "https://907k.cn/post/269737"
       },
       {
-        "title": "洁柔洗脸巾挂抽150抽，4.9一提，好价",
-        "url": "https://907k.cn/post/269695"
+        "title": "娜塔莎15色眼影盘325左右拿下",
+        "url": "https://907k.cn/post/269736"
       },
       {
-        "title": "工行50刷卡金",
-        "url": "https://907k.cn/post/269694"
+        "title": "富民app怎么进不去了",
+        "url": "https://907k.cn/post/269735"
       },
       {
-        "title": "100块左右配眼镜，1.67防蓝光辐射镜片",
-        "url": "https://907k.cn/post/269693"
+        "title": "洁婷安睡裤5条2r",
+        "url": "https://907k.cn/post/269734"
       },
       {
-        "title": "拼多多“ 邀好友抽5折券”组队专用帖",
-        "url": "https://907k.cn/post/269692"
+        "title": "渴望鸡猫粮65/千克",
+        "url": "https://907k.cn/post/269733"
       },
       {
-        "title": "工行湘约补了",
-        "url": "https://907k.cn/post/269691"
+        "title": "雅迪电动摩托车神价",
+        "url": "https://907k.cn/post/269731"
       },
       {
-        "title": "羊毛号看到的4只牙膏8块钱",
-        "url": "https://907k.cn/post/269689"
+        "title": "618第一波开始了？",
+        "url": "https://907k.cn/post/269730"
+      },
+      {
+        "title": "黑人牙膏4支8块",
+        "url": "https://907k.cn/post/269728"
       }
     ],
-    "time": "2026-05-13T18:32:59.850177",
+    "time": "2026-05-13T21:15:01.942437",
     "fail_count": 0
   },
   "9": {
-    "hash": "39687ca112a88ba5d9651d3b2011d5aa",
+    "hash": "7d84351b70b953353666d25ef02f9449",
     "articles": [
       {
         "title": "最新线报",
@@ -528,11 +528,11 @@
         "url": "https://ym2.cc/ymxb/12492.html"
       }
     ],
-    "time": "2026-05-13T18:33:07.231391",
+    "time": "2026-05-13T21:15:09.714237",
     "fail_count": 0
   },
   "10": {
-    "hash": "60f3d0092cbe594f7e792eff01e8e130",
+    "hash": "851ec1d433fe50b04570ce04a22bbdb5",
     "articles": [
       {
         "title": "联系我们",
@@ -541,6 +541,10 @@
       {
         "title": "500G流量卡",
         "url": "https://b1.ymxianbao.cn/7887.html"
+      },
+      {
+        "title": "20点淘宝限时不限量1.1起购物荭包",
+        "url": "https://b1.ymxianbao.cn/28521.html"
       },
       {
         "title": "中信时点1k抽最高20立减金",
@@ -603,10 +607,6 @@
         "url": "https://b1.ymxianbao.cn/28493.html"
       },
       {
-        "title": "饿了么每天20/21/22点抽18-18无门槛免单",
-        "url": "https://b1.ymxianbao.cn/26873.html"
-      },
-      {
         "title": "任务平台合集",
         "url": "https://b1.ymxianbao.cn/8889.html"
       },
@@ -615,11 +615,11 @@
         "url": "https://beian.miit.gov.cn/"
       }
     ],
-    "time": "2026-05-13T18:33:14.182789",
+    "time": "2026-05-13T21:15:16.150625",
     "fail_count": 0
   },
   "11": {
-    "hash": "99c3b7198fe4290df829efe7df1c3d28",
+    "hash": "fe4a4510db10a3ed20bdebb469b563db",
     "articles": [
       {
         "title": "关于我们",
@@ -702,11 +702,11 @@
         "url": "https://www.007ymd.com/?id=5"
       }
     ],
-    "time": "2026-05-13T18:33:21.356323",
+    "time": "2026-05-13T21:15:24.612757",
     "fail_count": 0
   },
   "12": {
-    "hash": "a4574545e7ef9e966af23be6723dda1b",
+    "hash": "1eb5f43da99bf627059cc378ce8ef98d",
     "articles": [
       {
         "title": "本站公告区",
@@ -773,11 +773,11 @@
         "url": "http://news.ixbk.net/category-douban-maobathtub/"
       }
     ],
-    "time": "2026-05-13T18:33:29.219328",
+    "time": "2026-05-13T21:15:35.712759",
     "fail_count": 0
   },
   "13": {
-    "hash": "f97181e1de72644cad88dafd72b0ff46",
+    "hash": "ebace4f6294ac46787ac02e5f7c574d8",
     "articles": [
       {
         "title": "线报讨论",
@@ -792,79 +792,79 @@
         "url": "https://www.zhuanyes.com/xianbao/676666.html"
       },
       {
-        "title": "定个闹钟",
-        "url": "https://www.zhuanyes.com/xianbao/692130.html"
+        "title": "桨品缩水了 这次很多没入口 自测",
+        "url": "https://www.zhuanyes.com/xianbao/692163.html"
       },
       {
-        "title": "还没领的记得去领一下，淘宝APP搜【好运领红包】",
-        "url": "https://www.zhuanyes.com/xianbao/692129.html"
+        "title": "预告【煲珠公送2w份兔单卷】 ，明天⏰10点30 对暗.号",
+        "url": "https://www.zhuanyes.com/xianbao/692162.html"
       },
       {
-        "title": "1💰 可复美面膜1片 ， ​",
-        "url": "https://www.zhuanyes.com/xianbao/692128.html"
+        "title": "淘宝必中无门槛红包",
+        "url": "https://www.zhuanyes.com/xianbao/692161.html"
       },
       {
-        "title": "东方财富成就分享红包",
-        "url": "https://www.zhuanyes.com/xianbao/692127.html"
+        "title": "14元！巧媳妇调味品组合800ml×3瓶",
+        "url": "https://www.zhuanyes.com/xianbao/692159.html"
       },
       {
-        "title": "先打开亰東app-点9.9苞.邮",
-        "url": "https://www.zhuanyes.com/xianbao/692126.html"
+        "title": "叠金币拍+淘宝超虹1.1元+味品堂黄桃312g*2=4元",
+        "url": "https://www.zhuanyes.com/xianbao/692158.html"
       },
       {
-        "title": "天龙八部5月13号链接",
-        "url": "https://www.zhuanyes.com/xianbao/692125.html"
+        "title": "淘宝扫 速度 新的0.66虹包 ​",
+        "url": "https://www.zhuanyes.com/xianbao/692157.html"
       },
       {
-        "title": "中.信周三领神券抽Vx立剪J",
-        "url": "https://www.zhuanyes.com/xianbao/692124.html"
+        "title": "有反馈 需下了才能抽 认大额 ，京东健康兔箪 感兴趣抽下",
+        "url": "https://www.zhuanyes.com/xianbao/692156.html"
       },
       {
-        "title": "39元到手京东plus会员一年 限制非plus用户参与",
-        "url": "https://www.zhuanyes.com/xianbao/692123.html"
+        "title": "淘宝搜：必品阁试吃 ，淘宝搜：吉列520礼盒",
+        "url": "https://www.zhuanyes.com/xianbao/692155.html"
       },
       {
-        "title": "他来了 他来了 他带着生日礼物走来了，15号9点",
-        "url": "https://www.zhuanyes.com/xianbao/692122.html"
+        "title": "认养一头牛 试试抽认实wu",
+        "url": "https://www.zhuanyes.com/xianbao/692154.html"
       },
       {
-        "title": "建融家园 看自己抽哈 ，反馈还不错 有中大.额也有不中 ​",
-        "url": "https://www.zhuanyes.com/xianbao/692121.html"
+        "title": "京东健康兔箪 感兴趣抽下 ， ​",
+        "url": "https://www.zhuanyes.com/xianbao/692153.html"
       },
       {
-        "title": "有反馈5立减 看自己抽 ，️建.行建融家园 每月可抽1次",
-        "url": "https://www.zhuanyes.com/xianbao/692120.html"
+        "title": "最后3分钟 人人1.1+ 换号哈",
+        "url": "https://www.zhuanyes.com/xianbao/692152.html"
       },
       {
-        "title": "快‼39💰开通🐶东plus",
-        "url": "https://www.zhuanyes.com/xianbao/692119.html"
+        "title": "爱奇艺有了，去视权益接单14.55，充值秒的",
+        "url": "https://www.zhuanyes.com/xianbao/692151.html"
       },
       {
-        "title": "江南布衣 需入绘 ，抽喜茶20无门槛试试",
-        "url": "https://www.zhuanyes.com/xianbao/692118.html"
+        "title": "淘宝持续15分钟1.1(20:15结束)",
+        "url": "https://www.zhuanyes.com/xianbao/692150.html"
       },
       {
-        "title": "家具膨胀券 有需膨胀 ， ​",
-        "url": "https://www.zhuanyes.com/xianbao/692117.html"
+        "title": "速度去 人人都有至少1.1起🧧",
+        "url": "https://www.zhuanyes.com/xianbao/692149.html"
       },
       {
-        "title": "zfb搜【女性守护计划】",
-        "url": "https://www.zhuanyes.com/xianbao/692116.html"
+        "title": "今晚20点·618手机5折专场",
+        "url": "https://www.zhuanyes.com/xianbao/692148.html"
       },
       {
-        "title": "三次抽奖机会用完",
-        "url": "https://www.zhuanyes.com/xianbao/692115.html"
+        "title": "淘宝不限量加码🔥必中1.1亓🧧",
+        "url": "https://www.zhuanyes.com/xianbao/692146.html"
       },
       {
-        "title": "小红书抢5元无门槛 亲测0.1元购2包洁柔抽纸",
-        "url": "https://www.zhuanyes.com/xianbao/692114.html"
+        "title": "下拉口令：科技",
+        "url": "https://www.zhuanyes.com/xianbao/692145.html"
       }
     ],
-    "time": "2026-05-13T18:33:35.491332",
+    "time": "2026-05-13T21:15:41.385995",
     "fail_count": 0
   },
   "15": {
-    "hash": "05839515202e76abeba1e2cb60ae71a8",
+    "hash": "6cddf3bc4e51d28913346f6728f450db",
     "articles": [
       {
         "title": "加入软媒",
@@ -891,11 +891,11 @@
         "url": "http://www.ruanmei.com/"
       }
     ],
-    "time": "2026-05-13T18:33:41.746595",
+    "time": "2026-05-13T21:15:48.166347",
     "fail_count": 0
   },
   "16": {
-    "hash": "d0a47bf7803358d10ee64ac239af3a35",
+    "hash": "fa39840af675ace459c0fa946a547067",
     "articles": [
       {
         "title": "反斗限免",
@@ -974,11 +974,11 @@
         "url": "https://free.apprcn.com/lyricradar-2/"
       }
     ],
-    "time": "2026-05-13T18:33:49.230446",
+    "time": "2026-05-13T21:15:55.549388",
     "fail_count": 0
   },
   "17": {
-    "hash": "631917d37cefe1671c28ba18f061a127",
+    "hash": "662f26929a97f5c813086bf57585f399",
     "articles": [
       {
         "title": "忘记密码",
@@ -1057,11 +1057,11 @@
         "url": "https://www.iqshw.com/qqsoft/fuzhu/huodong/"
       }
     ],
-    "time": "2026-05-13T18:33:55.503523",
+    "time": "2026-05-13T21:16:01.308343",
     "fail_count": 0
   },
   "18": {
-    "hash": "49c0eb8f5cfdf07fb32ca2dda23983f2",
+    "hash": "6d81289f9fb03bada9f728c984cd7ab8",
     "articles": [
       {
         "title": "活动投稿",
@@ -1140,11 +1140,11 @@
         "url": "https://www.huodong5.com/216103.html"
       }
     ],
-    "time": "2026-05-13T18:34:06.406643",
+    "time": "2026-05-13T21:16:08.290774",
     "fail_count": 0
   },
   "20": {
-    "hash": "c49d877a53b7b4a2aed95806854a12b8",
+    "hash": "3460cceedc080b861257ed60d171c150",
     "articles": [
       {
         "title": "电脑软件",
@@ -1167,71 +1167,71 @@
         "url": "https://www.yxssp.com/59793.html"
       },
       {
+        "title": "Volume Control Pro「音量控制」v6.8.2 for Android 直装付费专业版 —— 一个不错的 Android 设备音量控制应用程序",
+        "url": "https://www.yxssp.com/26635.html"
+      },
+      {
+        "title": "Today Weather Premium「今日天气」 v2.5.0-2 for Android 解锁高级版 + WearOS版—— 一款美观大方，易于使用的天气应用",
+        "url": "https://www.yxssp.com/38451.html"
+      },
+      {
+        "title": "TapScanner Premium v3.1.03 for Android 解锁专业版 「+汉化版」—— 一个简洁好用的相机文档扫描仪应用",
+        "url": "https://www.yxssp.com/36037.html"
+      },
+      {
+        "title": "睡眠追踪「Sleep as Android」v20260429 for Android 解锁高级版 + Wear OS 系统版 ——...",
+        "url": "https://www.yxssp.com/30773.html"
+      },
+      {
+        "title": "RAR v7.22.build132 for Android 解锁付费高级版 + 暗黑版+ 官方原版 —— 免费/简单/易用/快速的老牌压缩解压缩软件",
+        "url": "https://www.yxssp.com/23254.html"
+      },
+      {
+        "title": "Plant Parent Premium v1.106 for Android 解锁高级版 —— 提供可靠的植物护理知识 / 识别各类花草",
+        "url": "https://www.yxssp.com/52627.html"
+      },
+      {
+        "title": "照片编辑器「Photo Editor」v13.1 for Android 直装解锁专业版 —— 一款简单易用强悍的照片处理应用",
+        "url": "https://www.yxssp.com/27360.html"
+      },
+      {
+        "title": "PeakFinder AR v4.8.89 for Android 解锁付费版 —— 来自大山在呼唤！去探索比任何登山者都多的山脉！",
+        "url": "https://www.yxssp.com/32941.html"
+      },
+      {
+        "title": "Password Safe v9.4.0 for Android 解锁专业版 —— 简洁 / 易用 /...",
+        "url": "https://www.yxssp.com/33224.html"
+      },
+      {
+        "title": "Moon+ Reader Pro「静读天下」v10.6 for Android 直装解锁专业版 —— 设计简洁 / 高效易用 /...",
+        "url": "https://www.yxssp.com/25555.html"
+      },
+      {
+        "title": "Easy Notes Pro v1.3.48.0507 for Android 解锁专业版 —— 记事本，笔记本，备忘录，彩色便利贴，提醒事项，加密笔记",
+        "url": "https://www.yxssp.com/40199.html"
+      },
+      {
+        "title": "CCleaner pro v26.08.0 for Android 解锁专业版 + 暗黑主题「Dark Theme」版 —— 老牌专业的手机优化/清理/检测专家",
+        "url": "https://www.yxssp.com/23364.html"
+      },
+      {
+        "title": "Battery Guru v2.4.9 for Android 解锁付费版 —— 显示电池使用情况信息，测量电池容量，延长电池寿命",
+        "url": "https://www.yxssp.com/38741.html"
+      },
+      {
         "title": "Xodo PDF Reader &amp; Editor Pro「Xodo PDF 阅读器和编辑器」v10.14.0 for Android 解锁专业版...",
         "url": "https://www.yxssp.com/41595.html"
       },
       {
-        "title": "Shazam Encore「音乐雷达」v16.40.0 for Android 直装已付费版 —— 一款识别音乐和电视节目/演员/音乐的应用",
-        "url": "https://www.yxssp.com/27253.html"
-      },
-      {
-        "title": "Rosetta Stone「语言学习」v9.1.1 for Android 解锁高级订阅版 —— 帮助您轻松直观地学习一门新的语言",
-        "url": "https://www.yxssp.com/30619.html"
-      },
-      {
-        "title": "Podcast Republic v26.5.4R for Android 解锁付费专业版 —— 功能齐全且可高度定制的管理和播放播客",
-        "url": "https://www.yxssp.com/38888.html"
-      },
-      {
-        "title": "MobiPDF 原：PDF Extra Pro v11.14.270427 for Android 直装解锁高级版 —— 一款具备所有 PDF...",
-        "url": "https://www.yxssp.com/29020.html"
-      },
-      {
-        "title": "MobiOffice 原：OfficeSuite pro v16.3.59646 for Android 直装解锁高级版 —— 最强大 / 兼容性最好的移动平台...",
-        "url": "https://www.yxssp.com/23319.html"
-      },
-      {
-        "title": "忆术家「Memrise」v2025.09.03.0 for Android 直装解锁高级版 —— 以探索宇宙游戏为背景模式的趣味语言学习应用",
-        "url": "https://www.yxssp.com/23637.html"
-      },
-      {
-        "title": "FotMob Pro v231.16617.20260506.rc for Android 直装付费专业版 —— 世界排名第一的足球应用，涵盖100多个联赛",
-        "url": "https://www.yxssp.com/27630.html"
-      },
-      {
-        "title": "Enpass password manager Pro v6.11.21.1279 for Android 直装付费专业版 —— 世界上最安全、最具成本效益的密码管理应用",
-        "url": "https://www.yxssp.com/26739.html"
-      },
-      {
         "title": "多邻国语言学习 v6.78.4 for Android 直装解锁付费版 —— 英语、日语、韩语、德语…等30余种语言学习应用",
         "url": "https://www.yxssp.com/27330.html"
-      },
-      {
-        "title": "SnapTube Pro v7.59.0.75950110 for Android 直装 VIP 高级版 —— 一键下载 YouTuBe...",
-        "url": "https://www.yxssp.com/58925.html"
-      },
-      {
-        "title": "Nova启动器「Nova Launcher」v87500 (8.7.5) for Android 直装解锁专业版「+未读计数插件」 —— 最强大的老牌安卓第三方启动器",
-        "url": "https://www.yxssp.com/23869.html"
-      },
-      {
-        "title": "财务和预算「Bluecoins Pro」v13.0.655 for Android 付费高级版 —— 无理财产品推荐 / 便捷 / 强悍...",
-        "url": "https://www.yxssp.com/23651.html"
-      },
-      {
-        "title": "友情链接",
-        "url": "https://www.yxssp.com/2459.html"
-      },
-      {
-        "title": "关于报毒",
-        "url": "https://www.yxssp.com/bd"
       }
     ],
-    "time": "2026-05-13T18:34:13.167084",
+    "time": "2026-05-13T21:16:14.871772",
     "fail_count": 0
   },
   "21": {
-    "hash": "33af9ffaebd3344eba44d889a2447547",
+    "hash": "b27e5fc0bea3029300a4909bdde44f59",
     "articles": [
       {
         "title": "收藏本站",
@@ -1314,11 +1314,11 @@
         "url": "https://www.wobangzhao.com/forum-203-1.html"
       }
     ],
-    "time": "2026-05-13T18:34:19.860987",
+    "time": "2026-05-13T21:16:21.010336",
     "fail_count": 0
   },
   "22": {
-    "hash": "dc36e7dc1ab3b5b0b6dc60f63c173978",
+    "hash": "ecf34a730b88eca1fc4754e459b89846",
     "articles": [
       {
         "title": "本站资源来自互联网用户收集发布，仅供用于学习和交流。如有侵权之处，请联系站长并出示版权证明以便删除，敬请谅解！",
@@ -1329,11 +1329,11 @@
         "url": "https://www.xiaodao.biz/"
       }
     ],
-    "time": "2026-05-13T18:34:25.287257",
+    "time": "2026-05-13T21:16:26.209517",
     "fail_count": 0
   },
   "24": {
-    "hash": "1b892dfe99a88759288309d311905a0f",
+    "hash": "387d66b0cb4d160620b528a2aab61ee1",
     "articles": [
       {
         "title": "那些“消失”的应用去那儿了？？",
@@ -1344,44 +1344,44 @@
         "url": "https://www.lsapk.com/1703.html"
       },
       {
-        "title": "Xodo PDF Reader &amp; Editor Pro「Xodo PDF 阅读器和编辑器」v10.14.0 破解专业版",
-        "url": "https://www.lsapk.com/751.html"
+        "title": "Volume Control Pro「音量控制」v6.8.2 破解专业版",
+        "url": "https://www.lsapk.com/2946.html"
       },
       {
-        "title": "Shazam Encore「音乐雷达」v16.40.0 已付费版",
-        "url": "https://www.lsapk.com/4837.html"
+        "title": "TapScanner Premium v3.1.03 破解专业版 + 汉化版",
+        "url": "https://www.lsapk.com/1547.html"
       },
       {
-        "title": "Rosetta Stone「语言学习」v9.1.1 破解高级订阅版",
-        "url": "https://www.lsapk.com/5090.html"
+        "title": "睡眠追踪「Sleep as Android Premium」 v20260429 破解高级版 + Wear OS 系统版",
+        "url": "https://www.lsapk.com/2696.html"
       },
       {
-        "title": "Podcast Republic v26.5.4R 破解付费专业版",
-        "url": "https://www.lsapk.com/162.html"
+        "title": "RAR Premium v7.22.build132 破解付费高级版 + 暗黑版",
+        "url": "https://www.lsapk.com/2814.html"
       },
       {
-        "title": "MobiPDF 原：PDF Extra Premium v11.14.270427 破解高级版",
-        "url": "https://www.lsapk.com/562.html"
+        "title": "照片编辑器「Photo Editor」 v13.1 破解专业版",
+        "url": "https://www.lsapk.com/2871.html"
       },
       {
-        "title": "MobiOffice 原：OfficeSuite Premium v16.3.59646 破解付费高级版",
-        "url": "https://www.lsapk.com/225.html"
+        "title": "Plant Parent Premium v1.106 破解高级版",
+        "url": "https://www.lsapk.com/2569.html"
       },
       {
-        "title": "忆术家「Memrise Premium」 v2025.09.03.0 破解高级版",
-        "url": "https://www.lsapk.com/2893.html"
+        "title": "PeakFinder AR v4.8.89 破解付费版",
+        "url": "https://www.lsapk.com/4915.html"
       },
       {
-        "title": "FotMob Pro v231.16617.20260506.rc 付费专业版",
-        "url": "https://www.lsapk.com/5011.html"
+        "title": "Password Safe v9.4.0 破解专业版",
+        "url": "https://www.lsapk.com/4983.html"
       },
       {
-        "title": "Enpass password manager Pro v6.11.21.1279 破解专业版",
-        "url": "https://www.lsapk.com/4814.html"
+        "title": "Moon+ Reader Pro「静读天下」v10.6 修补专业版",
+        "url": "https://www.lsapk.com/3082.html"
       },
       {
-        "title": "Duolingo「多邻国」v6.78.4 破解高级版",
-        "url": "https://www.lsapk.com/289.html"
+        "title": "Material Capsule Pro「灵动岛」 v13.5 破解专业版",
+        "url": "https://www.lsapk.com/4953.html"
       },
       {
         "title": "酷我音乐 v12.0.8.0 破解豪华 VIP 版 + HD v8.5.4.2 会员版 + v6.7.8.21 车机 会员版 + 酷我音乐时代 v1.9.33 盒子会员版 + v1.1.9 手表会员版",
@@ -1396,11 +1396,11 @@
         "url": "https://www.lsapk.com/167.html"
       }
     ],
-    "time": "2026-05-13T18:34:42.318504",
+    "time": "2026-05-13T21:16:41.292962",
     "fail_count": 0
   },
   "25": {
-    "hash": "a789ea572a1121e15dfede73052b6c8c",
+    "hash": "a294ed9b54eea0384fdf76d13191d336",
     "articles": [
       {
         "title": "实用工具",
@@ -1483,11 +1483,11 @@
         "url": "https://ka.huojukj.com/g/89?u=985211"
       }
     ],
-    "time": "2026-05-13T18:34:49.230832",
+    "time": "2026-05-13T21:16:47.840391",
     "fail_count": 0
   },
   "26": {
-    "hash": "2ad7c03f2b675c943777f8a7b1ea00ae",
+    "hash": "89139be524e322d595b299783278284a",
     "articles": [
       {
         "title": "PEAK匹克大三角3.0Pro实战球鞋两款配色开箱上脚评测",
@@ -1506,59 +1506,55 @@
         "url": "https://www.baicaio.com/article/201616.html"
       },
       {
-        "title": "Beneunder 蕉下 女士棉质短袖T恤*2件 GP930",
-        "url": "https://www.baicaio.com/item/983754.html"
+        "title": "每日鲜语 3.6g蛋白 原生高品质鲜牛奶250mL*6瓶+185mL*6瓶",
+        "url": "https://www.baicaio.com/item/983767.html"
       },
       {
-        "title": "八喜 冰淇淋 多种口味任选 1100g*2件",
-        "url": "https://www.baicaio.com/item/983704.html"
+        "title": "茶花 大号斜翻盖收纳箱 34L*3个",
+        "url": "https://www.baicaio.com/item/983766.html"
       },
       {
-        "title": "新口味！百事可乐 草莓奶昔味无糖可乐 碳酸饮料汽水 330ml*12瓶*3件",
-        "url": "https://www.baicaio.com/item/983752.html"
+        "title": "百度网盘 超级会员年卡15个月+赠喜马拉雅月卡",
+        "url": "https://www.baicaio.com/item/983764.html"
       },
       {
-        "title": "加拿大进口，Jamieson 健美生 维生素D3片100片*3件",
-        "url": "https://www.baicaio.com/item/983307.html"
+        "title": "高端A2牛奶，认养一头牛 哞星人 有机A2β-酪蛋白儿童纯牛奶125mL*10盒*3箱",
+        "url": "https://www.baicaio.com/item/983632.html"
       },
       {
-        "title": "萨啦咪 温州特产 酱香鸭舌 500g",
-        "url": "https://www.baicaio.com/item/983698.html"
+        "title": "网易云音乐 黑胶VIP年卡",
+        "url": "https://www.baicaio.com/item/983619.html"
       },
       {
-        "title": "江油市非遗工坊，诗乡 江油肥肠 200克*4件",
-        "url": "https://www.baicaio.com/item/983577.html"
+        "title": "Dove 德芙 丝滑牛奶巧克力 224g盒装*2盒",
+        "url": "https://www.baicaio.com/item/983562.html"
       },
       {
-        "title": "Bananain 蕉内 凉皮502UV 男女同款凉感透气机能风半拉链拼色防晒服 UPF100+",
-        "url": "https://www.baicaio.com/item/983149.html"
+        "title": "云南白药 养元青 头皮护理洗发水 生姜500ml+普洱500ml+汲雅沐浴露480ml",
+        "url": "https://www.baicaio.com/item/983763.html"
       },
       {
-        "title": "新三板上市清真企业，春花邱食 门钉肉饼 350g*4袋装（共20个）",
-        "url": "https://www.baicaio.com/item/983685.html"
+        "title": "信步 牙线棒 50支*3盒",
+        "url": "https://www.baicaio.com/item/983761.html"
       },
       {
-        "title": "卢正浩 一级明前龙井  麒麟献瑞礼盒  200克",
-        "url": "https://www.baicaio.com/item/983750.html"
+        "title": "Vinda 维达 棉韧系列 立体美有芯卷纸 4层180克*27卷 *3件",
+        "url": "https://www.baicaio.com/item/983760.html"
       },
       {
-        "title": "护舒宝 液体卫生巾组合装 68片+赠4片（含赠）",
-        "url": "https://www.baicaio.com/item/983690.html"
-      },
-      {
-        "title": "Puritan's Pride 普丽普莱 三倍浓度氨糖维骨力胶囊180粒",
-        "url": "https://www.baicaio.com/item/983748.html"
+        "title": "Samsonite 新秀丽 LAPETUE系列 斜挎单肩手提高端商务行李袋33L NV6*09006",
+        "url": "https://www.baicaio.com/item/983759.html"
       },
       {
         "title": "性能续航颜值均可 海盗船三模游戏耳机HS80 MAX开箱体验评测",
         "url": "https://www.baicaio.com/article/201614.html"
       }
     ],
-    "time": "2026-05-13T18:35:02.153838",
+    "time": "2026-05-13T21:16:57.734421",
     "fail_count": 0
   },
   "29": {
-    "hash": "b1ab9e81de1f53e3016f5d25ecbd7c6c",
+    "hash": "603ba408ff5b682843ddf4f2835980b5",
     "articles": [
       {
         "title": "飞球直播|最强看球神器|全球体育赛事免费畅看",
@@ -1637,34 +1633,34 @@
         "url": "https://www.423down.com/15605.html"
       }
     ],
-    "time": "2026-05-13T18:35:20.451593",
+    "time": "2026-05-13T21:17:19.226235",
     "fail_count": 0
   },
   "35": {
-    "hash": "741e713612c7cbfbcdece77d8a0f74fa",
+    "hash": "d0726671a4628626b6b36bdbced12dc6",
     "articles": [],
-    "time": "2026-05-13T18:35:32.087709",
+    "time": "2026-05-13T21:17:32.064446",
     "fail_count": 0
   },
   "37": {
-    "hash": "a1ea4d1b6c4dd59d3f3f9aaff3e65eca",
+    "hash": "164f4608ea0780afb5181ba4373e6d0d",
     "articles": [],
-    "time": "2026-05-13T18:35:38.402974",
+    "time": "2026-05-13T21:17:38.595104",
     "fail_count": 0
   },
   "38": {
-    "hash": "c68fe1083c0ca425f510785f138780a3",
+    "hash": "a4b5c4ffadeff00b38df234246a5408c",
     "articles": [
       {
         "title": "[Steam免费] Steam Deck",
         "url": "https://store.steampowered.com/app/1675200/Steam_Deck/?utm_source=steamhomeleftrail&amp;snr=1_4_4__125"
       }
     ],
-    "time": "2026-05-13T18:35:43.765365",
+    "time": "2026-05-13T21:17:43.965841",
     "fail_count": 0
   },
   "39": {
-    "hash": "47d78ae91cd1f578182f072effbcf70c",
+    "hash": "32281710d9da4f8282f63eb1c2aa79a8",
     "articles": [
       {
         "title": "免费资源",
@@ -1747,7 +1743,7 @@
         "url": "https://www.jushenpu.com/"
       }
     ],
-    "time": "2026-05-13T18:35:51.274885",
+    "time": "2026-05-13T21:17:50.997892",
     "fail_count": 0
   },
   "40": {
@@ -1834,11 +1830,11 @@
         "url": "https://yangmao.wang/yangmao/8.html"
       }
     ],
-    "time": "2026-05-13T18:35:58.305983",
+    "time": "2026-05-13T21:17:57.644805",
     "fail_count": 0
   },
   "41": {
-    "hash": "ef5618c90c91dc636298650e86c22f4d",
+    "hash": "dc5f03b90df62666dcc13b523513a070",
     "articles": [
       {
         "title": "羊毛红包",
@@ -1921,11 +1917,11 @@
         "url": "https://www.12345pro.com/article/9668.html"
       }
     ],
-    "time": "2026-05-13T18:36:07.293246",
+    "time": "2026-05-13T21:18:04.780130",
     "fail_count": 0
   },
   "42": {
-    "hash": "63be8d94e568794c0879ba4996aa1407",
+    "hash": "a65b24f13f8c896bbac8bce9fdd53098",
     "articles": [
       {
         "title": "本站公告区",
@@ -1992,11 +1988,11 @@
         "url": "https://news.ixbk.fun/category-douban-maobathtub/"
       }
     ],
-    "time": "2026-05-13T18:36:15.631870",
+    "time": "2026-05-13T21:18:11.879813",
     "fail_count": 0
   },
   "43": {
-    "hash": "64f15c635feb80bea2c8b23d68110ba0",
+    "hash": "d6328c93e68957f3fbd7c680f2871e62",
     "articles": [
       {
         "title": "办公开发",
@@ -2079,7 +2075,7 @@
         "url": "https://www.wycad.com/soft/im"
       }
     ],
-    "time": "2026-05-13T18:36:24.854746",
+    "time": "2026-05-13T21:18:20.808595",
     "fail_count": 0
   },
   "44": {
@@ -2162,11 +2158,11 @@
         "url": "https://www.ddooo.com/apple/13_4_1.htm"
       }
     ],
-    "time": "2026-05-13T18:36:31.983800",
+    "time": "2026-05-13T21:18:27.987138",
     "fail_count": 0
   },
   "45": {
-    "hash": "6479f4a6e8e420c35467da6ba1e3f6f3",
+    "hash": "e58afb3e606970209fe9a086db09e9c3",
     "articles": [
       {
         "title": "AI产品榜",
@@ -2249,11 +2245,11 @@
         "url": "https://www.onlinedown.net/soft/104888.htm"
       }
     ],
-    "time": "2026-05-13T18:36:41.273399",
+    "time": "2026-05-13T21:18:35.867593",
     "fail_count": 0
   },
   "46": {
-    "hash": "a779bf4d51272964ec92327efe453466",
+    "hash": "ac0b8016144a23122b458f1847f6139a",
     "articles": [
       {
         "title": "最新更新",
@@ -2336,11 +2332,11 @@
         "url": "https://www.downxia.com/downlist/r_13_1.html"
       }
     ],
-    "time": "2026-05-13T18:36:47.769202",
+    "time": "2026-05-13T21:18:42.071336",
     "fail_count": 0
   },
   "47": {
-    "hash": "545d507c318b0d782b4b679aff4c3cff",
+    "hash": "7529169e195edc1d61d08d1b44f21165",
     "articles": [
       {
         "title": "电脑软件",
@@ -2423,11 +2419,11 @@
         "url": "https://www.ypojie.com/tutorial/shuaji"
       }
     ],
-    "time": "2026-05-13T18:37:04.165301",
+    "time": "2026-05-13T21:18:52.979761",
     "fail_count": 0
   },
   "27": {
-    "hash": "42f50c264bd3097a660ad94049ac1523",
+    "hash": "1bd0048e18bce6d8e9e3c416353250c5",
     "articles": [
       {
         "title": "Android MacroDroid(任务自动化) v5.63.15 高级版",
@@ -2502,19 +2498,19 @@
         "url": "https://www.ghxi.com/jgsm.html"
       },
       {
-        "title": "2345看图王 v13.4.0.12514 去广告精简安装版",
-        "url": "https://www.ghxi.com/2345ktw.html"
+        "title": "Ventoy v1.1.12 开源多合一启动盘工具",
+        "url": "https://www.ghxi.com/ventoy.html"
       },
       {
-        "title": "Adobe Photoshop 2026 v27.1.00 绿色版",
-        "url": "https://www.ghxi.com/ps2026grenn.html"
+        "title": "亚马逊员工曝“刷AI词元”冲榜，科技巨头万亿AI基建需求恐遭注水",
+        "url": "https://www.ghxi.com/ai202605132.html"
       }
     ],
-    "time": "2026-05-13T18:35:09.796936",
+    "time": "2026-05-13T21:17:08.390691",
     "fail_count": 0
   },
   "28": {
-    "hash": "0fc56bfd2ce88673e29221506066d5b4",
+    "hash": "c739467d271bc33c7358c164db016e40",
     "articles": [
       {
         "title": "ChatGPT 指南",
@@ -2597,13 +2593,13 @@
         "url": "https://www.appinn.com/eggs-2658/"
       }
     ],
-    "time": "2026-05-13T18:35:15.200284",
+    "time": "2026-05-13T21:17:14.167570",
     "fail_count": 0
   },
   "30": {
     "hash": "25afe03353cb8e8384889b2c3ac07608",
     "articles": [],
-    "time": "2026-05-13T18:35:26.433409",
+    "time": "2026-05-13T21:17:26.438138",
     "fail_count": 0
   }
 }
