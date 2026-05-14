@@ -12,20 +12,9 @@ A lightweight web content monitoring tool that tracks changes on configured webs
 
 ## Setup
 
-### 1. Configure Secrets
+### 1. Configure Sites
 
-Add the following secrets in your repository settings (Settings → Secrets and variables → Actions):
-
-| Secret | Description |
-|--------|-------------|
-| `SITES_CONFIG` | JSON configuration of sites to monitor |
-| `CLAWEMAIL_API_KEY` | Email service API key |
-| `CLAWEMAIL_USER` | Email sender account |
-| `RECEIVER_EMAIL` | Email recipient address |
-| `GIST_TOKEN` | GitHub token for Gist updates (optional) |
-| `GIST_ID` | Gist ID for status page (optional) |
-
-### 2. SITES_CONFIG Format
+Edit `sites.json` in the repository root to add or modify monitoring targets:
 
 ```json
 {
@@ -41,6 +30,26 @@ Add the following secrets in your repository settings (Settings → Secrets and 
 }
 ```
 
+**Fields:**
+- `id`: Unique identifier (integer)
+- `name`: Display name
+- `url`: Website URL
+- `js`: Use Playwright for JavaScript rendering (true/false)
+- `parser`: Optional custom parser name
+- `timeout`: Optional timeout in milliseconds (default: 25000)
+
+### 2. Configure Secrets
+
+Add the following secrets in your repository settings (Settings → Secrets and variables → Actions):
+
+| Secret | Description |
+|--------|-------------|
+| `CLAWEMAIL_API_KEY` | Email service API key |
+| `CLAWEMAIL_USER` | Email sender account |
+| `RECEIVER_EMAIL` | Email recipient address |
+| `GIST_TOKEN` | GitHub token for Gist updates (optional) |
+| `GIST_ID` | Gist ID for status page (optional) |
+
 ### 3. Run
 
 The workflow runs automatically on schedule. You can also trigger it manually from the Actions tab.
@@ -48,11 +57,14 @@ The workflow runs automatically on schedule. You can also trigger it manually fr
 ## Files
 
 - `monitor.py` - Main monitoring script
+- `sites.json` - Site configuration (45 sites)
 - `requirements.txt` - Python dependencies
 - `.github/workflows/monitor.yml` - GitHub Actions workflow
 
 ## Notes
 
-- Sites configuration is stored in GitHub Secrets for privacy
+- Sites configuration is stored in `sites.json` file in the repository
 - Content hashes are persisted via git commits
 - Supports both static and JavaScript-rendered pages
+- Monitors 45 websites across 2 batches
+- Runs every 30 minutes via GitHub Actions
