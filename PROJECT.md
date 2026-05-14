@@ -13,36 +13,30 @@ A web content monitoring tool that tracks changes on configured websites and sen
 ## Architecture
 
 ```
-├── monitor.py           # Main monitoring script
-├── requirements.txt     # Python dependencies
-├── hashes.json          # Historical content hashes (auto-updated)
+├── monitor.py           # Main monitoring script (1018 lines)
+├── sites.json          # Site configuration (45 sites)
+├── hashes.json         # Historical content hashes (auto-updated)
+├── trends.json         # Trend data (auto-updated)
+├── requirements.txt    # Python dependencies
 ├── .github/workflows/
-│   └── monitor.yml      # GitHub Actions workflow
-└── PROJECT.md           # This file
+│   └── monitor.yml     # GitHub Actions workflow
+├── README.md           # Project overview
+└── PROJECT.md          # This file
 ```
 
 ## How It Works
 
 1. GitHub Actions runs every 30 minutes (batch 1 + batch 2)
-2. Playwright renders JavaScript-heavy pages
-3. Content hash comparison detects new articles
-4. Email notification via clawemail API
-5. Gist page for mobile status viewing
+2. Loads site configuration from `sites.json`
+3. Playwright renders JavaScript-heavy pages
+4. Content hash comparison detects new articles
+5. Email notification via clawemail API
+6. Gist page for mobile status viewing
+7. Commits updated hashes and trends to repository
 
-## GitHub Secrets Configuration
+## Site Configuration
 
-Required secrets (Settings → Secrets and variables → Actions):
-
-| Secret | Description |
-|--------|-------------|
-| `SITES_CONFIG` | JSON array of websites to monitor |
-| `CLAWEMAIL_API_KEY` | Email service API key |
-| `CLAWEMAIL_USER` | Sender email account |
-| `RECEIVER_EMAIL` | Recipient email address |
-| `GIST_TOKEN` | GitHub token for Gist updates |
-| `GIST_ID` | Gist ID for status page |
-
-## SITES_CONFIG Format
+Edit `sites.json` to add, remove, or modify monitoring targets:
 
 ```json
 {
@@ -59,18 +53,36 @@ Required secrets (Settings → Secrets and variables → Actions):
 }
 ```
 
-Fields:
-- `id`: Unique identifier
+**Fields:**
+- `id`: Unique identifier (integer)
 - `name`: Display name
 - `url`: Website URL
-- `js`: Whether to use Playwright (true) or requests (false)
-- `parser`: Optional custom parser (epic, steam, gog, foxirj, etc.)
+- `js`: Use Playwright for JavaScript rendering (true/false)
+- `parser`: Optional custom parser (steam, gog, foxirj, etc.)
 - `timeout`: Custom timeout in milliseconds (default: 25000)
+
+**Current Status:**
+- Total sites: 45
+- Batch 1: 23 sites (IDs 1-25)
+- Batch 2: 22 sites (IDs 26-47)
+
+## GitHub Secrets Configuration
+
+Required secrets (Settings → Secrets and variables → Actions):
+
+| Secret | Description |
+|--------|-------------|
+| `CLAWEMAIL_API_KEY` | Email service API key |
+| `CLAWEMAIL_USER` | Sender email account |
+| `RECEIVER_EMAIL` | Recipient email address |
+| `GIST_TOKEN` | GitHub token for Gist updates |
+| `GIST_ID` | Gist ID for status page |
+
+**Note:** Site configuration is stored in `sites.json` file, not in Secrets.
 
 ## Custom Parsers
 
 Built-in parsers for specific sites:
-- `epic` - Epic Games free games
 - `steam` - Steam free games
 - `gog` - GOG free games
 - `foxirj` - 佛系软件
@@ -79,6 +91,8 @@ Built-in parsers for specific sites:
 - `baicaio` - 白菜哦
 - `indiegame` - IndieGamePlus
 - `haoyangmao` - 好羊毛
+
+**Note:** Epic Games parser removed (2026-05-12) due to compatibility issues.
 
 ## Optimizations
 
@@ -119,6 +133,9 @@ A public Gist page showing:
 
 ## Notes
 
-- Sites config is stored in Secrets for privacy
+- Site configuration stored in `sites.json` file for easy editing
 - Public repo = unlimited GitHub Actions minutes
-- No sensitive data in repository
+- No sensitive data in repository (secrets stored in GitHub Secrets)
+- Automatic cleanup of old data (keeps last 30 articles per site)
+- Fail-safe mechanisms: retry, timeout, browser restart
+- Monitoring status available via Gist page
